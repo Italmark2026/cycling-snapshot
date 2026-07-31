@@ -1,0 +1,598 @@
+{
+  "schema": "dashboard-state/v1",
+  "generated_at": "2026-07-31T11:00:08+02:00",
+  "athlete": "Mark Taylor",
+  "goal_event": {
+    "event": "Maratona dles Dolomites 2027",
+    "date": "2027-07-04",
+    "days_to_go": 338,
+    "weeks_to_go": 48.3
+  },
+  "thresholds": {
+    "ftp": {
+      "watts": 235,
+      "reference": "Kickr",
+      "tested": "2026-07-14",
+      "note": "Zwift ramp test — recovery-block dip; the P1 build starts here",
+      "w_per_kg": 2.94,
+      "history": [
+        {
+          "date": "2025-01-15",
+          "ftp": 234
+        },
+        {
+          "date": "2025-03-15",
+          "ftp": 210,
+          "note": "illness cost ~30 W"
+        },
+        {
+          "date": "2025-07-15",
+          "ftp": 243
+        },
+        {
+          "date": "2025-08-15",
+          "ftp": 225
+        },
+        {
+          "date": "2026-02-21",
+          "ftp": 245,
+          "note": "test"
+        },
+        {
+          "date": "2026-04-30",
+          "ftp": 241,
+          "note": "test"
+        },
+        {
+          "date": "2026-07-14",
+          "ftp": 235,
+          "note": "Zwift ramp test — recovery-block dip; the P1 build starts here"
+        }
+      ]
+    },
+    "vt1": {
+      "hr_bpm": 125,
+      "watts_kickr": 199,
+      "tested": "2026-06-02",
+      "source": "threshold_test"
+    },
+    "vt2": {
+      "hr_bpm": 142,
+      "watts_kickr": 233,
+      "tested": "2026-06-02",
+      "source": "threshold_test",
+      "note": "the pacing anchor"
+    },
+    "meter_rule": "State the meter, always. Post-recalibration the two agree within ~2% (Favero marginally higher). Zero-offset the Faveros before anything that matters — race day taught us that."
+  },
+  "training_block": {
+    "phase": {
+      "key": "P1",
+      "name": "Reintroduction",
+      "detail": "New zones, rebuild rhythm — 2 quality + 1 long, Mon–Fri",
+      "status": "active",
+      "h": 48
+    },
+    "block_kpi": "Flat power at ≤142 bpm on the Tresenda→Sondalo TT — the one number this block exists to move.",
+    "phase_roadmap": [
+      {
+        "key": "P0",
+        "name": "Recovery",
+        "status": "done"
+      },
+      {
+        "key": "G1",
+        "name": "FTP retest",
+        "status": "done"
+      },
+      {
+        "key": "P1",
+        "name": "Reintroduction",
+        "status": "active"
+      },
+      {
+        "key": "HOL",
+        "name": "Holiday de-load",
+        "status": "next"
+      },
+      {
+        "key": "P2",
+        "name": "Threshold core",
+        "status": "planned"
+      },
+      {
+        "key": "B1",
+        "name": "Benchmark",
+        "status": "planned"
+      },
+      {
+        "key": "P3",
+        "name": "Winter build",
+        "status": "planned"
+      }
+    ]
+  },
+  "recent_sessions": [
+    {
+      "id": "19525332705",
+      "date": "2026-07-30",
+      "name": "Sprints",
+      "km": 19.2,
+      "elev_m": 459,
+      "hours": 1.1,
+      "np": 215,
+      "intensity": 0.91,
+      "tss": 92,
+      "avg_hr": 123,
+      "w_per_kg_np": 2.69,
+      "temp_c": 24.7,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 361
+        },
+        {
+          "label": "5m",
+          "w": 238
+        },
+        {
+          "label": "10m",
+          "w": 217
+        },
+        {
+          "label": "20m",
+          "w": 203
+        },
+        {
+          "label": "30m",
+          "w": 196
+        },
+        {
+          "label": "1h",
+          "w": 151
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
+    {
+      "id": "19498151612",
+      "date": "2026-07-28",
+      "name": "Zwift - RCC Training Camp Workout #6 (cut short)",
+      "km": 20.4,
+      "elev_m": 148,
+      "hours": 0.69,
+      "np": 188,
+      "intensity": 0.8,
+      "tss": 44,
+      "avg_hr": 129,
+      "w_per_kg_np": 2.35,
+      "temp_c": 24.6,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 224
+        },
+        {
+          "label": "5m",
+          "w": 224
+        },
+        {
+          "label": "10m",
+          "w": 223
+        },
+        {
+          "label": "20m",
+          "w": 201
+        },
+        {
+          "label": "30m",
+          "w": 187
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr",
+      "work_kind": "efforts"
+    },
+    {
+      "id": "19442212507",
+      "date": "2026-07-24",
+      "name": "Riprendere la mia macchina 🚴🏼 💨",
+      "km": 39.8,
+      "elev_m": 107,
+      "hours": 1.27,
+      "np": 155,
+      "intensity": 0.66,
+      "tss": 55,
+      "avg_hr": 110,
+      "w_per_kg_np": 1.94,
+      "temp_c": 15.1,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 238
+        },
+        {
+          "label": "5m",
+          "w": 193
+        },
+        {
+          "label": "10m",
+          "w": 176
+        },
+        {
+          "label": "20m",
+          "w": 171
+        },
+        {
+          "label": "30m",
+          "w": 162
+        },
+        {
+          "label": "1h",
+          "w": 147
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)"
+    },
+    {
+      "id": "19429672780",
+      "date": "2026-07-23",
+      "name": "La macchina Ha bisogno un servizio! 🚴🏼",
+      "km": 41.8,
+      "elev_m": 1085,
+      "hours": 2.52,
+      "np": 177,
+      "intensity": 0.75,
+      "tss": 143,
+      "avg_hr": 116,
+      "w_per_kg_np": 2.21,
+      "temp_c": 27.1,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 249
+        },
+        {
+          "label": "5m",
+          "w": 230
+        },
+        {
+          "label": "10m",
+          "w": 215
+        },
+        {
+          "label": "20m",
+          "w": 203
+        },
+        {
+          "label": "30m",
+          "w": 193
+        },
+        {
+          "label": "1h",
+          "w": 182
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
+    {
+      "id": "19419172027",
+      "date": "2026-07-22",
+      "name": "Passo di Fraele e Laghi di Cancano",
+      "km": 105.0,
+      "elev_m": 1719,
+      "hours": 5.45,
+      "np": 158,
+      "intensity": 0.67,
+      "tss": 246,
+      "avg_hr": 108,
+      "w_per_kg_np": 1.98,
+      "temp_c": 25.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 319
+        },
+        {
+          "label": "5m",
+          "w": 238
+        },
+        {
+          "label": "10m",
+          "w": 231
+        },
+        {
+          "label": "20m",
+          "w": 225
+        },
+        {
+          "label": "30m",
+          "w": 219
+        },
+        {
+          "label": "1h",
+          "w": 208
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
+    {
+      "id": "19400384254",
+      "date": "2026-07-21",
+      "name": "Zwift - Devedeset",
+      "km": 30.8,
+      "elev_m": 121,
+      "hours": 1.0,
+      "np": 181,
+      "intensity": 0.77,
+      "tss": 59,
+      "avg_hr": 126,
+      "w_per_kg_np": 2.26,
+      "temp_c": 22.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 211
+        },
+        {
+          "label": "5m",
+          "w": 209
+        },
+        {
+          "label": "10m",
+          "w": 209
+        },
+        {
+          "label": "20m",
+          "w": 193
+        },
+        {
+          "label": "30m",
+          "w": 188
+        },
+        {
+          "label": "1h",
+          "w": 162
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr",
+      "work_kind": "intervals"
+    },
+    {
+      "id": "19333617742",
+      "date": "2026-07-16",
+      "name": "Trivigno (Z2 climb)",
+      "km": 30.5,
+      "elev_m": 764,
+      "hours": 1.7,
+      "np": 189,
+      "intensity": 0.8,
+      "tss": 110,
+      "avg_hr": 119,
+      "w_per_kg_np": 2.36,
+      "temp_c": 23.6,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 289
+        },
+        {
+          "label": "5m",
+          "w": 231
+        },
+        {
+          "label": "10m",
+          "w": 223
+        },
+        {
+          "label": "20m",
+          "w": 212
+        },
+        {
+          "label": "30m",
+          "w": 209
+        },
+        {
+          "label": "1h",
+          "w": 205
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
+    {
+      "id": "19306887193",
+      "date": "2026-07-14",
+      "name": "Zwift - FTP Ramp Test",
+      "km": 11.8,
+      "elev_m": 44,
+      "hours": 0.47,
+      "np": null,
+      "intensity": null,
+      "tss": 15,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": 25.5,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": true,
+      "meter": "Kickr"
+    },
+    {
+      "id": "19306437884",
+      "date": "2026-07-14",
+      "name": "Zwift - INEOS Grenadiers Virtual Training Camp | The Pre-Race Warm-up",
+      "km": 6.1,
+      "elev_m": 80,
+      "hours": 0.25,
+      "np": null,
+      "intensity": null,
+      "tss": 4,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    },
+    {
+      "id": "19253405877",
+      "date": "2026-07-10",
+      "name": "Trivigno (recupero)",
+      "km": 29.7,
+      "elev_m": 748,
+      "hours": 1.73,
+      "np": 173,
+      "intensity": 0.74,
+      "tss": 94,
+      "avg_hr": 113,
+      "w_per_kg_np": 2.16,
+      "temp_c": 25.0,
+      "best_efforts": null,
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)"
+    },
+    {
+      "id": "19192171073",
+      "date": "2026-07-05",
+      "name": "Ride back to hotel and Mur dl Ghat re show!",
+      "km": 1.8,
+      "elev_m": 114,
+      "hours": 0.17,
+      "np": null,
+      "intensity": null,
+      "tss": 7,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    },
+    {
+      "id": "19192171367",
+      "date": "2026-07-05",
+      "name": "Maratona dles Dolomite 🚵🚵🏼‍♂️🏆🏁",
+      "km": 137.1,
+      "elev_m": 4117,
+      "hours": 8.35,
+      "np": null,
+      "intensity": null,
+      "tss": 370,
+      "avg_hr": 124,
+      "w_per_kg_np": null,
+      "temp_c": 20.9,
+      "best_efforts": null,
+      "flags": [
+        "power excluded (calibration)",
+        "load est. from HR effort"
+      ],
+      "indoor": false,
+      "meter": "Favero (Assioma)"
+    },
+    {
+      "id": "19192166481",
+      "date": "2026-07-05",
+      "name": "Ride to start of Maratona dles Dolomiti",
+      "km": 7.1,
+      "elev_m": 50,
+      "hours": 0.29,
+      "np": null,
+      "intensity": null,
+      "tss": 4,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    },
+    {
+      "id": "19160561946",
+      "date": "2026-07-03",
+      "name": "Leg opener Campolongo",
+      "km": 16.0,
+      "elev_m": 453,
+      "hours": 1.31,
+      "np": 120,
+      "intensity": 0.51,
+      "tss": 34,
+      "avg_hr": 93,
+      "w_per_kg_np": 1.5,
+      "temp_c": 20.7,
+      "best_efforts": null,
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)"
+    },
+    {
+      "id": "19133243081",
+      "date": "2026-07-01",
+      "name": "Leg opener",
+      "km": 9.7,
+      "elev_m": 177,
+      "hours": 0.59,
+      "np": null,
+      "intensity": null,
+      "tss": 11,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    }
+  ],
+  "flags": [
+    {
+      "kind": "ftp_provisional",
+      "detail": "FTP 235 W (Kickr) was set by a ramp test on 2026-07-14: “Zwift ramp test — recovery-block dip; the P1 build starts here”. A ramp test over-reads sustained threshold — treat as provisional for threshold pacing.",
+      "source": "config/athlete.yaml → ftp_history[-1]"
+    },
+    {
+      "kind": "excluded_activity",
+      "activity_id": "19192171367",
+      "detail": "power meter calibration fault",
+      "source": "data/derived/metrics.json → data_quality.excluded"
+    }
+  ],
+  "sources": [
+    "data/derived/metrics.json",
+    "data/coach/coach.json",
+    "data/coach/plan.json",
+    "data/tymewear/sessions.json"
+  ],
+  "privacy": "No location data. GPS/geo/route/map fields and location names are excluded by allowlist and actively scrubbed. Distance, elevation gain, duration and temperature are performance metrics, not position.",
+  "note": "Read-only, PUBLIC training-state snapshot for the coaching chat. Auto-generated; overwritten each run (git history retains prior states). Meter per session: Kickr indoors, Favero (Assioma) outdoors."
+}
