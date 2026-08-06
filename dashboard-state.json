@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-06T07:50:47+02:00",
+  "generated_at": "2026-08-06T13:07:34+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19623815005",
+      "date": "2026-08-06",
+      "name": "Climb repeats 🚵",
+      "km": 63.4,
+      "elev_m": 1609,
+      "hours": 3.53,
+      "np": 188,
+      "intensity": 0.8,
+      "tss": 226,
+      "avg_hr": 127,
+      "w_per_kg_np": 2.35,
+      "temp_c": 25.2,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 337
+        },
+        {
+          "label": "5m",
+          "w": 231
+        },
+        {
+          "label": "10m",
+          "w": 220
+        },
+        {
+          "label": "20m",
+          "w": 209
+        },
+        {
+          "label": "30m",
+          "w": 209
+        },
+        {
+          "label": "1h",
+          "w": 204
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "intervals"
+    },
     {
       "id": "19580009509",
       "date": "2026-08-03",
@@ -469,7 +513,7 @@
       "hours": 0.47,
       "np": null,
       "intensity": null,
-      "tss": 16,
+      "tss": 15,
       "avg_hr": null,
       "w_per_kg_np": null,
       "temp_c": 25.5,
@@ -489,7 +533,7 @@
       "hours": 0.25,
       "np": null,
       "intensity": null,
-      "tss": 5,
+      "tss": 4,
       "avg_hr": null,
       "w_per_kg_np": null,
       "temp_c": null,
@@ -547,7 +591,7 @@
       "hours": 8.35,
       "np": null,
       "intensity": null,
-      "tss": 378,
+      "tss": 370,
       "avg_hr": 124,
       "w_per_kg_np": null,
       "temp_c": 20.9,
@@ -568,7 +612,7 @@
       "hours": 0.29,
       "np": null,
       "intensity": null,
-      "tss": 5,
+      "tss": 4,
       "avg_hr": null,
       "w_per_kg_np": null,
       "temp_c": null,
@@ -578,24 +622,6 @@
       ],
       "indoor": null,
       "meter": null
-    },
-    {
-      "id": "19160561946",
-      "date": "2026-07-03",
-      "name": "Leg opener Campolongo",
-      "km": 16.0,
-      "elev_m": 453,
-      "hours": 1.31,
-      "np": 120,
-      "intensity": 0.51,
-      "tss": 34,
-      "avg_hr": 93,
-      "w_per_kg_np": 1.5,
-      "temp_c": 20.7,
-      "best_efforts": null,
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)"
     }
   ],
   "flags": [
