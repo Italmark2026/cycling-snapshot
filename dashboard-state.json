@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-13T07:49:05+02:00",
+  "generated_at": "2026-08-13T13:05:38+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19722586404",
+      "date": "2026-08-13",
+      "name": "Morning Ride",
+      "km": 33.3,
+      "elev_m": 1078,
+      "hours": 2.09,
+      "np": 182,
+      "intensity": 0.77,
+      "tss": 125,
+      "avg_hr": 117,
+      "w_per_kg_np": 2.27,
+      "temp_c": 23.8,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 321
+        },
+        {
+          "label": "5m",
+          "w": 244
+        },
+        {
+          "label": "10m",
+          "w": 229
+        },
+        {
+          "label": "20m",
+          "w": 216
+        },
+        {
+          "label": "30m",
+          "w": 209
+        },
+        {
+          "label": "1h",
+          "w": 149
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)"
+    },
     {
       "id": "19623815005",
       "date": "2026-08-06",
@@ -513,7 +556,7 @@
       "hours": 0.47,
       "np": null,
       "intensity": null,
-      "tss": 15,
+      "tss": 16,
       "avg_hr": null,
       "w_per_kg_np": null,
       "temp_c": 25.5,
@@ -533,7 +576,7 @@
       "hours": 0.25,
       "np": null,
       "intensity": null,
-      "tss": 4,
+      "tss": 5,
       "avg_hr": null,
       "w_per_kg_np": null,
       "temp_c": null,
@@ -591,7 +634,7 @@
       "hours": 8.35,
       "np": null,
       "intensity": null,
-      "tss": 370,
+      "tss": 378,
       "avg_hr": 124,
       "w_per_kg_np": null,
       "temp_c": 20.9,
@@ -602,26 +645,6 @@
       ],
       "indoor": false,
       "meter": "Favero (Assioma)"
-    },
-    {
-      "id": "19192166481",
-      "date": "2026-07-05",
-      "name": "Ride to start of Maratona dles Dolomiti",
-      "km": 7.1,
-      "elev_m": 50,
-      "hours": 0.29,
-      "np": null,
-      "intensity": null,
-      "tss": 4,
-      "avg_hr": null,
-      "w_per_kg_np": null,
-      "temp_c": null,
-      "best_efforts": null,
-      "flags": [
-        "load est. from HR effort"
-      ],
-      "indoor": null,
-      "meter": null
     }
   ],
   "flags": [
