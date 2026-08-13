@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-13T13:05:38+02:00",
+  "generated_at": "2026-08-13T20:39:16+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -114,30 +114,30 @@
   },
   "recent_sessions": [
     {
-      "id": "19722586404",
+      "id": "19725862809",
       "date": "2026-08-13",
-      "name": "Morning Ride",
-      "km": 33.3,
-      "elev_m": 1078,
-      "hours": 2.09,
+      "name": "Campolaro a Gaver",
+      "km": 32.7,
+      "elev_m": 1034,
+      "hours": 2.08,
       "np": 182,
       "intensity": 0.77,
       "tss": 125,
       "avg_hr": 117,
       "w_per_kg_np": 2.27,
-      "temp_c": 23.8,
+      "temp_c": 20.7,
       "best_efforts": [
         {
           "label": "1m",
-          "w": 321
+          "w": 318
         },
         {
           "label": "5m",
-          "w": 244
+          "w": 242
         },
         {
           "label": "10m",
-          "w": 229
+          "w": 227
         },
         {
           "label": "20m",
@@ -145,7 +145,7 @@
         },
         {
           "label": "30m",
-          "w": 209
+          "w": 208
         },
         {
           "label": "1h",
@@ -154,7 +154,8 @@
       ],
       "flags": [],
       "indoor": false,
-      "meter": "Favero (Assioma)"
+      "meter": "Favero (Assioma)",
+      "work_kind": "intervals"
     },
     {
       "id": "19623815005",
