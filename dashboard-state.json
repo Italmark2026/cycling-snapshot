@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-17T07:49:20+02:00",
+  "generated_at": "2026-08-17T20:37:38+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19778000334",
+      "date": "2026-08-17",
+      "name": "Couple of climbs; bit of flat(ish)….",
+      "km": 78.2,
+      "elev_m": 1570,
+      "hours": 3.82,
+      "np": 182,
+      "intensity": 0.77,
+      "tss": 229,
+      "avg_hr": 122,
+      "w_per_kg_np": 2.27,
+      "temp_c": 24.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 285
+        },
+        {
+          "label": "5m",
+          "w": 225
+        },
+        {
+          "label": "10m",
+          "w": 219
+        },
+        {
+          "label": "20m",
+          "w": 213
+        },
+        {
+          "label": "30m",
+          "w": 208
+        },
+        {
+          "label": "1h",
+          "w": 203
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
     {
       "id": "19725862809",
       "date": "2026-08-13",
@@ -625,27 +669,6 @@
       ],
       "indoor": null,
       "meter": null
-    },
-    {
-      "id": "19192171367",
-      "date": "2026-07-05",
-      "name": "Maratona dles Dolomite 🚵🚵🏼‍♂️🏆🏁",
-      "km": 137.1,
-      "elev_m": 4117,
-      "hours": 8.35,
-      "np": null,
-      "intensity": null,
-      "tss": 378,
-      "avg_hr": 124,
-      "w_per_kg_np": null,
-      "temp_c": 20.9,
-      "best_efforts": null,
-      "flags": [
-        "power excluded (calibration)",
-        "load est. from HR effort"
-      ],
-      "indoor": false,
-      "meter": "Favero (Assioma)"
     }
   ],
   "flags": [
