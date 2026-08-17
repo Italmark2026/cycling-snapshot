@@ -725,13 +725,22 @@ function staleBanner(){
   const drifted=(stale!=null&&stale>=2);
   const show=feedBad||(!h.present)||drifted;
   if(!show)return;
-  const crit=feedBad&&fs==="token_expired";
+  /* Feed down, but the athlete has hand-entered readings up to today: the
+     numbers below ARE current, so this is a plumbing warning, not a "you are
+     blind" warning. Downgrade to amber and say what's actually true. */
+  const bridged=feedBad&&h.manual_through&&h.manual_through===h.last_date&&!drifted;
+  const crit=feedBad&&fs==="token_expired"&&!bridged;
   const bar=el("div","databar"+(crit?" crit":""));const win=el("div","wrap");const inn=el("div","databar-in");
   inn.appendChild(el("span","ic",crit?"⛔":"⚠"));
   const msg=el("div","msg");
   const since=h.feed_last_success?(" Last live reading "+dfmt(h.feed_last_success.slice(0,10))+"."):
     (h.last_date?(" Last health update "+dfmt(h.last_date)+"."):"");
-  if(feedBad&&fs==="token_expired"){
+  if(bridged){
+    msg.innerHTML="<b>Garmin auto-sync still down — today’s numbers were entered by hand.</b> "+
+      "The login token is expired, so nothing is pulling automatically, but readings through "+
+      dfmt(h.manual_through)+" were filled in from Garmin Connect screenshots. The numbers below are current; "+
+      "sleep stages, stress and body battery are missing because the app only shows summaries.";
+  }else if(feedBad&&fs==="token_expired"){
     msg.innerHTML="<b>Garmin health feed DOWN — login token expired.</b> Morning HRV, sleep, resting HR and readiness have stopped pulling."+since+" Re-seed the Garmin token (tools/garmin-token/) to restore them; the readiness numbers below are last-known, not today’s.";
   }else if(feedBad){
     msg.innerHTML="<b>Garmin health feed error.</b> The last sync couldn’t pull health data"+(h.feed_message?" — "+h.feed_message:"")+". Readiness / HRV below are last-known, not today’s.";
@@ -1416,7 +1425,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="32cacfdc9be187db";
+<script>var BUILD_STAMP="87ab8c05c729d2fc";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
