@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-21T20:37:31+02:00",
+  "generated_at": "2026-08-23T12:44:52+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 317,
-    "weeks_to_go": 45.3
+    "days_to_go": 315,
+    "weeks_to_go": 45.0
   },
   "thresholds": {
     "ftp": {
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19849688637",
+      "date": "2026-08-22",
+      "name": "Indoor kickr ride (virtual)",
+      "km": 47.4,
+      "elev_m": 0,
+      "hours": 2.08,
+      "np": 153,
+      "intensity": 0.65,
+      "tss": 88,
+      "avg_hr": 112,
+      "w_per_kg_np": 1.91,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 176
+        },
+        {
+          "label": "5m",
+          "w": 171
+        },
+        {
+          "label": "10m",
+          "w": 168
+        },
+        {
+          "label": "20m",
+          "w": 167
+        },
+        {
+          "label": "30m",
+          "w": 161
+        },
+        {
+          "label": "1h",
+          "w": 154
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
     {
       "id": "19778000334",
       "date": "2026-08-17",
@@ -649,26 +692,6 @@
       "flags": [],
       "indoor": false,
       "meter": "Favero (Assioma)"
-    },
-    {
-      "id": "19192171073",
-      "date": "2026-07-05",
-      "name": "Ride back to hotel and Mur dl Ghat re show!",
-      "km": 1.8,
-      "elev_m": 114,
-      "hours": 0.17,
-      "np": null,
-      "intensity": null,
-      "tss": 7,
-      "avg_hr": null,
-      "w_per_kg_np": null,
-      "temp_c": null,
-      "best_efforts": null,
-      "flags": [
-        "load est. from HR effort"
-      ],
-      "indoor": null,
-      "meter": null
     }
   ],
   "flags": [
