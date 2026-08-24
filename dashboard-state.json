@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-23T17:11:34+02:00",
+  "generated_at": "2026-08-24T07:56:24+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 315,
-    "weeks_to_go": 45.0
+    "days_to_go": 314,
+    "weeks_to_go": 44.9
   },
   "thresholds": {
     "ftp": {
@@ -14,7 +14,7 @@
       "reference": "Kickr",
       "tested": "2026-07-14",
       "note": "Zwift ramp test — recovery-block dip; the P1 build starts here",
-      "w_per_kg": 2.94,
+      "w_per_kg": 2.88,
       "history": [
         {
           "date": "2025-01-15",
@@ -124,7 +124,7 @@
       "intensity": 0.65,
       "tss": 88,
       "avg_hr": 112,
-      "w_per_kg_np": 1.91,
+      "w_per_kg_np": 1.88,
       "temp_c": null,
       "best_efforts": [
         {
@@ -167,7 +167,7 @@
       "intensity": 0.77,
       "tss": 229,
       "avg_hr": 122,
-      "w_per_kg_np": 2.27,
+      "w_per_kg_np": 2.23,
       "temp_c": 24.0,
       "best_efforts": [
         {
@@ -211,7 +211,7 @@
       "intensity": 0.77,
       "tss": 125,
       "avg_hr": 117,
-      "w_per_kg_np": 2.27,
+      "w_per_kg_np": 2.23,
       "temp_c": 20.7,
       "best_efforts": [
         {
@@ -255,7 +255,7 @@
       "intensity": 0.8,
       "tss": 226,
       "avg_hr": 127,
-      "w_per_kg_np": 2.35,
+      "w_per_kg_np": 2.3,
       "temp_c": 25.2,
       "best_efforts": [
         {
@@ -299,7 +299,7 @@
       "intensity": 0.86,
       "tss": 125,
       "avg_hr": 123,
-      "w_per_kg_np": 2.51,
+      "w_per_kg_np": 2.46,
       "temp_c": 22.1,
       "best_efforts": [
         {
@@ -343,7 +343,7 @@
       "intensity": 0.91,
       "tss": 92,
       "avg_hr": 123,
-      "w_per_kg_np": 2.69,
+      "w_per_kg_np": 2.63,
       "temp_c": 24.7,
       "best_efforts": [
         {
@@ -387,7 +387,7 @@
       "intensity": 0.8,
       "tss": 44,
       "avg_hr": 129,
-      "w_per_kg_np": 2.35,
+      "w_per_kg_np": 2.3,
       "temp_c": 24.6,
       "best_efforts": [
         {
@@ -427,7 +427,7 @@
       "intensity": 0.66,
       "tss": 55,
       "avg_hr": 110,
-      "w_per_kg_np": 1.94,
+      "w_per_kg_np": 1.9,
       "temp_c": 15.1,
       "best_efforts": [
         {
@@ -470,7 +470,7 @@
       "intensity": 0.75,
       "tss": 143,
       "avg_hr": 116,
-      "w_per_kg_np": 2.21,
+      "w_per_kg_np": 2.17,
       "temp_c": 27.1,
       "best_efforts": [
         {
@@ -514,7 +514,7 @@
       "intensity": 0.67,
       "tss": 246,
       "avg_hr": 108,
-      "w_per_kg_np": 1.98,
+      "w_per_kg_np": 1.94,
       "temp_c": 25.0,
       "best_efforts": [
         {
@@ -558,7 +558,7 @@
       "intensity": 0.77,
       "tss": 59,
       "avg_hr": 126,
-      "w_per_kg_np": 2.26,
+      "w_per_kg_np": 2.22,
       "temp_c": 22.0,
       "best_efforts": [
         {
@@ -602,7 +602,7 @@
       "intensity": 0.8,
       "tss": 110,
       "avg_hr": 119,
-      "w_per_kg_np": 2.36,
+      "w_per_kg_np": 2.32,
       "temp_c": 23.6,
       "best_efforts": [
         {
@@ -686,7 +686,7 @@
       "intensity": 0.74,
       "tss": 94,
       "avg_hr": 113,
-      "w_per_kg_np": 2.16,
+      "w_per_kg_np": 2.12,
       "temp_c": 25.0,
       "best_efforts": null,
       "flags": [],
