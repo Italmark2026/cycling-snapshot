@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-24T07:56:24+02:00",
+  "generated_at": "2026-08-24T13:58:49+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19876800941",
+      "date": "2026-08-24",
+      "name": "Lunch Ride",
+      "km": 47.9,
+      "elev_m": 306,
+      "hours": 1.74,
+      "np": 185,
+      "intensity": 0.79,
+      "tss": 108,
+      "avg_hr": 126,
+      "w_per_kg_np": 2.27,
+      "temp_c": 29.9,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 261
+        },
+        {
+          "label": "5m",
+          "w": 234
+        },
+        {
+          "label": "10m",
+          "w": 219
+        },
+        {
+          "label": "20m",
+          "w": 214
+        },
+        {
+          "label": "30m",
+          "w": 202
+        },
+        {
+          "label": "1h",
+          "w": 171
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "intervals"
+    },
     {
       "id": "19849688637",
       "date": "2026-08-22",
@@ -674,24 +718,6 @@
       ],
       "indoor": null,
       "meter": null
-    },
-    {
-      "id": "19253405877",
-      "date": "2026-07-10",
-      "name": "Trivigno (recupero)",
-      "km": 29.7,
-      "elev_m": 748,
-      "hours": 1.73,
-      "np": 173,
-      "intensity": 0.74,
-      "tss": 94,
-      "avg_hr": 113,
-      "w_per_kg_np": 2.12,
-      "temp_c": 25.0,
-      "best_efforts": null,
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)"
     }
   ],
   "flags": [
