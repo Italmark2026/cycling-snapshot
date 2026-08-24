@@ -591,11 +591,30 @@ const gavia=(M.races||[]).find(r=>!r.power_excluded);
 const vpw=M.valley_power.windows,vpLast=vpw.length?vpw[vpw.length-1]:null;
 const today=new Date();
 const todayIso=today.toISOString().slice(0,10);
-function planToday(){for(const w of PLAN.weeks)for(const d of w.days)if(d.date===todayIso)return d;return null;}
-function planNext(){let best=null;
-  for(const w of PLAN.weeks)for(const d of w.days)
-    if(d.date>todayIso&&d.type!=="rest"&&d.type!=="optional"&&d.status!=="done"&&d.status!=="moved"&&(!best||d.date<best.date))best=d;
-  return best;}
+/* Weeks are a menu, not a timetable: sessions carry a priority and a place, not
+   a date. "What's next" is therefore the highest-priority unfinished session in
+   the week we are in — and if that week is clear, the first one of the next. */
+function weekOf(iso){for(const w of PLAN.weeks){const e=w.end||w.start;
+  if(w.start<=iso&&iso<=e)return w;}return null;}
+function currentWeek(){return weekOf(todayIso)||PLAN.weeks[0]||null;}
+function openSessions(w){return w?(w.sessions||[]).filter(s=>s.status!=="done"&&s.status!=="skipped"):[];}
+function planNext(){
+  const wks=PLAN.weeks||[];
+  const cur=currentWeek();
+  const order=cur?[cur].concat(wks.filter(w=>w!==cur&&w.start>cur.start).sort((a,b)=>a.start<b.start?-1:1)):wks;
+  for(const w of order){
+    const open=openSessions(w).filter(s=>(s.priority||3)<3)
+      .sort((a,b)=>(a.priority||3)-(b.priority||3));
+    if(open.length)return Object.assign({},open[0],{_week:w});
+  }
+  return null;}
+function weekProgress(w){
+  if(!w)return null;
+  const ss=w.sessions||[];
+  const key=s=>(s.priority||3)<3;
+  const anchors=ss.filter(key);
+  return {done:anchors.filter(s=>s.status==="done").length,total:anchors.length,
+          openAll:openSessions(w).length};}
 function latestRide(){return M.recent_rides&&M.recent_rides[0];}
 function tsbState(t){return t<-25?["deep fatigue","bad"]:t<-10?["productive fatigue","warn"]:t<10?["neutral / fresh","good"]:["very fresh — detraining risk if held","warn"];}
 /* Morning traffic light — the same four checks as the Health-tab framework
@@ -809,10 +828,12 @@ function vOverview(v){
 
   /* 4 — the fitness numbers + trend sparklines */
   v.appendChild(el("h3","sect disp","Fitness & form"));
-  const pd=planToday(),nx=planNext(),lr=latestRide();
+  const cw=currentWeek(),wp=weekProgress(cw),nx=planNext(),lr=latestRide();
   const bits=[];
-  if(pd)bits.push("<strong>Today:</strong> "+pd.title+(pd.tss?" (~"+pd.tss+" TSS)":""));
-  if(nx&&(!pd||nx.date!==todayIso))bits.push("<strong>Next:</strong> "+dfmt(nx.date)+" — "+nx.title);
+  if(cw&&wp)bits.push("<strong>This week:</strong> "+wp.done+" of "+wp.total+" key sessions done"
+    +(wp.openAll?" · "+wp.openAll+" left on the menu":" · week complete"));
+  if(nx)bits.push("<strong>Next up:</strong> "+nx.title+(nx.tss?" (~"+nx.tss+" TSS)":"")
+    +(nx.where?" — "+nx.where:""));
   if(lr)bits.push("<strong>Last ride:</strong> "+dfmt(lr.date)+" · "+fmtN(lr.km)+" km · "+(lr.np?"NP "+lr.np+" W · ":"")+fmtN(lr.tss)+" TSS"+(lr.flags&&lr.flags.length?" · ⚠ "+lr.flags[0]:""));
   if(bits.length){const s=el("div","ov-sub");s.style.margin="0 0 14px";s.innerHTML=bits.join(" &nbsp;·&nbsp; ");v.appendChild(s);}
   const k=el("div","kpis");v.appendChild(k);
@@ -881,7 +902,7 @@ function vOverview(v){
     c.appendChild(ul);}
   {const c=card(g2,"c6","Across the app","Tab digest",null,null);
     const rows=[
-      ["Training Plan",(planNext()?("Next: "+dfmt(planNext().date)+" · "+planNext().title):"—")+((PLAN.weeks[0]&&PLAN.weeks[0].note)?"":"")],
+      ["Training Plan",(planNext()?("Next up: "+planNext().title):"—")],
       ["Load","CTL "+fmtN(cur.ctl)+" · TSB "+(cur.tsb>0?"+":"")+fmtN(cur.tsb)+" · week "+fmtN(wk.tss)+" TSS vs "+(PLAN.weeks[0]?PLAN.weeks[0].tss_target:"–")+" target"],
       ["Engine","Valley gap "+(gap!=null?gap+"%":"–")+" · best 15 s "+(M.sprint.best.p15||"–")+" W · FTP "+A.ftp+" W"],
       ["Health",M.health.present?("HRV "+((latestH("hrv")||{}).v||"–")+" ms · RHR "+((latestH("rhr")||{}).v||"–")+(M.health.days_stale>=1?" (last-known "+dfmt(M.health.last_date)+")":"")):"Garmin feed pending network allow-list"],
@@ -967,43 +988,47 @@ function vPlan(v){
     const act=wkAct[w.start];
     if(act!=null)hdr.appendChild(chip(act>=w.tss_target*.8?"good":"mute","Actual "+fmtN(act)+" TSS"));
     c.appendChild(hdr);
-    /* A week whose last day is already in the past is done — the TSS chips
-       above are the whole story, so the day-by-day breakdown collapses by
-       default. Current/future weeks (which include today) stay expanded. */
-    const days=w.days||[];
-    const lastDate=days.length?days[days.length-1].date:w.start;
-    const weekOver=lastDate&&lastDate<todayIso;
-    let daysHost=c;
+    /* A week that has already ended is history: the TSS chips above are the
+       whole story, so its session list collapses by default. */
+    const sessions=(w.sessions||[]).slice()
+      .sort((a,b)=>((a.priority||3)-(b.priority||3))||(a.tss<b.tss?1:-1));
+    const weekOver=(w.end||w.start)<todayIso;
+    let host=c;
+    if(w.anchor_note&&!weekOver){
+      const an=el("div","note");an.textContent="▸ "+w.anchor_note;
+      an.style.cssText="margin-top:10px;color:var(--ink2)";c.appendChild(an);}
     if(weekOver){
       const coll=el("details","wk-collapse");
       const sm=el("summary");sm.appendChild(el("span","caret","▸"));
-      sm.appendChild(document.createTextNode("Show "+days.length+" days"));
+      sm.appendChild(document.createTextNode("Show "+sessions.length+" sessions"));
       coll.appendChild(sm);
-      daysHost=el("div","body");coll.appendChild(daysHost);
+      host=el("div","body");coll.appendChild(host);
       c.appendChild(coll);
     }
-    days.forEach(d=>{
+    sessions.forEach(s=>{
       const det=el("details","day");
-      if(d.date===todayIso)det.open=true;
+      const open=s.status!=="done"&&s.status!=="skipped";
+      if(open&&!weekOver&&(s.priority||3)<3)det.open=true;
       const sm=el("summary");
       sm.appendChild(el("span","caret","▸"));
-      sm.appendChild(el("span","dd",(d.dow||"")+" "+(d.date?dfmt(d.date):"")));
-      sm.appendChild(el("span","dt",d.title));
-      sm.appendChild(el("span","lane"+(/★/.test(d.lane||"")?" star":""),d.lane||""));
-      if(d.tss)sm.appendChild(el("span","dtss","~"+d.tss+" TSS"+(d.duration_min?" · "+d.duration_min+" min":"")));
-      let chipCls="ice",chipTxt="planned";
-      if(d.status==="done"){chipCls="good";chipTxt=d.moved_from?"done · moved":"done";}
-      else if(d.status==="moved"){chipCls="mute";chipTxt="moved";}
-      else if(d.date===todayIso){chipCls="rosa";chipTxt="today";}
-      else if(d.type==="rest"){chipCls="mute";chipTxt="rest";}
-      else if(d.type==="optional"){chipCls="mute";chipTxt="optional";}
-      else if(d.date<todayIso){chipCls="mute";chipTxt="past";}
+      const pr=(s.priority||3);
+      sm.appendChild(el("span","dd",pr===1?"KEY":pr===2?"LONG":"OPT"));
+      sm.appendChild(el("span","dt",s.title));
+      sm.appendChild(el("span","lane"+(/★/.test(s.lane||"")?" star":""),s.where||s.lane||""));
+      if(s.tss)sm.appendChild(el("span","dtss","~"+s.tss+" TSS"+(s.duration_min?" · "+s.duration_min+" min":"")));
+      let chipCls="ice",chipTxt="to do";
+      if(s.status==="done"){chipCls="good";chipTxt="done"+(s.done_date?" "+dfmt(s.done_date):"");}
+      else if(s.status==="partial"){chipCls="warn";chipTxt="partial";}
+      else if(s.status==="skipped"){chipCls="mute";chipTxt="not done";}
+      else if(pr===3){chipCls="mute";chipTxt="optional";}
       sm.appendChild(chip(chipCls,chipTxt));
-      if(d.type==="rest"||d.type==="optional"||d.status==="moved")sm.style.opacity="0.72";
+      if(s.status==="skipped"||pr===3)sm.style.opacity="0.72";
       det.appendChild(sm);
-      const body=el("div","body",d.detail||"");det.appendChild(body);
-      if(d.prescription)renderPrescription(body,d.prescription);
-      daysHost.appendChild(det);});
+      const body=el("div","body",s.detail||"");det.appendChild(body);
+      if(s.note){const nn=el("div");nn.style.cssText="margin-top:6px;color:var(--mute);font-size:12.5px";
+        nn.textContent="↳ "+s.note;body.appendChild(nn);}
+      if(s.prescription)renderPrescription(body,s.prescription);
+      host.appendChild(det);});
     if(w.note){const n=el("div","note");n.textContent="◆ "+w.note;n.style.color="var(--warn)";c.appendChild(n);}});
 }
 
@@ -1069,7 +1094,7 @@ function vLoad(v){
   /* rules cards */
   const rg=el("div","grid");rg.style.marginTop="16px";v.appendChild(rg);
   [["Ramp guard","Next planned week is capped at +20% over the last completed actual. Accumulated fatigue without adaptation is the failure mode, not a light week.","--s4"],
-   ["Load rules","2–3 quality sessions/week · 24 h between rides unless prescribed · Mondays optional · recovery weeks scheduled, not earned · snow days count as fatigue, never as bike TSS.","--s1"],
+   ["Load rules","The week is a menu, not a timetable: 2–3 quality sessions plus a long ride, fitted where life allows · ~48 h between the two key sessions · rest is the default on any unclaimed day · recovery weeks scheduled, not earned · snow days count as fatigue, never as bike TSS.","--s1"],
    ["The fade rule","First→last interval power drop: <10% pass · 10–20% note it · >20% partial stimulus — next week never builds on a faded session as if it were completed.","--s2"]]
   .forEach(([t,txt,col])=>{const c=card(rg,"c4",null,t,null,null);
     c.style.borderTop="3px solid "+css(col);
@@ -1292,6 +1317,35 @@ function vCoach(v){
     ask.innerHTML="<strong>Ask the coach.</strong> "+(COACH.ask_how||"");
     ask.style.cssText="border-top:1px solid var(--line);padding-top:12px;margin-top:14px";
     c.appendChild(ask);}
+  /* End-of-week reviews — what was planned, what actually happened, and whether
+     the deviations helped or hurt. Newest first. */
+  if(COACH.week_reviews&&COACH.week_reviews.length){
+    const c=card(g,"",null,"Week in review",null,null);
+    c.style.borderTop="3px solid "+css("--s3");
+    COACH.week_reviews.slice().reverse().forEach((r,i)=>{
+      const det=el("details","day");if(i===0)det.open=true;
+      const sm=el("summary");
+      sm.appendChild(el("span","caret","▸"));
+      sm.appendChild(el("span","dt",r.label||r.week_start||""));
+      if(r.tss_actual!=null)sm.appendChild(el("span","dtss",r.tss_actual+" / "+r.tss_target+" TSS"));
+      const v=(r.compliance||"").toLowerCase();
+      sm.appendChild(chip(v.indexOf("full")===0?"good":v.indexOf("part")===0?"warn":"mute",
+        r.compliance||"reviewed"));
+      det.appendChild(sm);
+      const b=el("div","body");
+      if(r.verdict){const q=el("div");q.style.cssText="font-weight:600;color:var(--ink);margin-bottom:8px";
+        q.textContent=r.verdict;b.appendChild(q);}
+      [["Kept to plan",r.kept,"--good"],["Deviated",r.deviated,"--warn"],
+       ["Effect on the goal",r.effect,"--s1"]].forEach(([t,items,col])=>{
+        if(!items||!items.length)return;
+        const hd=el("div","eyebrow",t);hd.style.cssText="margin-top:9px;color:"+css(col);b.appendChild(hd);
+        const ul=el("ul");ul.style.cssText="margin:4px 0 0;padding-left:18px";
+        items.forEach(x=>{const li=el("li");li.style.cssText="margin:3px 0;line-height:1.55";
+          li.textContent=x;ul.appendChild(li);});b.appendChild(ul);});
+      if(r.next){const n=el("div","note");n.textContent="◆ "+r.next;
+        n.style.cssText="margin-top:11px;color:var(--warn)";b.appendChild(n);}
+      det.appendChild(b);c.appendChild(det);});}
+
   const V=COACH.verdicts||{};
   [["Working — protect it",V.working,"--good"],["Cost you time — fix it",V.not_working,"--warn"],
    ["Neglected — the block's job",V.neglected,"--bad"]].forEach(([t,items,col])=>{
@@ -1425,7 +1479,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="d1675382415dc3f8";
+<script>var BUILD_STAMP="b290d556161ee697";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
