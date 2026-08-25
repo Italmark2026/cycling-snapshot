@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-24T14:16:12+02:00",
+  "generated_at": "2026-08-25T07:55:59+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 314,
-    "weeks_to_go": 44.9
+    "days_to_go": 313,
+    "weeks_to_go": 44.7
   },
   "thresholds": {
     "ftp": {
@@ -116,7 +116,7 @@
     {
       "id": "19876800941",
       "date": "2026-08-24",
-      "name": "Lunch Ride",
+      "name": "2x 20min tempo",
       "km": 47.9,
       "elev_m": 306,
       "hours": 1.74,
