@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-28T07:55:58+02:00",
+  "generated_at": "2026-08-28T13:02:00+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,46 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19934054346",
+      "date": "2026-08-28",
+      "name": "Indoor flatlane tempo",
+      "km": 22.4,
+      "elev_m": 0,
+      "hours": 0.93,
+      "np": 176,
+      "intensity": 0.75,
+      "tss": 52,
+      "avg_hr": 131,
+      "w_per_kg_np": 2.16,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 220
+        },
+        {
+          "label": "5m",
+          "w": 208
+        },
+        {
+          "label": "10m",
+          "w": 207
+        },
+        {
+          "label": "20m",
+          "w": 184
+        },
+        {
+          "label": "30m",
+          "w": 183
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr",
+      "work_kind": "efforts"
+    },
     {
       "id": "19876800941",
       "date": "2026-08-24",
@@ -698,26 +738,6 @@
       ],
       "indoor": true,
       "meter": "Kickr"
-    },
-    {
-      "id": "19306437884",
-      "date": "2026-07-14",
-      "name": "Zwift - INEOS Grenadiers Virtual Training Camp | The Pre-Race Warm-up",
-      "km": 6.1,
-      "elev_m": 80,
-      "hours": 0.25,
-      "np": null,
-      "intensity": null,
-      "tss": 5,
-      "avg_hr": null,
-      "w_per_kg_np": null,
-      "temp_c": null,
-      "best_efforts": null,
-      "flags": [
-        "load est. from HR effort"
-      ],
-      "indoor": null,
-      "meter": null
     }
   ],
   "flags": [
