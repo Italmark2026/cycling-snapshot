@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-08-31T07:58:41+02:00",
+  "generated_at": "2026-08-31T20:45:37+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "19974824368",
+      "date": "2026-08-31",
+      "name": "Trivigno di solito",
+      "km": 26.8,
+      "elev_m": 696,
+      "hours": 1.53,
+      "np": 174,
+      "intensity": 0.74,
+      "tss": 84,
+      "avg_hr": 116,
+      "w_per_kg_np": 2.13,
+      "temp_c": 27.1,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 232
+        },
+        {
+          "label": "5m",
+          "w": 217
+        },
+        {
+          "label": "10m",
+          "w": 212
+        },
+        {
+          "label": "20m",
+          "w": 198
+        },
+        {
+          "label": "30m",
+          "w": 194
+        },
+        {
+          "label": "1h",
+          "w": 181
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "intervals"
+    },
     {
       "id": "19934054346",
       "date": "2026-08-28",
@@ -718,26 +762,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "19306887193",
-      "date": "2026-07-14",
-      "name": "Zwift - FTP Ramp Test",
-      "km": 11.8,
-      "elev_m": 44,
-      "hours": 0.47,
-      "np": null,
-      "intensity": null,
-      "tss": 16,
-      "avg_hr": null,
-      "w_per_kg_np": null,
-      "temp_c": 25.5,
-      "best_efforts": null,
-      "flags": [
-        "load est. from HR effort"
-      ],
-      "indoor": true,
-      "meter": "Kickr"
     }
   ],
   "flags": [
