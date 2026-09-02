@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-02T13:16:29+02:00",
+  "generated_at": "2026-09-02T14:13:43+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -114,45 +114,6 @@
   },
   "recent_sessions": [
     {
-      "id": "20002725147",
-      "date": "2026-09-02",
-      "name": "Lunch Ride",
-      "km": 0.0,
-      "elev_m": 0,
-      "hours": 0.76,
-      "np": 183,
-      "intensity": 0.78,
-      "tss": 46,
-      "avg_hr": 132,
-      "w_per_kg_np": 2.24,
-      "temp_c": null,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 216
-        },
-        {
-          "label": "5m",
-          "w": 199
-        },
-        {
-          "label": "10m",
-          "w": 198
-        },
-        {
-          "label": "20m",
-          "w": 186
-        },
-        {
-          "label": "30m",
-          "w": 176
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr"
-    },
-    {
       "id": "20002700987",
       "date": "2026-09-02",
       "name": "Zwift - SST (Short)",
@@ -164,7 +125,7 @@
       "tss": 55,
       "avg_hr": 129,
       "w_per_kg_np": 2.33,
-      "temp_c": null,
+      "temp_c": 23.8,
       "best_efforts": [
         {
           "label": "1m",
@@ -753,6 +714,50 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
+    },
+    {
+      "id": "19400384254",
+      "date": "2026-07-21",
+      "name": "Zwift - Devedeset",
+      "km": 30.8,
+      "elev_m": 121,
+      "hours": 1.0,
+      "np": 181,
+      "intensity": 0.77,
+      "tss": 59,
+      "avg_hr": 126,
+      "w_per_kg_np": 2.22,
+      "temp_c": 22.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 211
+        },
+        {
+          "label": "5m",
+          "w": 209
+        },
+        {
+          "label": "10m",
+          "w": 209
+        },
+        {
+          "label": "20m",
+          "w": 193
+        },
+        {
+          "label": "30m",
+          "w": 188
+        },
+        {
+          "label": "1h",
+          "w": 162
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr",
+      "work_kind": "intervals"
     }
   ],
   "flags": [
