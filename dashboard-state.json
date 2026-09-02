@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-02T10:21:06+02:00",
+  "generated_at": "2026-09-02T13:16:29+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,85 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20002725147",
+      "date": "2026-09-02",
+      "name": "Lunch Ride",
+      "km": 0.0,
+      "elev_m": 0,
+      "hours": 0.76,
+      "np": 183,
+      "intensity": 0.78,
+      "tss": 46,
+      "avg_hr": 132,
+      "w_per_kg_np": 2.24,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 216
+        },
+        {
+          "label": "5m",
+          "w": 199
+        },
+        {
+          "label": "10m",
+          "w": 198
+        },
+        {
+          "label": "20m",
+          "w": 186
+        },
+        {
+          "label": "30m",
+          "w": 176
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
+    {
+      "id": "20002700987",
+      "date": "2026-09-02",
+      "name": "Zwift - SST (Short)",
+      "km": 28.9,
+      "elev_m": 57,
+      "hours": 0.84,
+      "np": 190,
+      "intensity": 0.81,
+      "tss": 55,
+      "avg_hr": 129,
+      "w_per_kg_np": 2.33,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 223
+        },
+        {
+          "label": "5m",
+          "w": 209
+        },
+        {
+          "label": "10m",
+          "w": 208
+        },
+        {
+          "label": "20m",
+          "w": 195
+        },
+        {
+          "label": "30m",
+          "w": 186
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr",
+      "work_kind": "intervals"
+    },
     {
       "id": "19974824368",
       "date": "2026-08-31",
@@ -668,94 +747,6 @@
         {
           "label": "1h",
           "w": 208
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
-    },
-    {
-      "id": "19400384254",
-      "date": "2026-07-21",
-      "name": "Zwift - Devedeset",
-      "km": 30.8,
-      "elev_m": 121,
-      "hours": 1.0,
-      "np": 181,
-      "intensity": 0.77,
-      "tss": 59,
-      "avg_hr": 126,
-      "w_per_kg_np": 2.22,
-      "temp_c": 22.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 211
-        },
-        {
-          "label": "5m",
-          "w": 209
-        },
-        {
-          "label": "10m",
-          "w": 209
-        },
-        {
-          "label": "20m",
-          "w": 193
-        },
-        {
-          "label": "30m",
-          "w": 188
-        },
-        {
-          "label": "1h",
-          "w": 162
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
-      "work_kind": "intervals"
-    },
-    {
-      "id": "19333617742",
-      "date": "2026-07-16",
-      "name": "Trivigno (Z2 climb)",
-      "km": 30.5,
-      "elev_m": 764,
-      "hours": 1.7,
-      "np": 189,
-      "intensity": 0.8,
-      "tss": 110,
-      "avg_hr": 119,
-      "w_per_kg_np": 2.32,
-      "temp_c": 23.6,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 289
-        },
-        {
-          "label": "5m",
-          "w": 231
-        },
-        {
-          "label": "10m",
-          "w": 223
-        },
-        {
-          "label": "20m",
-          "w": 212
-        },
-        {
-          "label": "30m",
-          "w": 209
-        },
-        {
-          "label": "1h",
-          "w": 205
         }
       ],
       "flags": [],
