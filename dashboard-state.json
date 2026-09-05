@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-05T13:02:06+02:00",
+  "generated_at": "2026-09-05T18:54:01+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20047354976",
+      "date": "2026-09-05",
+      "name": "Aprica -> Bormio -> Aprica 🚵",
+      "km": 107.2,
+      "elev_m": 1605,
+      "hours": 4.88,
+      "np": 170,
+      "intensity": 0.72,
+      "tss": 255,
+      "avg_hr": 126,
+      "w_per_kg_np": 2.08,
+      "temp_c": 26.6,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 263
+        },
+        {
+          "label": "5m",
+          "w": 239
+        },
+        {
+          "label": "10m",
+          "w": 234
+        },
+        {
+          "label": "20m",
+          "w": 223
+        },
+        {
+          "label": "30m",
+          "w": 209
+        },
+        {
+          "label": "1h",
+          "w": 191
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
     {
       "id": "20002700987",
       "date": "2026-09-02",
@@ -714,50 +758,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "19400384254",
-      "date": "2026-07-21",
-      "name": "Zwift - Devedeset",
-      "km": 30.8,
-      "elev_m": 121,
-      "hours": 1.0,
-      "np": 181,
-      "intensity": 0.77,
-      "tss": 59,
-      "avg_hr": 126,
-      "w_per_kg_np": 2.22,
-      "temp_c": 22.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 211
-        },
-        {
-          "label": "5m",
-          "w": 209
-        },
-        {
-          "label": "10m",
-          "w": 209
-        },
-        {
-          "label": "20m",
-          "w": 193
-        },
-        {
-          "label": "30m",
-          "w": 188
-        },
-        {
-          "label": "1h",
-          "w": 162
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
-      "work_kind": "intervals"
     }
   ],
   "flags": [
