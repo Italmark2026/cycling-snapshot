@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-06T20:35:05+02:00",
+  "generated_at": "2026-09-07T07:50:07+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 301,
-    "weeks_to_go": 43.0
+    "days_to_go": 300,
+    "weeks_to_go": 42.9
   },
   "thresholds": {
     "ftp": {
@@ -67,11 +67,11 @@
   },
   "training_block": {
     "phase": {
-      "key": "P1",
-      "name": "Reintroduction",
-      "detail": "New zones, rebuild rhythm — 2 quality + 1 long, Mon–Fri",
+      "key": "P2",
+      "name": "Threshold core",
+      "detail": "From 24 Aug · the flat/valley threshold lane",
       "status": "active",
-      "h": 48
+      "h": 78
     },
     "block_kpi": "Flat power at ≤142 bpm on the Tresenda→Sondalo TT — the one number this block exists to move.",
     "phase_roadmap": [
@@ -88,17 +88,17 @@
       {
         "key": "P1",
         "name": "Reintroduction",
-        "status": "active"
+        "status": "done"
       },
       {
         "key": "HOL",
         "name": "Holiday de-load",
-        "status": "next"
+        "status": "done"
       },
       {
         "key": "P2",
         "name": "Threshold core",
-        "status": "planned"
+        "status": "active"
       },
       {
         "key": "B1",
