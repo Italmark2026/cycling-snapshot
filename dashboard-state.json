@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-09T13:11:37+02:00",
+  "generated_at": "2026-09-09T13:35:26+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -125,7 +125,7 @@
       "tss": 61,
       "avg_hr": 129,
       "w_per_kg_np": 2.19,
-      "temp_c": null,
+      "temp_c": 23.6,
       "best_efforts": [
         {
           "label": "1m",
