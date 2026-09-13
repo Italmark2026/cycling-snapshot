@@ -1548,25 +1548,36 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
   function b64e(buf){var b=new Uint8Array(buf),s="";
     for(var i=0;i<b.length;i++)s+=String.fromCharCode(b[i]);return btoa(s)}
 
-  // data.enc is cache-busted by BUILD_STAMP — but BUILD_STAMP is baked into this
-  // page, so a cached index.html carries a stale stamp and happily re-fetches the
-  // stale payload it already has. Nothing on the page would look wrong; it would
-  // just quietly be yesterday's numbers. version.txt is fetched with no-store so
-  // it always comes from the server: if it disagrees with our own stamp, THIS
-  // document is stale and we reload past the cache. sessionStorage guards against
-  // a reload loop if the two never converge.
-  fetch("version.txt",{cache:"no-store"})
-    .then(function(r){return r.ok?r.text():null})
-    .then(function(v){
-      if(!v)return; v=v.trim();
-      if(!v||v===BUILD_STAMP)return;
-      var k="mtd.reload."+v;
-      try{if(sessionStorage.getItem(k))return; sessionStorage.setItem(k,"1")}catch(e){}
-      location.replace(location.pathname+"?b="+encodeURIComponent(v));
-    })
-    .catch(function(){});
+  // FRESHNESS. The earlier design cache-busted data.enc with BUILD_STAMP, which is
+  // baked into this document — so a cached index.html asked for the stale payload
+  // it already had, and a separate check reloaded the page to fix it. That reload
+  // was a race against the data fetch, and its sessionStorage guard could wedge
+  // permanently: on a home-screen web app whose shell keeps coming back from cache,
+  // the guard is set once, the stamp never converges, and the dashboard silently
+  // serves old numbers for good. That is what happened on 2026-09-13 — the publish
+  // landed (snapshot commit ddca8cd) while the app still showed the previous day.
+  //
+  // Inverted here: the DATA fetch now waits for the live version and uses it, so a
+  // cached shell still loads current numbers. The shell is layout and script and
+  // changes rarely; the payload changes every run. Stale-shell no longer means
+  // stale data.
+  var livePromise=fetch("version.txt",{cache:"no-store"})
+    .then(function(r){return r.ok?r.text():""})
+    .then(function(v){v=(v||"").trim();return v||BUILD_STAMP})
+    .catch(function(){return BUILD_STAMP});
 
-  var metaPromise=fetch("data.enc?v="+encodeURIComponent(BUILD_STAMP),{cache:"no-cache"})
+  // Refresh the shell too, so layout and script changes arrive — but drive the
+  // one-shot off the URL rather than sessionStorage. If the marker is already in
+  // the query string we have tried once for this version and stop, which cannot
+  // wedge a later version the way a stored flag could.
+  livePromise.then(function(v){
+    if(v===BUILD_STAMP)return;
+    if(location.search.indexOf("b="+encodeURIComponent(v))>=0)return;
+    location.replace(location.pathname+"?b="+encodeURIComponent(v));
+  }).catch(function(){});
+
+  var metaPromise=livePromise
+    .then(function(v){return fetch("data.enc?v="+encodeURIComponent(v),{cache:"no-store"})})
     .then(function(r){if(!r.ok)throw new Error("payload "+r.status);return r.json()});
 
   function deriveKey(pass,meta){
