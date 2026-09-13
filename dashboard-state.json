@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-13T13:01:46+02:00",
+  "generated_at": "2026-09-13T15:41:32+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20158280736",
+      "date": "2026-09-13",
+      "name": "Long zone 2 + Carona salita 🚵",
+      "km": 100.0,
+      "elev_m": 1253,
+      "hours": 4.39,
+      "np": 175,
+      "intensity": 0.74,
+      "tss": 244,
+      "avg_hr": 121,
+      "w_per_kg_np": 2.14,
+      "temp_c": 18.2,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 239
+        },
+        {
+          "label": "5m",
+          "w": 211
+        },
+        {
+          "label": "10m",
+          "w": 204
+        },
+        {
+          "label": "20m",
+          "w": 194
+        },
+        {
+          "label": "30m",
+          "w": 193
+        },
+        {
+          "label": "1h",
+          "w": 185
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
     {
       "id": "20130099115",
       "date": "2026-09-11",
@@ -711,49 +755,6 @@
       "indoor": true,
       "meter": "Kickr",
       "work_kind": "efforts"
-    },
-    {
-      "id": "19442212507",
-      "date": "2026-07-24",
-      "name": "Riprendere la mia macchina 🚴🏼 💨",
-      "km": 39.8,
-      "elev_m": 107,
-      "hours": 1.27,
-      "np": 155,
-      "intensity": 0.66,
-      "tss": 55,
-      "avg_hr": 110,
-      "w_per_kg_np": 1.9,
-      "temp_c": 15.1,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 238
-        },
-        {
-          "label": "5m",
-          "w": 193
-        },
-        {
-          "label": "10m",
-          "w": 176
-        },
-        {
-          "label": "20m",
-          "w": 171
-        },
-        {
-          "label": "30m",
-          "w": 162
-        },
-        {
-          "label": "1h",
-          "w": 147
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)"
     }
   ],
   "flags": [
