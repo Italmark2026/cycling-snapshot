@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-17T13:01:33+02:00",
+  "generated_at": "2026-09-17T15:39:01+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20212555013",
+      "date": "2026-09-17",
+      "name": "Zwift - 60min Riders Choice",
+      "km": 31.0,
+      "elev_m": 252,
+      "hours": 1.0,
+      "np": 184,
+      "intensity": 0.78,
+      "tss": 61,
+      "avg_hr": 127,
+      "w_per_kg_np": 2.25,
+      "temp_c": 23.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 212
+        },
+        {
+          "label": "5m",
+          "w": 209
+        },
+        {
+          "label": "10m",
+          "w": 208
+        },
+        {
+          "label": "20m",
+          "w": 206
+        },
+        {
+          "label": "30m",
+          "w": 185
+        },
+        {
+          "label": "1h",
+          "w": 172
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
     {
       "id": "20158280736",
       "date": "2026-09-13",
@@ -714,46 +757,6 @@
       "flags": [],
       "indoor": false,
       "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
-    },
-    {
-      "id": "19498151612",
-      "date": "2026-07-28",
-      "name": "Zwift - RCC Training Camp Workout #6 (cut short)",
-      "km": 20.4,
-      "elev_m": 148,
-      "hours": 0.69,
-      "np": 188,
-      "intensity": 0.8,
-      "tss": 44,
-      "avg_hr": 129,
-      "w_per_kg_np": 2.3,
-      "temp_c": 24.6,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 224
-        },
-        {
-          "label": "5m",
-          "w": 224
-        },
-        {
-          "label": "10m",
-          "w": 223
-        },
-        {
-          "label": "20m",
-          "w": 201
-        },
-        {
-          "label": "30m",
-          "w": 187
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
       "work_kind": "efforts"
     }
   ],
