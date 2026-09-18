@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-18T13:03:10+02:00",
+  "generated_at": "2026-09-18T13:43:09+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20225674442",
+      "date": "2026-09-18",
+      "name": "Zwift - 60min Riders Choice",
+      "km": 29.5,
+      "elev_m": 242,
+      "hours": 1.06,
+      "np": 183,
+      "intensity": 0.78,
+      "tss": 64,
+      "avg_hr": 121,
+      "w_per_kg_np": 2.24,
+      "temp_c": 22.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 218
+        },
+        {
+          "label": "5m",
+          "w": 212
+        },
+        {
+          "label": "10m",
+          "w": 211
+        },
+        {
+          "label": "20m",
+          "w": 171
+        },
+        {
+          "label": "30m",
+          "w": 182
+        },
+        {
+          "label": "1h",
+          "w": 165
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
     {
       "id": "20212555013",
       "date": "2026-09-17",
@@ -714,50 +757,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "intervals"
-    },
-    {
-      "id": "19525332705",
-      "date": "2026-07-30",
-      "name": "Sprints",
-      "km": 19.2,
-      "elev_m": 459,
-      "hours": 1.1,
-      "np": 215,
-      "intensity": 0.91,
-      "tss": 92,
-      "avg_hr": 123,
-      "w_per_kg_np": 2.63,
-      "temp_c": 24.7,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 361
-        },
-        {
-          "label": "5m",
-          "w": 238
-        },
-        {
-          "label": "10m",
-          "w": 217
-        },
-        {
-          "label": "20m",
-          "w": 203
-        },
-        {
-          "label": "30m",
-          "w": 196
-        },
-        {
-          "label": "1h",
-          "w": 151
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
     }
   ],
   "flags": [
