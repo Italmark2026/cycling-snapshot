@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-24T13:13:25+02:00",
+  "generated_at": "2026-09-24T20:41:46+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,50 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20310061622",
+      "date": "2026-09-24",
+      "name": "B1 Prova - valley flat speed",
+      "km": 47.6,
+      "elev_m": 306,
+      "hours": 1.71,
+      "np": 193,
+      "intensity": 0.82,
+      "tss": 116,
+      "avg_hr": 129,
+      "w_per_kg_np": 2.37,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 263
+        },
+        {
+          "label": "5m",
+          "w": 227
+        },
+        {
+          "label": "10m",
+          "w": 216
+        },
+        {
+          "label": "20m",
+          "w": 212
+        },
+        {
+          "label": "30m",
+          "w": 207
+        },
+        {
+          "label": "1h",
+          "w": 172
+        }
+      ],
+      "flags": [],
+      "indoor": false,
+      "meter": "Favero (Assioma)",
+      "work_kind": "efforts"
+    },
     {
       "id": "20253613929",
       "date": "2026-09-20",
@@ -713,50 +757,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "intervals"
-    },
-    {
-      "id": "19623815005",
-      "date": "2026-08-06",
-      "name": "Climb repeats 🚵",
-      "km": 63.4,
-      "elev_m": 1609,
-      "hours": 3.53,
-      "np": 188,
-      "intensity": 0.8,
-      "tss": 226,
-      "avg_hr": 127,
-      "w_per_kg_np": 2.3,
-      "temp_c": 25.2,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 337
-        },
-        {
-          "label": "5m",
-          "w": 231
-        },
-        {
-          "label": "10m",
-          "w": 220
-        },
-        {
-          "label": "20m",
-          "w": 209
-        },
-        {
-          "label": "30m",
-          "w": 209
-        },
-        {
-          "label": "1h",
-          "w": 204
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
     }
   ],
   "flags": [
