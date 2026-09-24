@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-09-23T20:44:43+02:00",
+  "generated_at": "2026-09-24T08:49:24+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 284,
-    "weeks_to_go": 40.6
+    "days_to_go": 283,
+    "weeks_to_go": 40.4
   },
   "thresholds": {
     "ftp": {
