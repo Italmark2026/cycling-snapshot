@@ -342,7 +342,7 @@ abbr{text-decoration:underline dotted var(--mute);cursor:help}
 // build time (Artifact build) or later at runtime (web build, after the
 // encrypted payload is decrypted in the browser). Same code either way.
 function __BOOT__(DATA){
-const M=DATA.m,N=DATA.n||{headline:"",story:[],panel_notes:{},actions:[]},PLAN=DATA.plan||{weeks:[],phases:[]},COACH=DATA.coach||{};
+const M=DATA.m,N=DATA.n||{headline:"",story:[],panel_notes:{},actions:[]},PLAN=DATA.plan||{weeks:[],phases:[]},COACH=DATA.coach||{},TRAVEL=DATA.travel||{};
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const NS="http://www.w3.org/2000/svg";
 const fmtN=(v,d=0)=>v==null?"–":Number(v).toLocaleString("en-GB",{maximumFractionDigits:d,minimumFractionDigits:0});
@@ -834,7 +834,8 @@ function staleBanner(){
 const TABS=[
   {id:"overview",label:"Overview"},{id:"plan",label:"Training Plan"},{id:"load",label:"Load"},
   {id:"engine",label:"Engine"},{id:"health",label:"Health"},{id:"conditions",label:"Conditions"},
-  {id:"race",label:"Race"},{id:"coach",label:"Coach"},{id:"reference",label:"Reference"}];
+  {id:"race",label:"Race"},{id:"coach",label:"Coach"},{id:"reference",label:"Reference"}]
+  .concat(TRAVEL&&TRAVEL.weeks&&TRAVEL.weeks.length?[{id:"travel",label:"Travel"}]:[]);
 
 /* ============ OVERVIEW ============ */
 function vOverview(v){
@@ -1518,7 +1519,37 @@ function vConditions(v){
         r.temp_c!=null?r.temp_c+" °C":"–"])));c.appendChild(sc);}}
 }
 
-const VIEWS={overview:vOverview,plan:vPlan,load:vLoad,engine:vEngine,health:vHealth,conditions:vConditions,race:vRace,coach:vCoach,reference:vReference};
+/* ============ TRAVEL ============ */
+function vTravel(v){
+  const g=el("div","grid");v.appendChild(g);
+  {const c=card(g,"c8",null,TRAVEL.title||"Travel plan",null,null);
+    if(TRAVEL.context_note)c.appendChild(el("div","note",TRAVEL.context_note));
+    if(TRAVEL.equipment&&TRAVEL.equipment.length){
+      const eq=el("div");eq.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
+      TRAVEL.equipment.forEach(e=>eq.appendChild(chip("ice",e)));c.appendChild(eq);}}
+  if(TRAVEL.safety_notes&&TRAVEL.safety_notes.length){
+    const c=card(g,"c4",null,"Read this first",null,null);c.style.borderTop="3px solid "+css("--warn");
+    TRAVEL.safety_notes.forEach(s=>{const d=el("div","v-item");
+      d.appendChild(el("div","t",s.t));d.appendChild(el("div","why",s.why));c.appendChild(d);});}
+  (TRAVEL.weeks||[]).forEach((w,wi)=>{
+    const c=card(g,"",w.schedule,w.label,null,null);
+    c.style.borderTop="3px solid "+(wi===0?css("--rosa"):css("--line"));
+    if(w.focus)c.appendChild(el("div","note",w.focus));
+    if(w.gate_note){const n=el("div","note");n.textContent="▸ "+w.gate_note;n.style.color="var(--warn)";c.appendChild(n);}
+    if(w.sets_note){const n=el("div");n.style.cssText="margin-top:8px;color:var(--ink2);font-size:12.5px";n.textContent=w.sets_note;c.appendChild(n);}
+  });
+  const S=TRAVEL.sessions||{};
+  [["back_care","--good"],["mobility","--s1"],["session_a","--line"],["session_b","--line"],["session_c","--line"]].forEach(([key,col])=>{
+    const s=S[key];if(!s)return;
+    const c=card(g,"c6",s.frequency||s.duration_min+" min",s.title,null,null);
+    c.style.borderTop="3px solid "+css(col);
+    const sc=el("div","scroll");sc.appendChild(mkTable(["Exercise","Dose","Note"],
+      (s.exercises||[]).map(x=>[x.name,x.dose,x.note||"–"])));
+    c.appendChild(sc);});
+  if(TRAVEL.return_note){const n=el("div","note");n.textContent="◆ "+TRAVEL.return_note;n.style.margin="4px 4px 0";v.appendChild(n);}
+}
+
+const VIEWS={overview:vOverview,plan:vPlan,load:vLoad,engine:vEngine,health:vHealth,conditions:vConditions,race:vRace,coach:vCoach,reference:vReference,travel:vTravel};
 function render(){
   const id=(location.hash||"#overview").slice(1);
   const tab=VIEWS[id]?id:"overview";
@@ -1538,7 +1569,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="cffa43e879d51af9";
+<script>var BUILD_STAMP="40ebe09238f682d9";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
