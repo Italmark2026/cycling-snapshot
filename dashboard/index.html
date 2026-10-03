@@ -1520,32 +1520,71 @@ function vConditions(v){
 }
 
 /* ============ TRAVEL ============ */
+function exRow(container,x){
+  if(x.note){
+    const det=el("details","day");
+    const sm=el("summary");
+    sm.appendChild(el("span","caret","▸"));
+    if(x.pattern)sm.appendChild(el("span","dd",x.pattern));
+    sm.appendChild(el("span","dt",x.name));
+    sm.appendChild(el("span","dtss",x.dose));
+    det.appendChild(sm);
+    det.appendChild(el("div","body",x.note));
+    container.appendChild(det);
+  }else{
+    const row=el("div");
+    row.style.cssText="display:flex;gap:12px;align-items:center;padding:11px 14px;"+
+      "border:1px solid var(--line);border-radius:12px;margin-top:8px;background:var(--panel2);flex-wrap:wrap";
+    if(x.pattern){const p=el("span","dd",x.pattern);p.style.cssText="font-family:'JetBrains Mono',monospace;"+
+      "font-size:10.5px;color:var(--mute);width:64px;flex:none";row.appendChild(p);}
+    const nm=el("span",null,x.name);nm.style.cssText="font-weight:600;font-size:14px;flex:1 1 200px";row.appendChild(nm);
+    const ds=el("span",null,x.dose);ds.style.cssText="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mute)";
+    row.appendChild(ds);
+    container.appendChild(row);
+  }
+}
 function vTravel(v){
   const g=el("div","grid");v.appendChild(g);
   {const c=card(g,"c8",null,TRAVEL.title||"Travel plan",null,null);
     if(TRAVEL.context_note)c.appendChild(el("div","note",TRAVEL.context_note));
+    if(TRAVEL.philosophy_note){const n=el("div","note");n.textContent="▸ "+TRAVEL.philosophy_note;
+      n.style.cssText="margin-top:8px;color:var(--ink)";c.appendChild(n);}
     if(TRAVEL.equipment&&TRAVEL.equipment.length){
       const eq=el("div");eq.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px";
       TRAVEL.equipment.forEach(e=>eq.appendChild(chip("ice",e)));c.appendChild(eq);}}
+  if(TRAVEL.cardio){const c=card(g,"c4",TRAVEL.cardio.frequency,TRAVEL.cardio.title,null,null);
+    c.appendChild(el("div","note",TRAVEL.cardio.note));}
   if(TRAVEL.safety_notes&&TRAVEL.safety_notes.length){
-    const c=card(g,"c4",null,"Read this first",null,null);c.style.borderTop="3px solid "+css("--warn");
+    const c=card(g,"",null,"Read this first",null,null);c.style.borderTop="3px solid "+css("--warn");
     TRAVEL.safety_notes.forEach(s=>{const d=el("div","v-item");
       d.appendChild(el("div","t",s.t));d.appendChild(el("div","why",s.why));c.appendChild(d);});}
   (TRAVEL.weeks||[]).forEach((w,wi)=>{
-    const c=card(g,"",w.schedule,w.label,null,null);
-    c.style.borderTop="3px solid "+(wi===0?css("--rosa"):css("--line"));
-    if(w.focus)c.appendChild(el("div","note",w.focus));
-    if(w.gate_note){const n=el("div","note");n.textContent="▸ "+w.gate_note;n.style.color="var(--warn)";c.appendChild(n);}
-    if(w.sets_note){const n=el("div");n.style.cssText="margin-top:8px;color:var(--ink2);font-size:12.5px";n.textContent=w.sets_note;c.appendChild(n);}
+    const current=w.start&&w.end&&w.start<=todayIso&&todayIso<=w.end;
+    const past=w.end&&w.end<todayIso;
+    const c=card(g,"",w.id,w.label,null,null);
+    c.style.borderTop="3px solid "+(current?css("--rosa"):css("--line"));
+    const det=el("details","day");det.open=current||(!TRAVEL.weeks.some(x=>x.start<=todayIso&&todayIso<=x.end)&&wi===0);
+    const sm=el("summary");
+    sm.appendChild(el("span","caret","▸"));
+    sm.appendChild(el("span","dt","Plan for this week"));
+    sm.appendChild(chip(current?"good":past?"mute":"ice",current?"current":past?"past":"upcoming"));
+    det.appendChild(sm);
+    const body=el("div","body");
+    if(w.focus){const p=el("p");p.style.cssText="margin:0 0 9px";p.textContent=w.focus;body.appendChild(p);}
+    if(w.schedule){const p=el("p");p.style.cssText="margin:0 0 9px;color:var(--ink)";
+      p.innerHTML="<strong>Schedule — </strong>"+w.schedule;body.appendChild(p);}
+    if(w.gate_note){const n=el("div");n.style.cssText="color:var(--warn);margin-top:4px";
+      n.textContent="▸ "+w.gate_note;body.appendChild(n);}
+    if(w.sets_note){const n=el("div");n.style.cssText="color:var(--ink2);margin-top:8px;font-size:12.5px";
+      n.textContent=w.sets_note;body.appendChild(n);}
+    det.appendChild(body);c.appendChild(det);
   });
   const S=TRAVEL.sessions||{};
   [["back_care","--good"],["mobility","--s1"],["session_a","--line"],["session_b","--line"],["session_c","--line"]].forEach(([key,col])=>{
     const s=S[key];if(!s)return;
     const c=card(g,"c6",s.frequency||s.duration_min+" min",s.title,null,null);
     c.style.borderTop="3px solid "+css(col);
-    const sc=el("div","scroll");sc.appendChild(mkTable(["Exercise","Dose","Note"],
-      (s.exercises||[]).map(x=>[x.name,x.dose,x.note||"–"])));
-    c.appendChild(sc);});
+    (s.exercises||[]).forEach(x=>exRow(c,x));});
   if(TRAVEL.return_note){const n=el("div","note");n.textContent="◆ "+TRAVEL.return_note;n.style.margin="4px 4px 0";v.appendChild(n);}
 }
 
@@ -1569,7 +1608,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="c31144c09d7170d3";
+<script>var BUILD_STAMP="d290568d001eb5c3";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
