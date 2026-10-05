@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-10-04T20:32:55+02:00",
+  "generated_at": "2026-10-05T08:50:45+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 273,
-    "weeks_to_go": 39.0
+    "days_to_go": 272,
+    "weeks_to_go": 38.9
   },
   "thresholds": {
     "ftp": {
@@ -113,6 +113,45 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20453955880",
+      "date": "2026-10-04",
+      "name": "45 min Power Zone Endurance Ride with Christine D'Ercole",
+      "km": 22.3,
+      "elev_m": 0,
+      "hours": 0.75,
+      "np": 147,
+      "intensity": 0.63,
+      "tss": 29,
+      "avg_hr": 114,
+      "w_per_kg_np": 1.8,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 199
+        },
+        {
+          "label": "5m",
+          "w": 165
+        },
+        {
+          "label": "10m",
+          "w": 158
+        },
+        {
+          "label": "20m",
+          "w": 157
+        },
+        {
+          "label": "30m",
+          "w": 153
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20310061622",
       "date": "2026-09-24",
@@ -713,50 +752,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "19725862809",
-      "date": "2026-08-13",
-      "name": "Campolaro a Gaver",
-      "km": 32.7,
-      "elev_m": 1034,
-      "hours": 2.08,
-      "np": 182,
-      "intensity": 0.77,
-      "tss": 125,
-      "avg_hr": 117,
-      "w_per_kg_np": 2.23,
-      "temp_c": 20.7,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 318
-        },
-        {
-          "label": "5m",
-          "w": 242
-        },
-        {
-          "label": "10m",
-          "w": 227
-        },
-        {
-          "label": "20m",
-          "w": 216
-        },
-        {
-          "label": "30m",
-          "w": 208
-        },
-        {
-          "label": "1h",
-          "w": 149
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "intervals"
     }
   ],
   "flags": [
