@@ -1,12 +1,12 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-10-10T20:33:18+02:00",
+  "generated_at": "2026-10-11T08:48:22+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
     "date": "2027-07-04",
-    "days_to_go": 267,
-    "weeks_to_go": 38.1
+    "days_to_go": 266,
+    "weeks_to_go": 38.0
   },
   "thresholds": {
     "ftp": {
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20532437174",
+      "date": "2026-10-10",
+      "name": "60 min Power Zone Pop Ride with Olivia Amato",
+      "km": 30.3,
+      "elev_m": 0,
+      "hours": 1.0,
+      "np": 188,
+      "intensity": 0.8,
+      "tss": 64,
+      "avg_hr": 136,
+      "w_per_kg_np": 2.3,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 265
+        },
+        {
+          "label": "5m",
+          "w": 216
+        },
+        {
+          "label": "10m",
+          "w": 194
+        },
+        {
+          "label": "20m",
+          "w": 179
+        },
+        {
+          "label": "30m",
+          "w": 174
+        },
+        {
+          "label": "1h",
+          "w": 157
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20453955880",
       "date": "2026-10-04",
@@ -708,50 +751,6 @@
       "flags": [],
       "indoor": true,
       "meter": "Kickr"
-    },
-    {
-      "id": "19778000334",
-      "date": "2026-08-17",
-      "name": "Couple of climbs; bit of flat(ish)….",
-      "km": 78.2,
-      "elev_m": 1570,
-      "hours": 3.82,
-      "np": 182,
-      "intensity": 0.77,
-      "tss": 229,
-      "avg_hr": 122,
-      "w_per_kg_np": 2.23,
-      "temp_c": 24.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 285
-        },
-        {
-          "label": "5m",
-          "w": 225
-        },
-        {
-          "label": "10m",
-          "w": 219
-        },
-        {
-          "label": "20m",
-          "w": 213
-        },
-        {
-          "label": "30m",
-          "w": 208
-        },
-        {
-          "label": "1h",
-          "w": 203
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
     }
   ],
   "flags": [
