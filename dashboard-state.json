@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-10-17T13:07:03+02:00",
+  "generated_at": "2026-10-17T20:34:49+02:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -113,6 +113,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20625251683",
+      "date": "2026-10-17",
+      "name": "60 min Power Zone Endurance Ride with Denis Morton",
+      "km": 29.7,
+      "elev_m": 0,
+      "hours": 1.0,
+      "np": 158,
+      "intensity": 0.67,
+      "tss": 45,
+      "avg_hr": 121,
+      "w_per_kg_np": 1.94,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 199
+        },
+        {
+          "label": "5m",
+          "w": 190
+        },
+        {
+          "label": "10m",
+          "w": 174
+        },
+        {
+          "label": "20m",
+          "w": 170
+        },
+        {
+          "label": "30m",
+          "w": 169
+        },
+        {
+          "label": "1h",
+          "w": 144
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20532437174",
       "date": "2026-10-10",
@@ -708,49 +751,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "intervals"
-    },
-    {
-      "id": "19849688637",
-      "date": "2026-08-22",
-      "name": "Indoor kickr ride (virtual)",
-      "km": 47.4,
-      "elev_m": 0,
-      "hours": 2.08,
-      "np": 153,
-      "intensity": 0.65,
-      "tss": 88,
-      "avg_hr": 112,
-      "w_per_kg_np": 1.88,
-      "temp_c": null,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 176
-        },
-        {
-          "label": "5m",
-          "w": 171
-        },
-        {
-          "label": "10m",
-          "w": 168
-        },
-        {
-          "label": "20m",
-          "w": 167
-        },
-        {
-          "label": "30m",
-          "w": 161
-        },
-        {
-          "label": "1h",
-          "w": 154
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr"
     }
   ],
   "flags": [
