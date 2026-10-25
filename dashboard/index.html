@@ -266,6 +266,11 @@ table.data tr:hover td{background:var(--panel2)}
 .tile .val.good{color:var(--good)}.tile .val.warn{color:var(--warn)}.tile .val.bad{color:var(--bad)}
 .tile .base{grid-column:1/2;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.05em;
   color:var(--mute);margin-top:3px}
+/* Today's goals strip: captions run the full tile width, sparkline beside the value */
+.tile.goal{align-content:start}
+.tile.goal .base{grid-column:1/3;line-height:1.5}
+.tile.goal .base+.base{margin-top:1px;color:var(--ink2)}
+.tile.goal .spk{grid-row:2/3}
 .ov-sub{font-size:12.5px;color:var(--mute);margin:-6px 0 14px;line-height:1.5}
 
 /* ---------- plan ---------- */
@@ -311,6 +316,9 @@ details.wk-collapse>.body{padding:0 13px 4px}
 .lad-row .lan{flex-basis:100%;font-size:12px;color:var(--mute);padding-left:44px}
 @media(max-width:640px){.lad-row .lan{padding-left:0}}
 .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* checkpoints: keep each target / actual pair on one line and let the wrapper scroll sideways */
+.ckpt td:not(:first-child){white-space:nowrap}
+.ckpt th:not(:first-child){white-space:pre}
 .wstat{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line2);font-size:13px}
 .wstat:last-child{border-bottom:none}
 .wstat .k{color:var(--ink2)}.wstat .v{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink);text-align:right}
@@ -508,9 +516,29 @@ function lineChart(card,opts){
   let lo=opts.y0!=null?opts.y0:Infinity,hi=-Infinity;
   for(const s of opts.series)for(const v of s.values)if(v!=null){lo=Math.min(lo,v);hi=Math.max(hi,v);}
   if(!isFinite(lo))return div;
+  /* optional: values the y-axis must reach (a band's edge, a reference line) */
+  for(const v of(opts.yInclude||[]))if(v!=null&&isFinite(v)){lo=Math.min(lo,v);hi=Math.max(hi,v);}
   const sp=(hi-lo)*.08||1;if(opts.y0==null)lo-=sp;hi+=sp;
   if(opts.refY!=null)hi=Math.max(hi,opts.refY+sp);
   const sy=yAxis(f,lo,hi,opts.yFmt);
+  /* optional horizontal bands behind the series: {lo,hi,color,label,opacity,side:"l"|"r"}.
+     lo/hi null = open-ended (clipped to the axis); lo===hi draws a dashed reference line
+     (label above it, or below with below:true). */
+  if(opts.bands)for(const b of opts.bands){if(!b)continue;
+    const isLine=b.lo!=null&&b.lo===b.hi;let ty;
+    if(isLine){if(!(b.lo>lo&&b.lo<hi))continue;
+      f.svg.appendChild(svgE("line",{x1:pad.l,x2:W-pad.r,y1:sy(b.lo),y2:sy(b.lo),stroke:b.color,"stroke-width":1.3,
+        "stroke-dasharray":"4 3",opacity:.9}));
+      ty=b.below?sy(b.lo)+11:sy(b.lo)-4;}
+    else{const bl=b.lo==null?lo:Math.max(lo,b.lo),bh=b.hi==null?hi:Math.min(hi,b.hi);
+      if(!(bh>bl))continue;
+      f.svg.appendChild(svgE("rect",{x:pad.l,y:sy(bh),width:f.iw,height:sy(bl)-sy(bh),fill:b.color,
+        opacity:b.opacity!=null?b.opacity:.13}));
+      ty=Math.max(pad.t+10,sy(bh)+11);}
+    if(b.label){const right=b.side==="r";
+      const bt=svgE("text",{x:right?W-pad.r-6:pad.l+6,y:ty,"text-anchor":right?"end":"start",fill:b.color,
+        "font-size":10,"font-family":"JetBrains Mono,monospace"});
+      bt.textContent=b.label;f.svg.appendChild(bt);}}
   const nlab=Math.min(6,n),longSpan=xIsDate&&(x1-x0)>300*864e5;let lastX=-1e9;
   if(xIsDate&&opts.xTicks&&opts.xTicks.length){   // explicit, evenly-spaced date ticks (sparse series)
     for(const t of opts.xTicks){const lx=sx(new Date(t+"T00:00:00").getTime());
@@ -548,7 +576,7 @@ function lineChart(card,opts){
       f.svg.appendChild(svgE("path",{d:dAttr,fill:"none",stroke:s.color,"stroke-width":s.width||2,
         "stroke-linejoin":"round","stroke-linecap":"round","stroke-dasharray":s.dash||"none"}));
     if(s.dots)for(const p of pts)
-      f.svg.appendChild(svgE("circle",{cx:p[0],cy:p[1],r:4.5,fill:s.color,stroke:css("--panel"),"stroke-width":2}));
+      f.svg.appendChild(svgE("circle",{cx:p[0],cy:p[1],r:s.dotR||4.5,fill:s.color,stroke:css("--panel"),"stroke-width":2}));
     if(opts.directLabels!==false){const lp=pts[pts.length-1];
       const t=svgE("text",{x:lp[0]+8,y:lp[1]+4,fill:css("--ink2"),"font-size":11.5,"font-weight":600});
       t.textContent=s.name;f.svg.appendChild(t);}}
@@ -1036,7 +1064,7 @@ function mkTile(host,lbl,valHtml,cls,baseTxt,sparkVals,sparkColor){
   const t=el("div","tile");t.appendChild(el("div","lbl",lbl));
   const val=el("div","val disp"+(cls?" "+cls:""));val.innerHTML=valHtml;t.appendChild(val);
   if(sparkVals&&sparkVals.filter(x=>x!=null).length>1)t.appendChild(spark(sparkVals,sparkColor||css("--s1")));
-  if(baseTxt)t.appendChild(el("div","base",baseTxt));
+  (Array.isArray(baseTxt)?baseTxt:[baseTxt]).forEach(b=>{if(b)t.appendChild(el("div","base",b));});
   host.appendChild(t);return t;}
 /* The winter plan's path for a field between its checkpoints, on a given date.
    next = first checkpoint on/after the date that carries the field; previous anchor = the latest
@@ -1063,35 +1091,63 @@ function pathValue(pts,iso){
   for(let i=1;i<pts.length;i++)if(iso<=pts[i].date){const a=pts[i-1],b=pts[i];
     return b.date===a.date?b.v:a.v+(b.v-a.v)*(isoMs(iso)-isoMs(a.date))/(isoMs(b.date)-isoMs(a.date));}
   return null;}
-function meanOf(rows,key,loIso,hiIso){
-  const r=rows.filter(d=>d[key]!=null&&d.date>=loIso&&d.date<=hiIso);
-  return r.length?r.reduce((a,d)=>a+d[key],0)/r.length:null;}
+/* ---- body composition: body fat % is the goal, lean mass the guard, weight the outcome.
+   Everything below reads its numbers from WINTER (body_goals, goal_baseline, checkpoints, dexa)
+   and M.health.daily — nothing athlete-specific is written into this file. ---- */
+const hasNum=x=>x!=null&&isFinite(x);
+const f1=x=>Number(x).toFixed(1);
+/* daily health rows with lean mass derived per reading: weight × (1 − body fat %) */
+function bodyRows(){return((M.health&&M.health.daily)||[]).filter(d=>d&&d.date).map(d=>({date:d.date,
+  weight_kg:d.weight_kg,body_fat_pct:d.body_fat_pct,
+  lean_kg:(d.weight_kg!=null&&d.body_fat_pct!=null)?d.weight_kg*(1-d.body_fat_pct/100):null}));}
+/* how many days each measure is averaged over before it is trusted (then: latest reading within 21 days) */
+const BODY_WINS={body_fat_pct:[7,14],weight_kg:[7,14],lean_kg:[14]};
+const rangeTxt=a=>Array.isArray(a)&&hasNum(a[0])&&hasNum(a[1])?fmtN(a[0],1)+"–"+fmtN(a[1],1):null;
+function phaseLabel(iso){
+  const ph=((WINTER.body_goals||{}).phases||[]).filter(p=>p&&p.until).sort((a,b)=>a.until<b.until?-1:1)
+    .find(p=>p.until>=iso);
+  return ph?(ph.label||ph.mode||null):null;}
+/* scale body fat minus DEXA body fat at the latest DEXA scan (null until one is logged) */
+function dexaOffset(){
+  const d=(WINTER.dexa||[]).filter(x=>x&&x.date&&hasNum(x.body_fat_pct)&&hasNum(x.scale_body_fat_pct))
+    .sort((a,b)=>a.date<b.date?-1:1).pop();
+  return d?d.scale_body_fat_pct-d.body_fat_pct:null;}
 function goalsStrip(v){
-  const hdAll=(M.health&&M.health.daily)||[];
+  const bg=WINTER.body_goals||{},rows=bodyRows(),since=isoMinus(todayIso,89);
   const host=el("div","kpis");let n=0;
-  const add=(...a)=>{mkTile(host,...a);n++;};
-  /* weight vs the plan's path */
-  const wt=bodyStat("weight_kg",todayIso);
-  if(wt){
-    const wRows=hdAll.filter(d=>d.weight_kg!=null),lastW=wRows[wRows.length-1];
-    const pt=pathAt("weight_kg",todayIso);
-    const cls=pt?(wt.v-pt.target<=0.3?"good":wt.v-pt.target<=1.0?"warn":"bad"):"";
-    const cap=[];
-    if(pt)cap.push("→ "+fmtN(pt.next.weight_kg,1)+" by "+dfmt(pt.next.date)+" · "+fmtSigned(pt.next.weight_kg-wt.v)+" to go");
-    if(lastW&&(isoMs(todayIso)-isoMs(lastW.date))/864e5>4)cap.push("last weigh-in "+dfmt(lastW.date));
-    add("Weight",wt.v.toFixed(1)+"<small> kg</small>",cls,cap.join(" · "),
-      wRows.filter(d=>d.date>=isoMinus(todayIso,89)).map(d=>d.weight_kg),css("--s1"));}
-  /* body fat — a trend, not a target */
+  const add=(...a)=>{mkTile(host,...a).classList.add("goal");n++;};
+  const sparkOf=f=>rows.filter(d=>d[f]!=null&&d.date>=since).map(d=>d[f]);
+  /* "→ next target by date" for a field, or null when the plan has no next checkpoint for it */
+  const toGo=(pt,f,unit)=>pt&&hasNum(pt.next[f])?"→ "+fmtN(pt.next[f],1)+(unit||"")+" by "+dfmt(pt.next.date):null;
+  /* body fat — the primary goal, judged against the plan's path */
   const bf=bodyStat("body_fat_pct",todayIso);
   if(bf){
-    const w=wt?wt.v:A.weight_kg;
-    const m1=meanOf(hdAll,"body_fat_pct",isoMinus(todayIso,27),todayIso),
-          m2=meanOf(hdAll,"body_fat_pct",isoMinus(todayIso,55),isoMinus(todayIso,28));
-    const dl=(m1!=null&&m2!=null)?m1-m2:null;
-    const cls=dl==null?"good":dl<=0.2?"good":dl<=0.6?"warn":"bad";
-    add("Body fat",bf.v.toFixed(1)+"<small>%</small>",cls,
-      joinBits(["trend only",w!=null?"lean "+fmtN(w*(1-bf.v/100),1)+" kg":null]),
-      hdAll.filter(d=>d.body_fat_pct!=null&&d.date>=isoMinus(todayIso,89)).map(d=>d.body_fat_pct),css("--s2"));}
+    const pt=pathAt("body_fat_pct",todayIso),dv=pt?bf.v-pt.target:null;
+    const cls=dv==null?"":dv<=0.5?"good":dv<=1.2?"warn":"bad";
+    const off=dexaOffset(),ideal=rangeTxt(bg.body_fat_ideal);
+    add("Body fat",f1(bf.v)+"<small>%</small>",cls,
+      [joinBits([toGo(pt,"body_fat_pct","%"),hasNum(bg.body_fat_good)?"good <"+fmtN(bg.body_fat_good,1):null,
+          ideal?"ideal "+ideal:null,off!=null?"DEXA-calibrated ≈ "+f1(bf.v-off)+"%":null]),
+       phaseLabel(todayIso)],sparkOf("body_fat_pct"),css("--s2"));}
+  /* lean mass — the guard: must not fall, should rise in winter */
+  const ln=bodyStat("lean_kg",todayIso);
+  if(ln){
+    const pt=pathAt("lean_kg",todayIso),fl=bg.lean_floor;
+    const cls=pt?(ln.v>=pt.target-0.4?"good":hasNum(fl)?(ln.v>=fl-0.3?"warn":"bad"):"warn"):"";
+    add("Lean mass",f1(ln.v)+"<small> kg</small>",cls,
+      joinBits([toGo(pt,"lean_kg"),hasNum(fl)?"floor "+fmtN(fl,1):null,
+        hasNum(bg.lean_stretch)?"stretch "+fmtN(bg.lean_stretch,1):null]),sparkOf("lean_kg"),css("--s4"));}
+  /* weight — the outcome, judged more softly */
+  const wt=bodyStat("weight_kg",todayIso);
+  if(wt){
+    const wRows=rows.filter(d=>d.weight_kg!=null&&d.date<=todayIso),lastW=wRows[wRows.length-1];
+    const pt=pathAt("weight_kg",todayIso),dv=pt?wt.v-pt.target:null;
+    const cls=dv==null?"":dv<=0.8?"good":dv<=1.8?"warn":"bad";
+    add("Weight",f1(wt.v)+"<small> kg</small>",cls,
+      joinBits(["outcome",toGo(pt,"weight_kg"),hasNum(bg.weight_good)?"good <"+fmtN(bg.weight_good,1):null,
+        rangeTxt(bg.weight_ideal)?"ideal "+rangeTxt(bg.weight_ideal):null,
+        lastW&&(isoMs(todayIso)-isoMs(lastW.date))/864e5>4?"last weigh-in "+dfmt(lastW.date):null]),
+      sparkOf("weight_kg"),css("--s1"));}
   /* fitness vs the plan's path */
   if(cur&&cur.ctl!=null){
     const pc=pathAt("ctl",todayIso);
@@ -1565,31 +1621,51 @@ function vBody(v){
   const latestH=f=>{for(let i=hd.length-1;i>=0;i--)if(hd[i][f]!=null)return{v:hd[i][f],date:hd[i].date};return null;};
   const phone=window.innerWidth<640,CW=phone?460:860;
 
-  /* (a) weight & body fat against the plan's path */
-  {const wt=bodyStat("weight_kg",todayIso),bf=bodyStat("body_fat_pct",todayIso),pt=pathAt("weight_kg",todayIso);
-    const sm=joinBits([wt?"7-day "+fmtN(wt.v,1)+" kg":null,bf?fmtN(bf.v,1)+"%":null,
-      pt?"next target "+fmtN(pt.next.weight_kg,1)+" kg by "+dfmt(pt.next.date):null])||"no weigh-ins yet";
-    const c=ccard(g,"","Garmin weigh-ins · last 180 days","Weight & body fat",sm,"weight",true,
-      ["Each weigh-in (dots) against the path the plan draws from its starting baseline through every checkpoint (dashed). Body fat is shown as a trend only — a scale's impedance reading is good for direction, not for the absolute number.",
-       "Weight sitting above the dashed path for a few weeks: tighten the easy-day deficit. Well below it: you're being too strict, so fuel the hard days properly. Body fat rising while weight falls is the cue to check protein and strength work."]);
+  /* (a) body composition — body fat % (the goal), lean mass (the guard), weight (the outcome),
+     each against the path the plan draws from its baseline through every checkpoint */
+  {const bg=WINTER.body_goals||{},rows=bodyRows(),dexa=(WINTER.dexa||[]).filter(d=>d&&d.date);
+    const bf=bodyStat("body_fat_pct",todayIso),ln=bodyStat("lean_kg",todayIso),wt=bodyStat("weight_kg",todayIso),
+      pt=pathAt("body_fat_pct",todayIso);
+    const sm=joinBits([bf?f1(bf.v)+"%":null,ln?"lean "+f1(ln.v)+" kg":null,wt?f1(wt.v)+" kg":null,
+      pt&&hasNum(pt.next.body_fat_pct)?"next "+fmtN(pt.next.body_fat_pct,1)+"% by "+dfmt(pt.next.date):null])||"no weigh-ins yet";
+    const c=ccard(g,"","Garmin weigh-ins · last 180 days","Body composition",sm,"composition",true,
+      ["Body fat is the goal; lean mass is the guard (it must not fall, and should rise through the winter); weight is only the outcome. Each chart shows the weigh-ins (dots) against the path the plan draws from its starting baseline through every checkpoint (dashed). Shaded bands mark the 'good' zone and the ideal range.",
+       "A scale's impedance reading is good for direction, not for the absolute number — a DEXA scan, when one is logged, shows as a separate marker and calibrates the figures above. Body fat flat while weight falls and lean mass slips is the cue to check protein and the strength work; lean holding or rising while fat drifts down is the plan working."]);
     const cutoff=isoMinus(todayIso,179);
-    const wRows=hd.filter(d=>d.weight_kg!=null&&d.date>=cutoff),fRows=hd.filter(d=>d.body_fat_pct!=null&&d.date>=cutoff);
-    if(!wRows.length&&!fRows.length)emptyState(c,"No weigh-ins yet — they land here after the next morning sync from the scale.");
-    if(wRows.length){
-      const pts=pathPoints("weight_kg"),set={};wRows.forEach(d=>set[d.date]=d.weight_kg);
-      const xs=Array.from(new Set(wRows.map(d=>d.date).concat(pts.map(p=>p.date)))).sort();
-      const series=[{name:"Weight",color:css("--s1"),values:xs.map(x=>set[x]!=null?set[x]:null),dots:true,width:1.6}];
+    if(!rows.some(d=>(d.weight_kg!=null||d.body_fat_pct!=null)&&d.date>=cutoff))
+      emptyState(c,"No weigh-ins yet — they land here after the next morning sync from the scale.");
+    /* one compact chart: readings (dots) + dashed target path + optional bands / DEXA markers */
+    const compChart=(o)=>{
+      const rs=rows.filter(d=>d[o.field]!=null&&d.date>=cutoff);if(!rs.length)return;
+      const pts=pathPoints(o.field),set={},dset={},dx=o.dexaKey?dexa.filter(d=>hasNum(d[o.dexaKey])):[];
+      rs.forEach(d=>set[d.date]=d[o.field]);dx.forEach(d=>dset[d.date]=d[o.dexaKey]);
+      const xs=Array.from(new Set(rs.map(d=>d.date).concat(pts.map(p=>p.date)).concat(dx.map(d=>d.date)))).sort();
+      const series=[{name:o.name,color:o.color,values:xs.map(x=>set[x]!=null?set[x]:null),dots:true,width:1.6}];
       if(pts.length>1)series.push({name:"Target path",color:css("--rosa"),values:xs.map(x=>pathValue(pts,x)),dash:"6 4",width:1.8});
-      const lh=el("div","eyebrow","Weight · kg");lh.style.marginTop="6px";c.appendChild(lh);
-      lineChart(c,{x:xs,w:CW,h:phone?230:210,padR:24,noGapBreak:true,directLabels:false,yFmt:x=>fmtN(x,1),unit:" kg",
-        xTicks:monthTicks(xs[0],xs[xs.length-1]),markX:todayIso,series});}
-    if(fRows.length){
-      const lh=el("div","eyebrow","Body fat · % (trend only)");lh.style.marginTop="14px";c.appendChild(lh);
-      lineChart(c,{x:fRows.map(d=>d.date),w:CW,h:phone?200:180,padR:24,noGapBreak:true,directLabels:false,yFmt:x=>fmtN(x,1),unit:"%",
-        series:[{name:"Body fat",color:css("--s2"),values:fRows.map(d=>d.body_fat_pct),dots:true,width:1.6}]});
-      addTableToggle(c,()=>mkTable(["Date","Weight kg","Body fat %"],
-        hd.filter(d=>d.weight_kg!=null||d.body_fat_pct!=null).slice(-21).reverse()
-          .map(d=>[dfmtY(d.date),d.weight_kg!=null?fmtN(d.weight_kg,1):null,d.body_fat_pct!=null?fmtN(d.body_fat_pct,1):null])));}}
+      if(dx.length)series.push({name:"DEXA",color:css("--s5"),values:xs.map(x=>dset[x]!=null?dset[x]:null),dots:true,width:0,dotR:7});
+      const lh=el("div","eyebrow",o.title);lh.style.marginTop=o.first?"6px":"14px";c.appendChild(lh);
+      lineChart(c,{x:xs,w:CW,h:phone?o.hp:o.hd,padR:24,noGapBreak:true,directLabels:false,yFmt:x=>fmtN(x,1),unit:o.unit,
+        xTicks:monthTicks(xs[0],xs[xs.length-1]),markX:todayIso,yInclude:o.yInclude,bands:o.bands,series});};
+    const good=css("--good"),warn=css("--warn"),bfI=rangeTxt(bg.body_fat_ideal),wI=rangeTxt(bg.weight_ideal);
+    compChart({field:"body_fat_pct",dexaKey:"body_fat_pct",title:"Body fat · % — the goal",name:"Body fat",color:css("--s2"),unit:"%",
+      first:true,hp:210,hd:190,
+      yInclude:[bg.body_fat_good].concat(Array.isArray(bg.body_fat_ideal)?bg.body_fat_ideal:[]),
+      bands:[hasNum(bg.body_fat_good)?{lo:null,hi:bg.body_fat_good,color:good,opacity:.10,label:"good <"+fmtN(bg.body_fat_good,1)+"%"}:null,
+        bfI?{lo:bg.body_fat_ideal[0],hi:bg.body_fat_ideal[1],color:good,opacity:.20,label:"ideal "+bfI+"%"}:null]});
+    compChart({field:"lean_kg",dexaKey:"lean_kg",title:"Lean mass · kg — the guard (computed per weigh-in)",name:"Lean mass",color:css("--s4"),unit:" kg",
+      hp:200,hd:180,yInclude:[bg.lean_floor,bg.lean_stretch],
+      bands:[hasNum(bg.lean_floor)?{lo:bg.lean_floor,hi:bg.lean_floor,color:warn,label:"floor "+fmtN(bg.lean_floor,1),side:"r",below:true}:null,
+        hasNum(bg.lean_stretch)?{lo:bg.lean_stretch,hi:bg.lean_stretch,color:good,label:"stretch "+fmtN(bg.lean_stretch,1),side:"r"}:null]});
+    compChart({field:"weight_kg",title:"Weight · kg — the outcome",name:"Weight",color:css("--s1"),unit:" kg",
+      hp:200,hd:180,
+      yInclude:[bg.weight_good].concat(Array.isArray(bg.weight_ideal)?bg.weight_ideal:[]),
+      bands:[hasNum(bg.weight_good)?{lo:null,hi:bg.weight_good,color:good,opacity:.10,label:"good <"+fmtN(bg.weight_good,1)}:null,
+        wI?{lo:bg.weight_ideal[0],hi:bg.weight_ideal[1],color:good,opacity:.20,label:"ideal "+wI}:null]});
+    if(rows.some(d=>d.weight_kg!=null||d.body_fat_pct!=null))
+      addTableToggle(c,()=>mkTable(["Date","Weight kg","Body fat %","Lean kg"],
+        rows.filter(d=>d.weight_kg!=null||d.body_fat_pct!=null).slice(-21).reverse()
+          .map(d=>[dfmtY(d.date),d.weight_kg!=null?fmtN(d.weight_kg,1):null,d.body_fat_pct!=null?fmtN(d.body_fat_pct,1):null,
+            d.lean_kg!=null?fmtN(d.lean_kg,1):null])));}
 
   /* (b) recovery */
   if(!M.health.present||!hd.length){
@@ -1953,11 +2029,14 @@ function vTravel(v){
 /* ============ WINTER ============ */
 const RESULT_CHIP={advance:["good","advance"],repeat:["ice","repeat"],miss:["warn","miss"],reride:["mute","re-ride"]};
 function isoMinus(iso,days){return new Date(new Date(iso+"T00:00:00Z")-days*864e5).toISOString().slice(0,10);}
-/* 7-day mean of a Garmin field; falls back to the latest reading within 21 days (marked) */
-function bodyStat(key,iso){
-  const rows=(M.health.daily||[]).filter(d=>d[key]!=null&&d.date<=iso);
-  const wk=rows.filter(d=>d.date>=isoMinus(iso,6));
-  if(wk.length)return{v:wk.reduce((a,d)=>a+d[key],0)/wk.length,n:wk.length};
+/* Mean of a body measure (weight_kg, body_fat_pct, or the derived lean_kg) over the first window in
+   `wins` (days, ending on iso) that holds a reading; failing that the latest reading within 21 days
+   (marked with .last). Defaults to BODY_WINS so the tiles, charts and tables all agree. */
+function bodyStat(key,iso,wins){
+  wins=wins||BODY_WINS[key]||[7,14];
+  const rows=bodyRows().filter(d=>d[key]!=null&&d.date<=iso);
+  for(const w of wins){const r=rows.filter(d=>d.date>=isoMinus(iso,w-1));
+    if(r.length)return{v:r.reduce((a,d)=>a+d[key],0)/r.length,n:r.length};}
   const last=rows.filter(d=>d.date>=isoMinus(iso,20)).pop();
   return last?{v:last[key],n:1,last:last.date}:null;}
 function ctlOn(iso){if(iso>=todayIso)return iso===todayIso?cur.ctl:null;
@@ -2048,17 +2127,23 @@ function vSeason(v){
       d.appendChild(sm);d.appendChild(el("div","body",s.job));c.appendChild(d);});}
   if(W.checkpoints&&W.checkpoints.length){
     const nxc=W.checkpoints.find(k=>k.date>=todayIso);
-    const sm=nxc?"next: "+joinBits([nxc.label,nxc.ctl!=null?"CTL "+fmtN(nxc.ctl,1):null,nxc.weight_kg!=null?fmtN(nxc.weight_kg,1)+" kg":null]):null;
+    const sm=nxc?"next: "+joinBits([nxc.label,hasNum(nxc.body_fat_pct)?fmtN(nxc.body_fat_pct,1)+"%":null,
+      hasNum(nxc.lean_kg)?"lean "+fmtN(nxc.lean_kg,1)+" kg":null,hasNum(nxc.weight_kg)?fmtN(nxc.weight_kg,1)+" kg":null,
+      hasNum(nxc.ctl)?"CTL "+fmtN(nxc.ctl,1):null]):null;
     const c=ccard(g,"","target vs actual","Checkpoints",sm,"checkpoints",true);
-    const hasBf=(M.health.daily||[]).some(d=>d.body_fat_pct!=null);
-    const hdr=["Checkpoint","Date","CTL target","CTL actual","Weight target","Weight (7-day)"].concat(hasBf?["Body fat (7-day)"]:[]);
-    const wt0=bodyStat("weight_kg",todayIso),bf0=bodyStat("body_fat_pct",todayIso);
-    const rows=[["Today",dfmt(todayIso),"–",fmtN(cur.ctl,1),"–",wt0?fmtN(wt0.v,1):"–"].concat(hasBf?[bf0?fmtN(bf0.v,1)+"%":"–"]:[])];
-    W.checkpoints.forEach(k=>{const past=k.date<=todayIso,ws=past?bodyStat("weight_kg",k.date):null,
-        bs=past&&hasBf?bodyStat("body_fat_pct",k.date):null,ca=past?ctlOn(k.date):null;
-      rows.push([k.label,dfmtY(k.date),k.ctl!=null?fmtN(k.ctl,1):"–",ca!=null?fmtN(ca,1):"–",
-        k.weight_kg!=null?fmtN(k.weight_kg,1):"–",ws?fmtN(ws.v,1):"–"].concat(hasBf?[bs?fmtN(bs.v,1)+"%":"–"]:[]));});
-    const w=el("div","scroll-x");const t=mkTable(hdr,rows);
+    /* a column appears when the plan targets that measure or there is any reading of it */
+    const rows0=bodyRows();
+    const cols=[["body_fat_pct","Body fat %"],["lean_kg","Lean kg"],["weight_kg","Weight kg"],["ctl","CTL"]]
+      .filter(([f])=>f==="ctl"||W.checkpoints.some(k=>hasNum(k[f]))||rows0.some(d=>d[f]!=null));
+    const actual=(f,iso)=>{if(f==="ctl"){const x=iso===todayIso?cur.ctl:ctlOn(iso);return hasNum(x)?x:null;}
+      const b=bodyStat(f,iso);return b?b.v:null;};
+    /* "target / actual" — actuals only for dates up to today, using the same means as the Goals tiles */
+    const ta=(t,a)=>(hasNum(t)||hasNum(a))?(hasNum(t)?fmtN(t,1):"–")+" / "+(hasNum(a)?fmtN(a,1):"–"):"–";
+    const hdr=["Checkpoint","Date"].concat(cols.map(([,l])=>l+"\ntarget / actual"));
+    const rows=[["Today",dfmt(todayIso)].concat(cols.map(([f])=>ta(null,actual(f,todayIso))))];
+    W.checkpoints.forEach(k=>{const past=k.date<=todayIso;
+      rows.push([k.label,dfmtY(k.date)].concat(cols.map(([f])=>ta(k[f],past?actual(f,k.date):null))));});
+    const w=el("div","scroll-x");const t=mkTable(hdr,rows);t.classList.add("ckpt");
     const first=t.querySelector("tbody tr");if(first)first.style.fontWeight="700";
     w.appendChild(t);c.appendChild(w);
     if(W.checkpoint_note){const n=el("div","note",W.checkpoint_note);n.style.marginTop="8px";c.appendChild(n);}}
@@ -2084,6 +2169,10 @@ function vStrength(v){
   const W=WINTER,g=el("div","grid");v.appendChild(g);
   if(W.strength_note){const n=el("div","note");n.textContent="◆ "+W.strength_note;
     n.style.cssText="grid-column:span 12;margin:0 4px 2px";g.appendChild(n);}
+  if(W.strength_principles&&W.strength_principles.length){
+    const c=ccard(g,"",null,"How the strength work is built",
+      plural(W.strength_principles.length,"principle")+" · strength per kilo, not size","principles",false);
+    vItems(c,W.strength_principles);}
   const S=W.sessions||{};
   [["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
     const s=S[key];if(!s)return;
@@ -2162,7 +2251,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="a6c15851d85f66b0";
+<script>var BUILD_STAMP="6a5beded90c69ea9";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
