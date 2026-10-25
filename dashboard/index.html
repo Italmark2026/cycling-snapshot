@@ -292,6 +292,19 @@ details.wk-collapse>.body{padding:0 13px 4px}
 .v-item .why{font-size:12.8px;color:var(--ink2);margin-top:3px;line-height:1.55}
 .v-item .do{font-size:12.8px;margin-top:5px;line-height:1.55;color:var(--ink)}
 .v-item .do b{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.15em;font-weight:500}
+.lad-row{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:8px 12px;border:1px solid var(--line);
+  border-radius:10px;margin-top:6px;background:var(--panel2)}
+.lad-row.cur{border-color:var(--rosa);box-shadow:inset 3px 0 0 var(--rosa)}
+.lad-row.done{opacity:.55}
+.lad-row .lid{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--mute);width:34px;flex:none}
+.lad-row .lses{font-weight:600;font-size:13.5px;flex:1 1 180px}
+.lad-row .lw{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink)}
+.lad-row .lan{flex-basis:100%;font-size:12px;color:var(--mute);padding-left:44px}
+@media(max-width:640px){.lad-row .lan{padding-left:0}}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.wstat{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.wstat:last-child{border-bottom:none}
+.wstat .k{color:var(--ink2)}.wstat .v{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink);text-align:right}
 .qa{border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-top:10px;background:var(--panel2)}
 .qa .q{font-weight:600;font-size:14px}
 .qa .q::before{content:"Q · ";color:var(--rosa);font-family:"JetBrains Mono",monospace;font-size:11px}
@@ -342,7 +355,7 @@ abbr{text-decoration:underline dotted var(--mute);cursor:help}
 // build time (Artifact build) or later at runtime (web build, after the
 // encrypted payload is decrypted in the browser). Same code either way.
 function __BOOT__(DATA){
-const M=DATA.m,N=DATA.n||{headline:"",story:[],panel_notes:{},actions:[]},PLAN=DATA.plan||{weeks:[],phases:[]},COACH=DATA.coach||{},TRAVEL=DATA.travel||{};
+const M=DATA.m,N=DATA.n||{headline:"",story:[],panel_notes:{},actions:[]},PLAN=DATA.plan||{weeks:[],phases:[]},COACH=DATA.coach||{},TRAVEL=DATA.travel||{},WINTER=DATA.winter||{};
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const NS="http://www.w3.org/2000/svg";
 const fmtN=(v,d=0)=>v==null?"–":Number(v).toLocaleString("en-GB",{maximumFractionDigits:d,minimumFractionDigits:0});
@@ -832,10 +845,13 @@ function staleBanner(){
   win.appendChild(inn);bar.appendChild(win);app.appendChild(bar);
 }
 const TABS=[
-  {id:"overview",label:"Overview"},{id:"plan",label:"Training Plan"},{id:"load",label:"Load"},
+  {id:"overview",label:"Overview"},{id:"plan",label:"Training Plan"}]
+  .concat(WINTER&&WINTER.sessions?[{id:"winter",label:"Winter"}]:[])
+  .concat([{id:"load",label:"Load"},
   {id:"engine",label:"Engine"},{id:"health",label:"Health"},{id:"conditions",label:"Conditions"},
-  {id:"race",label:"Race"},{id:"coach",label:"Coach"},{id:"reference",label:"Reference"}]
-  .concat(TRAVEL&&TRAVEL.weeks&&TRAVEL.weeks.length?[{id:"travel",label:"Travel"}]:[]);
+  {id:"race",label:"Race"},{id:"coach",label:"Coach"},{id:"reference",label:"Reference"}])
+  /* the trip tab retires itself once its last week is over; #travel still resolves */
+  .concat(TRAVEL&&TRAVEL.weeks&&TRAVEL.weeks.some(w=>!w.end||w.end>=todayIso)?[{id:"travel",label:"Travel"}]:[]);
 
 /* ============ OVERVIEW ============ */
 function vOverview(v){
@@ -1009,7 +1025,7 @@ function stageProfile(container,phases,H=210){
   const div=el("div","chart");div.appendChild(svg);container.appendChild(div);}
 function vPlan(v){
   const g=el("div","grid");v.appendChild(g);
-  {const c=card(g,"","Jul ’26 → winter","The block as a stage profile",
+  {const c=card(g,"","now → race day","The block as a stage profile",
     ["The whole campaign to Maratona 2027 drawn as a race profile — height is weekly training stress, the dot is where you are now.",
      "Check the active phase before reading any week below: a session only makes sense inside its phase's job. Gates (like the FTP retest) move on readiness, not the calendar."],null);
     stageProfile(c,PLAN.phases||[]);}
@@ -1588,7 +1604,119 @@ function vTravel(v){
   if(TRAVEL.return_note){const n=el("div","note");n.textContent="◆ "+TRAVEL.return_note;n.style.margin="4px 4px 0";v.appendChild(n);}
 }
 
-const VIEWS={overview:vOverview,plan:vPlan,load:vLoad,engine:vEngine,health:vHealth,conditions:vConditions,race:vRace,coach:vCoach,reference:vReference,travel:vTravel};
+/* ============ WINTER ============ */
+const RESULT_CHIP={advance:["good","advance"],repeat:["ice","repeat"],miss:["warn","miss"],reride:["mute","re-ride"]};
+function isoMinus(iso,days){return new Date(new Date(iso+"T00:00:00Z")-days*864e5).toISOString().slice(0,10);}
+/* 7-day mean of a Garmin field; falls back to the latest reading within 21 days (marked) */
+function bodyStat(key,iso){
+  const rows=(M.health.daily||[]).filter(d=>d[key]!=null&&d.date<=iso);
+  const wk=rows.filter(d=>d.date>=isoMinus(iso,6));
+  if(wk.length)return{v:wk.reduce((a,d)=>a+d[key],0)/wk.length,n:wk.length};
+  const last=rows.filter(d=>d.date>=isoMinus(iso,20)).pop();
+  return last?{v:last[key],n:1,last:last.date}:null;}
+function ctlOn(iso){if(iso>=todayIso)return iso===todayIso?cur.ctl:null;
+  const r=loadDaily.find(d=>d.date===iso);return r?r.ctl:null;}
+function leftCols(t,idx){t.querySelectorAll("tr").forEach(tr=>idx.forEach(i=>{const c=tr.children[i];
+  if(c){c.style.textAlign="left";c.style.whiteSpace="normal";}}));return t;}
+function vItems(c,items){(items||[]).forEach(s=>{const d=el("div","v-item");
+  d.appendChild(el("div","t",s.t));d.appendChild(el("div","why",s.why));c.appendChild(d);});}
+function ladderCard(g,lad){
+  const c=card(g,"c6",lad.meter,lad.title+" ladder",null,null);
+  const steps=lad.steps||[],ci=Math.max(0,steps.findIndex(s=>s.id===lad.current));
+  const hist=lad.history||[];
+  if(lad.opens_when&&!hist.length){const n=el("div","note","Opens when "+lad.opens_when+".");n.style.color="var(--warn)";c.appendChild(n);}
+  if(lad.pace_note)c.appendChild(el("div","note",lad.pace_note));
+  if(hist.length){const row=el("div","chiprow");
+    hist.slice(-6).forEach(h=>{const rc=RESULT_CHIP[h.result]||["mute",h.result];
+      const ch=chip(rc[0],dfmt(h.date)+" · "+h.step+" · "+rc[1]+(h.room_band?" · "+h.room_band:""));
+      if(h.note)ch.title=h.note;row.appendChild(ch);});c.appendChild(row);}
+  steps.forEach((s,i)=>{
+    const r=el("div","lad-row"+(i===ci?" cur":i<ci?" done":""));
+    r.appendChild(el("span","lid",s.id));r.appendChild(el("span","lses",s.session));
+    if(s.target_w!=null){const w=Math.round(s.target_w*A.ftp/(lad.anchor_ftp||A.ftp));
+      r.appendChild(el("span","lw",(s.reps_s?"":"~")+w+" W"));}
+    if(i===ci)r.appendChild(chip("rosa","current"));else if(i<ci)r.appendChild(el("span","lw","✓"));
+    if(s.anchor)r.appendChild(el("div","lan",s.anchor));
+    c.appendChild(r);});
+  if(lad.scored_by==="completion"){const n=el("div","note","Scored on completion — tell the session how it went.");n.style.marginTop="8px";c.appendChild(n);}
+}
+function vWinter(v){
+  const W=WINTER,g=el("div","grid");v.appendChild(g);
+  {const c=card(g,"c8",W.span||null,W.title||"Winter plan",null,null);
+    if(W.context_note)c.appendChild(el("div","note",W.context_note));
+    if(W.philosophy_note){const n=el("div","note");n.textContent="▸ "+W.philosophy_note;
+      n.style.cssText="margin-top:8px;color:var(--ink)";c.appendChild(n);}}
+  {const c=card(g,"c4","today vs the next checkpoint","Where you are",null,null);
+    const nx=(W.checkpoints||[]).find(k=>k.date>=todayIso);
+    const wt=bodyStat("weight_kg",todayIso),bf=bodyStat("body_fat_pct",todayIso);
+    const thr=W.ladders&&W.ladders.threshold;
+    const rows=[["CTL",fmtN(cur.ctl,1)+(nx&&nx.ctl!=null?"  →  "+nx.ctl+" by "+dfmt(nx.date):"")],
+      ["Weight (7-day)",wt?fmtN(wt.v,1)+" kg"+(nx&&nx.weight_kg?"  →  "+nx.weight_kg+" kg":""):"no reading"],
+      ["Body fat (7-day)",bf?fmtN(bf.v,1)+"%  · trend only":"no reading yet"],
+      ["Threshold ladder",thr?thr.current+" · "+((thr.steps||[]).find(s=>s.id===thr.current)||{}).session:"–"]];
+    rows.forEach(r=>{const d=el("div","wstat");d.appendChild(el("span","k",r[0]));d.appendChild(el("span","v",r[1]));c.appendChild(d);});}
+  if(W.season&&W.season.length){
+    const c=card(g,"","reverse-periodised","The season shape",null,null);
+    const act=((PLAN.phases||[]).find(p=>p.status==="active")||{}).key;
+    W.season.forEach(s=>{const d=el("details","day");d.open=s.key===act;
+      const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dd",s.key));
+      sm.appendChild(el("span","dt",s.name));sm.appendChild(el("span","dtss",s.dates));
+      if(s.key===act)sm.appendChild(chip("rosa","now"));
+      d.appendChild(sm);d.appendChild(el("div","body",s.job));c.appendChild(d);});}
+  if(W.week_template&&W.week_template.length){
+    const c=card(g,"c8",W.week_kicker||null,"The winter week",null,null);
+    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Slot","What","Time","TSS"],
+      W.week_template.map(r=>[r.slot,r.what,r.dur,r.tss])),[1]));c.appendChild(w);}
+  if(W.week_rules&&W.week_rules.length){const c=card(g,"c4",null,"The rules of the week",null,null);vItems(c,W.week_rules);}
+  if(W.checkpoints&&W.checkpoints.length){
+    const c=card(g,"","target vs actual","Checkpoints",null,null);
+    const hasBf=(M.health.daily||[]).some(d=>d.body_fat_pct!=null);
+    const hdr=["Checkpoint","Date","CTL target","CTL actual","Weight target","Weight (7-day)"].concat(hasBf?["Body fat (7-day)"]:[]);
+    const wt0=bodyStat("weight_kg",todayIso),bf0=bodyStat("body_fat_pct",todayIso);
+    const rows=[["Today",dfmt(todayIso),"–",fmtN(cur.ctl,1),"–",wt0?fmtN(wt0.v,1):"–"].concat(hasBf?[bf0?fmtN(bf0.v,1)+"%":"–"]:[])];
+    W.checkpoints.forEach(k=>{const past=k.date<=todayIso,ws=past?bodyStat("weight_kg",k.date):null,
+        bs=past&&hasBf?bodyStat("body_fat_pct",k.date):null,ca=past?ctlOn(k.date):null;
+      rows.push([k.label,dfmtY(k.date),k.ctl!=null?fmtN(k.ctl,1):"–",ca!=null?fmtN(ca,1):"–",
+        k.weight_kg!=null?fmtN(k.weight_kg,1):"–",ws?fmtN(ws.v,1):"–"].concat(hasBf?[bs?fmtN(bs.v,1)+"%":"–"]:[]));});
+    const w=el("div","scroll-x");const t=mkTable(hdr,rows);
+    const first=t.querySelector("tbody tr");if(first)first.style.fontWeight="700";
+    w.appendChild(t);c.appendChild(w);
+    if(W.checkpoint_note){const n=el("div","note",W.checkpoint_note);n.style.marginTop="8px";c.appendChild(n);}}
+  const L=W.ladders||{};["threshold","tempo","vo2","sprint"].forEach(k=>{if(L[k])ladderCard(g,L[k]);});
+  if(W.ladder_rules&&W.ladder_rules.length){
+    const c=card(g,"c8","how a session is scored","Earn the step",null,null);vItems(c,W.ladder_rules);
+    if(W.evidence&&W.evidence.length){const d=el("details","day");const sm=el("summary");
+      sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt","The summer evidence these rules come from"));
+      d.appendChild(sm);const b=el("div","body");b.style.paddingLeft="14px";
+      const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Date","Session","Outcome","Lesson"],
+        W.evidence.map(e=>[e.date,e.session,e.outcome,e.lesson])),[1,2,3]));b.appendChild(w);d.appendChild(b);c.appendChild(d);}}
+  if(W.room_bands){const rb=W.room_bands;
+    const c=card(g,"c4",W.room_kicker||null,"The room",null,null);
+    if(W.room_note)c.appendChild(el("div","note",W.room_note));
+    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Band","Room","Drift allowed"],
+      ["cool","typical","hard"].filter(k=>rb[k]).map(k=>[rb[k].label,rb[k].desc,"+"+rb[k].allowance_bpm+" bpm"])),[1]));c.appendChild(w);
+    if(rb.unlogged_desc){const n=el("div","note",rb.unlogged_desc);n.style.marginTop="6px";c.appendChild(n);}
+    if(rb.provisional_note){const n=el("div","note",rb.provisional_note);n.style.marginTop="6px";c.appendChild(n);}}
+  if(W.room_levers&&W.room_levers.length){const c=card(g,"c6","free, no open window","Room levers",null,null);vItems(c,W.room_levers);
+    (W.room_setup_log||[]).forEach(s=>{const d=el("div","v-item");d.appendChild(el("div","t","Set-up · "+dfmt(s.date)));
+      d.appendChild(el("div","why",s.change));c.appendChild(d);});}
+  if(W.nutrition_rules&&W.nutrition_rules.length){const c=card(g,"c6",W.weight_kicker||null,"Weight & fuelling",null,null);
+    vItems(c,W.nutrition_rules);if(W.weight_note){const n=el("div","note",W.weight_note);n.style.marginTop="10px";c.appendChild(n);}}
+  if(W.strength_note){const n=el("div","note");n.textContent="◆ "+W.strength_note;n.style.cssText="grid-column:span 12;margin:4px 4px 0";g.appendChild(n);}
+  const S=W.sessions||{};
+  [["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
+    const s=S[key];if(!s)return;
+    const c=card(g,key==="splitboard_extras"?"":"c6",s.frequency,s.title,null,null);
+    c.style.borderTop="3px solid "+css(col);(s.exercises||[]).forEach(x=>exRow(c,x));});
+  if(W.compromises&&W.compromises.length){const c=card(g,"c8","laid bare","The compromises",null,null);
+    c.style.borderTop="3px solid "+css("--warn");vItems(c,W.compromises);}
+  if(W.priority_order&&W.priority_order.length){const c=card(g,"c4",null,"When time is short",null,null);
+    const ol=el("ol");ol.style.cssText="margin:8px 0 0;padding-left:20px;line-height:1.9;font-size:13.5px";
+    W.priority_order.forEach(p=>ol.appendChild(el("li",null,p)));c.appendChild(ol);
+    if(W.focus_proposal){const n=el("div","note",W.focus_proposal);n.style.marginTop="12px";c.appendChild(n);}}
+}
+
+const VIEWS={overview:vOverview,plan:vPlan,winter:vWinter,load:vLoad,engine:vEngine,health:vHealth,conditions:vConditions,race:vRace,coach:vCoach,reference:vReference,travel:vTravel};
 function render(){
   const id=(location.hash||"#overview").slice(1);
   const tab=VIEWS[id]?id:"overview";
@@ -1608,7 +1736,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="de4ee58e5cf32a46";
+<script>var BUILD_STAMP="574fbd8d362681e0";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
