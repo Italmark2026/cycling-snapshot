@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-10-25T12:05:03+01:00",
+  "generated_at": "2026-10-25T18:24:24+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -14,7 +14,7 @@
       "reference": "Kickr",
       "tested": "2026-07-14",
       "note": "Zwift ramp test — recovery-block dip; the P1 build starts here",
-      "w_per_kg": 2.88,
+      "w_per_kg": 2.86,
       "history": [
         {
           "date": "2025-01-15",
@@ -67,47 +67,72 @@
   },
   "training_block": {
     "phase": {
-      "key": "P2",
-      "name": "Threshold core",
-      "detail": "From 24 Aug · the flat/valley threshold lane",
+      "key": "R1",
+      "name": "Re-entry",
+      "detail": "26 Oct – 15 Nov · Z2 and tempo; the threshold ladder opens at T1",
       "status": "active",
-      "h": 78
+      "h": 40
     },
     "block_kpi": "Flat power at ≤142 bpm on the Tresenda→Sondalo TT — the one number this block exists to move.",
     "phase_roadmap": [
       {
-        "key": "P0",
-        "name": "Recovery",
+        "key": "B1",
+        "name": "Benchmark",
         "status": "done"
       },
       {
-        "key": "G1",
-        "name": "FTP retest",
+        "key": "TRV",
+        "name": "US trip",
         "status": "done"
       },
       {
-        "key": "P1",
-        "name": "Reintroduction",
-        "status": "done"
-      },
-      {
-        "key": "HOL",
-        "name": "Holiday de-load",
-        "status": "done"
-      },
-      {
-        "key": "P2",
-        "name": "Threshold core",
+        "key": "R1",
+        "name": "Re-entry",
         "status": "active"
       },
       {
-        "key": "B1",
-        "name": "Benchmark",
+        "key": "G2",
+        "name": "Ramp test",
         "status": "next"
       },
       {
-        "key": "P3",
-        "name": "Winter build",
+        "key": "W1",
+        "name": "Thr + tempo",
+        "status": "planned"
+      },
+      {
+        "key": "XMS",
+        "name": "Christmas",
+        "status": "planned"
+      },
+      {
+        "key": "W2",
+        "name": "Thr + VO2",
+        "status": "planned"
+      },
+      {
+        "key": "W3",
+        "name": "VO2 + sprint",
+        "status": "planned"
+      },
+      {
+        "key": "B2",
+        "name": "B2 test",
+        "status": "planned"
+      },
+      {
+        "key": "P4",
+        "name": "Spring Z2",
+        "status": "planned"
+      },
+      {
+        "key": "P5",
+        "name": "Peak",
+        "status": "planned"
+      },
+      {
+        "key": "RACE",
+        "name": "Race",
         "status": "planned"
       }
     ]
@@ -124,7 +149,7 @@
       "intensity": 0.67,
       "tss": 45,
       "avg_hr": 121,
-      "w_per_kg_np": 1.94,
+      "w_per_kg_np": 1.92,
       "temp_c": null,
       "best_efforts": [
         {
@@ -167,7 +192,7 @@
       "intensity": 0.8,
       "tss": 64,
       "avg_hr": 136,
-      "w_per_kg_np": 2.3,
+      "w_per_kg_np": 2.28,
       "temp_c": null,
       "best_efforts": [
         {
@@ -210,7 +235,7 @@
       "intensity": 0.63,
       "tss": 29,
       "avg_hr": 114,
-      "w_per_kg_np": 1.8,
+      "w_per_kg_np": 1.79,
       "temp_c": null,
       "best_efforts": [
         {
@@ -249,7 +274,7 @@
       "intensity": 0.82,
       "tss": 116,
       "avg_hr": 129,
-      "w_per_kg_np": 2.37,
+      "w_per_kg_np": 2.35,
       "temp_c": null,
       "best_efforts": [
         {
@@ -293,7 +318,7 @@
       "intensity": 0.75,
       "tss": 200,
       "avg_hr": 120,
-      "w_per_kg_np": 2.17,
+      "w_per_kg_np": 2.15,
       "temp_c": 19.3,
       "best_efforts": [
         {
@@ -337,7 +362,7 @@
       "intensity": 0.78,
       "tss": 64,
       "avg_hr": 121,
-      "w_per_kg_np": 2.24,
+      "w_per_kg_np": 2.22,
       "temp_c": 22.0,
       "best_efforts": [
         {
@@ -380,7 +405,7 @@
       "intensity": 0.78,
       "tss": 61,
       "avg_hr": 127,
-      "w_per_kg_np": 2.25,
+      "w_per_kg_np": 2.24,
       "temp_c": 23.0,
       "best_efforts": [
         {
@@ -423,7 +448,7 @@
       "intensity": 0.74,
       "tss": 244,
       "avg_hr": 121,
-      "w_per_kg_np": 2.14,
+      "w_per_kg_np": 2.13,
       "temp_c": 18.2,
       "best_efforts": [
         {
@@ -467,7 +492,7 @@
       "intensity": 0.77,
       "tss": 55,
       "avg_hr": 126,
-      "w_per_kg_np": 2.22,
+      "w_per_kg_np": 2.2,
       "temp_c": 21.0,
       "best_efforts": [
         {
@@ -507,7 +532,7 @@
       "intensity": 0.76,
       "tss": 61,
       "avg_hr": 129,
-      "w_per_kg_np": 2.19,
+      "w_per_kg_np": 2.17,
       "temp_c": 23.6,
       "best_efforts": [
         {
@@ -551,7 +576,7 @@
       "intensity": 0.72,
       "tss": 255,
       "avg_hr": 126,
-      "w_per_kg_np": 2.08,
+      "w_per_kg_np": 2.07,
       "temp_c": 26.6,
       "best_efforts": [
         {
@@ -595,7 +620,7 @@
       "intensity": 0.81,
       "tss": 55,
       "avg_hr": 129,
-      "w_per_kg_np": 2.33,
+      "w_per_kg_np": 2.31,
       "temp_c": 23.8,
       "best_efforts": [
         {
@@ -635,7 +660,7 @@
       "intensity": 0.74,
       "tss": 84,
       "avg_hr": 116,
-      "w_per_kg_np": 2.13,
+      "w_per_kg_np": 2.11,
       "temp_c": 27.1,
       "best_efforts": [
         {
@@ -679,7 +704,7 @@
       "intensity": 0.75,
       "tss": 52,
       "avg_hr": 131,
-      "w_per_kg_np": 2.16,
+      "w_per_kg_np": 2.14,
       "temp_c": 25.0,
       "best_efforts": [
         {
@@ -719,7 +744,7 @@
       "intensity": 0.79,
       "tss": 108,
       "avg_hr": 126,
-      "w_per_kg_np": 2.27,
+      "w_per_kg_np": 2.25,
       "temp_c": 29.9,
       "best_efforts": [
         {
@@ -758,6 +783,16 @@
       "kind": "ftp_provisional",
       "detail": "FTP 235 W (Kickr) was set by a ramp test on 2026-07-14: “Zwift ramp test — recovery-block dip; the P1 build starts here”. A ramp test over-reads sustained threshold — treat as provisional for threshold pacing.",
       "source": "config/athlete.yaml → ftp_history[-1]"
+    },
+    {
+      "kind": "ftp_retest_pending",
+      "detail": "Phase G2 “Ramp test” is next: Week of 9 Nov · Kickr, green morning — sets the winter zones",
+      "source": "data/coach/plan.json → phases"
+    },
+    {
+      "kind": "ftp_retest_pending",
+      "detail": "Phase B2 “B2 test” is planned: 22 – 28 Mar · ramp + climbing protocol (vs 13 Sep) + flat TT (vs 24 Sep); exit winter ~CTL 42",
+      "source": "data/coach/plan.json → phases"
     },
     {
       "kind": "excluded_activity",
