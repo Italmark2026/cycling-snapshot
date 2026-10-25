@@ -96,6 +96,10 @@ header.hq{border-bottom:1px solid var(--line);background:var(--panel2)}
   padding:8px 13px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink2);background:var(--panel)}
 .theme-btn:hover{border-color:var(--ice);color:var(--ink)}
+.hq-ctrls{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.hq-btns{display:flex;gap:8px}
+.hq-info{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.06em;color:var(--mute);
+  text-align:right;max-width:230px;line-height:1.5}
 .chiprow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .chip{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
   border-radius:999px;padding:4px 11px;white-space:nowrap;border:1px solid}
@@ -160,8 +164,13 @@ main{padding:20px 0 70px}
 .card h2{font-family:"Barlow Condensed";font-size:22px;font-weight:600;text-transform:uppercase;
   letter-spacing:.02em;margin:2px 0 0;line-height:1.05;text-wrap:balance}
 .card .kick{composes:eyebrow}
-.explain{display:grid;gap:3px;margin:10px 0 4px;padding:10px 12px;border-left:3px solid var(--line);
+details.explain{margin:8px 0 4px;border-left:3px solid var(--line);
   background:var(--panel2);border-radius:0 10px 10px 0;font-size:12.8px;color:var(--ink2);line-height:1.5}
+details.explain>summary{cursor:pointer;list-style:none;padding:7px 12px;font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+details.explain>summary::-webkit-details-marker{display:none}
+details.explain>summary:hover{color:var(--ink2)}
+details.explain .exin{display:grid;gap:3px;padding:0 12px 10px}
 .explain b{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.15em;font-weight:500;
   color:var(--mute);text-transform:uppercase;margin-right:6px}
 .explain .dec b{color:var(--ice)}
@@ -324,6 +333,74 @@ dl.gloss dd{margin:3px 0 0;font-size:13.3px;color:var(--ink2);line-height:1.6;ma
 footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;
   font-size:9.5px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase;line-height:2}
 abbr{text-decoration:underline dotted var(--mute);cursor:help}
+
+/* ---------- collapsible cards (ccard) ---------- */
+.card.cc{padding:0;align-self:start}
+.card.cc>summary{list-style:none;cursor:pointer;display:flex;gap:12px;align-items:flex-start;
+  padding:12px 20px;min-height:56px;border-radius:16px}
+.card.cc>summary::-webkit-details-marker{display:none}
+.card.cc>summary:hover{background:color-mix(in srgb,var(--panel2) 55%,transparent)}
+.card.cc .caret{color:var(--mute);transition:transform .15s;flex:none;line-height:1.5;margin-top:2px}
+.card.cc[open]>summary .caret{transform:rotate(90deg)}
+.card.cc[open]>summary{padding-bottom:6px}
+.cchead{flex:1;min-width:0}
+.ccrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:1px 12px}
+.card.cc h2{margin:0}
+.ccsum{display:block;margin-top:3px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.02em;
+  color:var(--mute);line-height:1.45}
+.ccbody{position:relative;padding:0 22px 16px}
+.ccbody .tbl-toggle{top:2px;right:22px}
+.ccbar{display:flex;justify-content:flex-end;gap:6px;margin:-8px 0 10px}
+.ccbar button,.qa-filter{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mute);border:1px solid var(--line);border-radius:8px;padding:5px 10px;background:transparent}
+.ccbar button:hover{color:var(--ink2);border-color:var(--mute)}
+details.day.flat .body{padding-left:34px}
+.qa-filter{display:block;width:100%;max-width:420px;margin:10px 0 4px;padding:9px 12px;font-size:13px;letter-spacing:.02em;
+  text-transform:none;color:var(--ink);background:var(--panel2);border-radius:10px}
+.qa-filter:focus{outline:2px solid var(--ice);outline-offset:1px}
+.day .body.qb p{margin:0 0 9px;max-width:86ch;white-space:pre-line}
+.day .body.qb p.qq{color:var(--mute);font-style:italic}
+a.xlink,button.xlink{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.08em;color:var(--ice);
+  cursor:pointer;text-decoration:underline dotted var(--ice);text-underline-offset:3px;padding:0}
+.xlinkrow{margin:14px 4px 0;grid-column:span 12}
+
+/* ---------- phone: denser tiles, slimmer header ---------- */
+@media(max-width:640px){
+  .hq-in{padding:9px 0 7px;gap:6px}
+  .hq-in .eyebrow{font-size:9.5px;letter-spacing:.1em;line-height:1.4}
+  .hq h1{font-size:25px;margin:2px 0 1px}
+  .hq .sub{font-size:12px;line-height:1.4}
+  .hq-right{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:3px 10px;width:100%;margin-left:0}
+  .count{text-align:left}
+  .count .n{font-size:30px}
+  .count .l{font-size:9px;margin-top:1px;letter-spacing:.06em;white-space:nowrap}
+  .hq-ctrls{display:contents}
+  .hq-btns{justify-self:end}
+  .hq-info{grid-column:1/-1;max-width:none;text-align:left;font-size:9px;line-height:1.35;letter-spacing:.03em}
+  .chiprow{margin-top:5px;gap:4px}
+  .chip{font-size:8.5px;padding:3px 7px;letter-spacing:.05em}
+  .theme-btn{padding:5px 10px;font-size:10px;gap:5px}
+  .tab{font-size:16px;padding:9px 11px 7px}
+  main{padding:14px 0 50px}
+  .grid{gap:12px}
+  .card{padding:15px 14px 13px}
+  .card.cc{padding:0}
+  .card.cc>summary{padding:11px 14px;gap:9px}
+  .ccbody{padding:0 14px 14px}
+  .ccbody .tbl-toggle{right:14px}
+  .card h2{font-size:20px}
+  h3.sect{margin:20px 0 10px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+  .tile{padding:10px 12px 9px;border-radius:14px}
+  .tile .lbl{font-size:9.5px;letter-spacing:.11em}
+  .tile .val{font-size:29px;margin-top:4px}
+  .tile .val small{font-size:12px}
+  .tile .spk{width:58px;height:auto;grid-row:2/3}
+  .tile .sub,.tile .base{grid-column:1/3}
+  .tile .sub{font-size:11.5px;margin-top:3px;line-height:1.35}
+  .rbanner{margin-bottom:12px}
+  details.day.flat .body{padding-left:14px}
+}
 </style>
 <style>
 #lock{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;
@@ -365,14 +442,27 @@ const dfmt=s=>{const d=new Date(s+"T00:00:00");return d.toLocaleDateString("en-G
 const dfmtY=s=>{const d=new Date(s+"T00:00:00");return d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"2-digit"});};
 const hms=s=>{if(s==null)return"–";const h=Math.floor(s/3600),m=Math.round(s%3600/60);return h+":"+String(m).padStart(2,"0");};
 
+/* ============ storage (every access guarded: private mode / blocked storage must not break the page) ============ */
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+/* open/closed state of the collapsible cards — {"<tab>:<key>":bool}. The in-memory copy keeps
+   the state alive across re-renders (theme toggle) even when storage is unavailable. */
+const OPEN_MEM={};
+function openMap(){let o={};
+  try{const r=JSON.parse(lsGet("hq-open")||"{}");if(r&&typeof r==="object"&&!Array.isArray(r))o=r;}catch(e){}
+  return Object.assign(o,OPEN_MEM);}
+function saveOpenMany(upd){Object.assign(OPEN_MEM,upd);
+  let o={};try{const r=JSON.parse(lsGet("hq-open")||"{}");if(r&&typeof r==="object"&&!Array.isArray(r))o=r;}catch(e){}
+  lsSet("hq-open",JSON.stringify(Object.assign(o,upd)));}
+
 /* ============ theme ============ */
 const THEMES=["auto","light","dark"];
-let themeIdx=Math.max(0,THEMES.indexOf(localStorage.getItem("hq-theme")||"auto"));
+let themeIdx=Math.max(0,THEMES.indexOf(lsGet("hq-theme")||"auto"));
 function applyTheme(){
   const t=THEMES[themeIdx];
   if(t==="auto")document.documentElement.removeAttribute("data-theme");
   else document.documentElement.setAttribute("data-theme",t);
-  localStorage.setItem("hq-theme",t);
+  lsSet("hq-theme",t);
   const b=document.querySelector(".theme-btn span.tt");
   if(b)b.textContent=t==="auto"?"Auto":t==="light"?"Light":"Dark";
   const ic=document.querySelector(".theme-btn span.ti");
@@ -422,11 +512,23 @@ function lineChart(card,opts){
   if(opts.refY!=null)hi=Math.max(hi,opts.refY+sp);
   const sy=yAxis(f,lo,hi,opts.yFmt);
   const nlab=Math.min(6,n),longSpan=xIsDate&&(x1-x0)>300*864e5;let lastX=-1e9;
+  if(xIsDate&&opts.xTicks&&opts.xTicks.length){   // explicit, evenly-spaced date ticks (sparse series)
+    for(const t of opts.xTicks){const lx=sx(new Date(t+"T00:00:00").getTime());
+      if(lx<pad.l-1||lx>W-pad.r+1||lx-lastX<(longSpan?76:52))continue;lastX=lx;
+      const tx=svgE("text",{x:lx,y:H-8,"text-anchor":"middle",fill:css("--mute"),"font-size":11,
+        "font-family":"JetBrains Mono,monospace"});
+      tx.textContent=longSpan?dfmtY(t):dfmt(t);f.svg.appendChild(tx);}
+  }else
   for(let i=0;i<nlab;i++){const idx=Math.round(i*(n-1)/(nlab-1||1)),lx=sx(xv[idx]);
     if(lx-lastX<(longSpan?76:52))continue;lastX=lx;
     const tx=svgE("text",{x:lx,y:H-8,"text-anchor":"middle",fill:css("--mute"),"font-size":11,
       "font-family":"JetBrains Mono,monospace"});
     tx.textContent=xIsDate?(longSpan?dfmtY(xs[idx]):dfmt(xs[idx])):opts.xFmt(xs[idx]);f.svg.appendChild(tx);}
+  if(xIsDate&&opts.markX){const mx=new Date(opts.markX+"T00:00:00").getTime();
+    if(mx>=x0&&mx<=x1){const lx=sx(mx);
+      f.svg.appendChild(svgE("line",{x1:lx,x2:lx,y1:pad.t,y2:H-pad.b,stroke:css("--mute"),"stroke-width":1,"stroke-dasharray":"2 4"}));
+      const mt=svgE("text",{x:lx+4,y:pad.t+10,fill:css("--mute"),"font-size":10,"font-family":"JetBrains Mono,monospace"});
+      mt.textContent=opts.markLabel||"today";f.svg.appendChild(mt);}}
   if(opts.zeroLine&&lo<0&&hi>0)
     f.svg.appendChild(svgE("line",{x1:pad.l,x2:W-pad.r,y1:sy(0),y2:sy(0),stroke:css("--line"),"stroke-width":1.4}));
   if(opts.refY!=null&&opts.refY>lo&&opts.refY<hi){
@@ -583,17 +685,62 @@ function mkTable(headers,rows){
   const tb=el("tbody");
   rows.forEach(r=>{const tr2=el("tr");r.forEach(c=>tr2.appendChild(el("td",null,c==null?"–":String(c))));tb.appendChild(tr2);});
   t.appendChild(tb);return t;}
+/* What / Decide explainer — closed by default so a card opens straight onto its content */
+function explainEl(explain){
+  const ex=el("details","explain");ex.appendChild(el("summary",null,"ⓘ What / Decide"));
+  const inn=el("div","exin");
+  const w=el("div");const bw=el("b",null,"What");w.appendChild(bw);w.appendChild(document.createTextNode(explain[0]));
+  const d=el("div","dec");const bd=el("b",null,"Decide");d.appendChild(bd);d.appendChild(document.createTextNode(explain[1]));
+  inn.appendChild(w);inn.appendChild(d);ex.appendChild(inn);return ex;}
 function card(parent,cls,kick,title,explain,noteKey){
   const c=el("div","card"+(cls?" "+cls:""));parent.appendChild(c);
   if(kick)c.appendChild(el("div","eyebrow",kick));
   if(title)c.appendChild(el("h2","disp",title));
-  if(explain){const ex=el("div","explain");
-    const w=el("div");const bw=el("b",null,"What");w.appendChild(bw);w.appendChild(document.createTextNode(explain[0]));
-    const d=el("div","dec");const bd=el("b",null,"Decide");d.appendChild(bd);d.appendChild(document.createTextNode(explain[1]));
-    ex.appendChild(w);ex.appendChild(d);c.appendChild(ex);}
+  if(explain)c.appendChild(explainEl(explain));
   const note=noteKey&&N.panel_notes&&N.panel_notes[noteKey];
   if(note)c.appendChild(el("div","note",note));
   return c;}
+/* ccard — a collapsible card. Returns the BODY element that content is appended to.
+   The caller supplies a summary line (computed from data) that shows while collapsed.
+   Open state is remembered per tab+key in localStorage ("hq-open"); defaultOpen applies
+   until the viewer has toggled the card. */
+let CUR_TAB="overview";
+function ccard(parent,cls,kick,title,summaryText,key,defaultOpen,explain,noteKey){
+  const d=el("details","card cc"+(cls?" "+cls:""));parent.appendChild(d);
+  const k=CUR_TAB+":"+(key||String(title||kick||"card").toLowerCase().replace(/[^a-z0-9]+/g,"-"));
+  d.dataset.k=k;
+  const sm=el("summary");sm.appendChild(el("span","caret","▸"));
+  const hd=el("div","cchead"),row=el("div","ccrow");
+  if(kick)row.appendChild(el("span","eyebrow",kick));
+  if(title)row.appendChild(el("h2","disp",title));
+  hd.appendChild(row);
+  if(summaryText)hd.appendChild(el("span","ccsum",summaryText));
+  sm.appendChild(hd);d.appendChild(sm);
+  const body=el("div","ccbody");d.appendChild(body);
+  const stored=openMap()[k];
+  d._last=(typeof stored==="boolean")?stored:!!defaultOpen;
+  d.open=d._last;
+  d.addEventListener("toggle",()=>{if(d.open===d._last)return;d._last=d.open;saveOpenMany({[k]:d.open});});
+  if(explain)body.appendChild(explainEl(explain));
+  const note=noteKey&&N.panel_notes&&N.panel_notes[noteKey];
+  if(note)body.appendChild(el("div","note",note));
+  return body;}
+/* the card element behind a ccard body (for border accents etc.) */
+const ccEl=body=>body.parentNode;
+/* Expand all / Collapse all — one small bar at the top of any view that has collapsible cards */
+function ccBar(view){
+  if(!view.querySelector("details.cc"))return;
+  const bar=el("div","ccbar");
+  [["Expand all",true],["Collapse all",false]].forEach(([t,b])=>{
+    const btn=el("button",null,t);btn.type="button";
+    btn.addEventListener("click",()=>{const upd={};
+      view.querySelectorAll("details.cc").forEach(d=>{d.open=b;d._last=b;upd[d.dataset.k]=b;});
+      saveOpenMany(upd);});
+    bar.appendChild(btn);});
+  view.insertBefore(bar,view.firstChild);}
+const plural=(n,w)=>n+" "+w+(n===1?"":"s");
+const clip=(t,n)=>{t=String(t==null?"":t).replace(/\s+/g," ").trim();return t.length>n?t.slice(0,n-1).replace(/\s+\S*$/,"")+"…":t;};
+const joinBits=a=>a.filter(x=>x!=null&&x!=="").join(" · ");
 function emptyState(c,msg){c.appendChild(el("div","empty",msg));}
 function chip(cls,txt){return el("span","chip "+cls,txt);}
 
@@ -634,8 +781,34 @@ function tsbState(t){return t<-25?["deep fatigue","bad"]:t<-10?["productive fati
    (RHR vs baseline, HRV vs band, sleep, Garmin readiness score). Worst check
    sets the day's colour. Each check uses the most recent non-null reading so a
    missing HRV last night still reads yesterday's honestly, dated. */
+/* HRV against Garmin's own personal band. The band moves, so it is read from the latest
+   daily record that carries it (config baseline only as a fallback); the verdict follows
+   Garmin's status where there is one, and the band edge where there isn't. */
+function hrvBand(){
+  const bl=A.baselines||{},hd=(M.health&&M.health.daily)||[];
+  let lo=null,hi=null;
+  for(let i=hd.length-1;i>=0&&(lo==null||hi==null);i--){
+    if(lo==null&&hd[i].hrv_base_lo!=null)lo=hd[i].hrv_base_lo;
+    if(hi==null&&hd[i].hrv_base_hi!=null)hi=hd[i].hrv_base_hi;}
+  return{lo:lo!=null?lo:(bl.hrv_low||49),hi:hi!=null?hi:(bl.hrv_high||62)};}
+function hrvLevel(){
+  const hd=(M.health&&M.health.daily)||[],band=hrvBand();
+  let hrv=null;
+  for(let i=hd.length-1;i>=0;i--)if(hd[i].hrv!=null){hrv={v:hd[i].hrv,date:hd[i].date};break;}
+  if(!hrv)return null;
+  const st=hd.filter(d=>d.hrv_status);
+  const last=st.length?st[st.length-1]:null,prev=st.length>1?st[st.length-2]:null;
+  let lvl;
+  if(last){const S=String(last.hrv_status).toUpperCase();
+    const gapDays=prev?Math.round((new Date(last.date+"T00:00:00")-new Date(prev.date+"T00:00:00"))/864e5):99;
+    lvl=(S==="BALANCED"||S==="UNBALANCED")?"green"
+       :S==="POOR"?"red"
+       :S==="LOW"?((prev&&String(prev.hrv_status).toUpperCase()==="LOW"&&gapDays<=2)?"red":"amber")
+       :(hrv.v>=band.lo?"green":hrv.v>=band.lo-7?"amber":"red");}
+  else lvl=hrv.v>=band.lo?"green":hrv.v>=band.lo-7?"amber":"red";
+  return{lvl,v:hrv.v,date:hrv.date,lo:band.lo,hi:band.hi,status:last?String(last.hrv_status).toLowerCase():null};}
 function readinessAssess(){
-  const bl=A.baselines||{},rhrB=bl.rhr||48,hrvL=bl.hrv_low||49,hrvH=bl.hrv_high||62;
+  const bl=A.baselines||{},rhrB=bl.rhr||48,hb=hrvBand(),hrvL=hb.lo,hrvH=hb.hi;
   const hd=(M.health&&M.health.daily)||[];
   const rank={green:0,amber:1,red:2};
   const worse=(a,b)=>rank[a]>=rank[b]?a:b;
@@ -644,9 +817,8 @@ function readinessAssess(){
   const rhr=latest("rhr");
   if(rhr){const d=rhr.v-rhrB,lvl=d<=4?"green":d<=8?"amber":"red";
     checks.push({lvl,label:"RHR "+rhr.v,detail:(d>=0?"+":"")+d+" vs "+rhrB,date:rhr.date});}
-  const hrv=latest("hrv");
-  if(hrv){const lvl=hrv.v>=hrvL?"green":hrv.v>=hrvL-7?"amber":"red";
-    checks.push({lvl,label:"HRV "+hrv.v,detail:hrvL+"–"+hrvH+" band",date:hrv.date});}
+  const hl=hrvLevel();
+  if(hl)checks.push({lvl:hl.lvl,label:"HRV "+hl.v,detail:hl.lo+"–"+hl.hi+" band"+(hl.status?" · "+hl.status:""),date:hl.date});
   const slp=latest("sleep_h");
   if(slp){const lvl=slp.v>=7.5?"green":slp.v>=6.5?"amber":"red";
     checks.push({lvl,label:"Sleep "+fmtN(slp.v,1)+"h",detail:"≥7.5h green",date:slp.date});}
@@ -718,8 +890,8 @@ function buildShell(){
   cd.appendChild(el("div","n disp",fmtN(M.countdown.days_to_go)));
   cd.appendChild(el("div","l","days to race · "+dfmtY(M.countdown.date)));
   right.appendChild(cd);
-  const ctrls=el("div");ctrls.style.cssText="display:flex;flex-direction:column;align-items:flex-end;gap:7px";
-  const btnrow=el("div");btnrow.style.cssText="display:flex;gap:8px";
+  const ctrls=el("div","hq-ctrls");
+  const btnrow=el("div","hq-btns");
   const upd=el("a","theme-btn");upd.href=(M.session_url||"https://claude.ai/code")+"";
   upd.target="_blank";upd.rel="noopener";upd.setAttribute("aria-label","Update now — opens your Claude session");
   upd.appendChild(el("span","ti","⟳"));upd.appendChild(el("span",null,"Update now"));
@@ -729,7 +901,7 @@ function buildShell(){
   tb.addEventListener("click",()=>{themeIdx=(themeIdx+1)%3;applyTheme();render();});
   btnrow.appendChild(tb);
   ctrls.appendChild(btnrow);
-  const info=el("div");info.style.cssText="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;color:var(--mute);text-align:right;max-width:230px;line-height:1.5";
+  const info=el("div","hq-info");
   info.textContent="Synced "+M.generated_at.slice(0,16).replace("T"," ")+" · "+buildAgeLabel()+". Auto 07:45 / 13:00 / 20:30. Update now opens the session — say “sync now”.";
   ctrls.appendChild(info);
   right.appendChild(ctrls);
@@ -836,7 +1008,7 @@ function staleBanner(){
   }else if(feedBad){
     msg.innerHTML="<b>Garmin health feed error.</b> The last sync couldn’t pull health data"+(h.feed_message?" — "+h.feed_message:"")+". Readiness / HRV below are last-known, not today’s.";
   }else if(!h.present){
-    msg.innerHTML="<b>Garmin health feed not connected.</b> Overnight HRV, sleep, resting HR and readiness aren’t flowing yet — re-authorise Garmin to populate the Health tab.";
+    msg.innerHTML="<b>Garmin health feed not connected.</b> Overnight HRV, sleep, resting HR and readiness aren’t flowing yet — re-authorise Garmin to populate the Body tab.";
   }else{
     msg.innerHTML="<b>Garmin feed stale.</b> Last health update "+dfmt(h.last_date)+" — "+stale+" day"+(stale===1?"":"s")+" ago. Morning HRV / sleep / RHR / readiness have stopped updating; the numbers below are last-known, not today’s.";
   }
@@ -844,14 +1016,104 @@ function staleBanner(){
   inn.appendChild(el("div","fix",crit?"Re-seed Garmin token →":"Re-authorise Garmin →"));
   win.appendChild(inn);bar.appendChild(win);app.appendChild(bar);
 }
-const TABS=[
-  {id:"overview",label:"Overview"},{id:"plan",label:"Training Plan"}]
-  .concat(WINTER&&WINTER.sessions?[{id:"winter",label:"Winter"}]:[])
-  .concat([{id:"load",label:"Load"},
-  {id:"engine",label:"Engine"},{id:"health",label:"Health"},{id:"conditions",label:"Conditions"},
-  {id:"race",label:"Race"},{id:"coach",label:"Coach"},{id:"reference",label:"Reference"}])
-  /* the trip tab retires itself once its last week is over; #travel still resolves */
-  .concat(TRAVEL&&TRAVEL.weeks&&TRAVEL.weeks.some(w=>!w.end||w.end>=todayIso)?[{id:"travel",label:"Travel"}]:[]);
+/* 13 tabs. Ladders / Season / Strength come from the winter plan and only appear when it
+   carries that section; the old #winter, #health and #travel links are redirected in render(). */
+const TABS=[{id:"overview",label:"Today"},{id:"plan",label:"Plan"}]
+  .concat(WINTER&&WINTER.ladders?[{id:"ladders",label:"Ladders"}]:[])
+  .concat(WINTER&&WINTER.season?[{id:"season",label:"Season"}]:[])
+  .concat([{id:"body",label:"Body"}])
+  .concat(WINTER&&WINTER.sessions?[{id:"strength",label:"Strength"}]:[])
+  .concat([{id:"coach",label:"Coach"},{id:"qa",label:"Q&A"},{id:"load",label:"Load"},
+    {id:"engine",label:"Engine"},{id:"conditions",label:"Conditions"},
+    {id:"race",label:"Race"},{id:"reference",label:"Reference"}]);
+
+/* ============ GOALS (Today) ============ */
+const esc=t=>String(t==null?"":t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const isoMs=iso=>Date.parse(iso+"T00:00:00Z");
+function fmtSigned(x,d=1){const r=Math.round(Math.abs(x)*Math.pow(10,d))/Math.pow(10,d);
+  return (x>0&&r>0?"+":x<0&&r>0?"−":"")+r.toFixed(d);}
+function mkTile(host,lbl,valHtml,cls,baseTxt,sparkVals,sparkColor){
+  const t=el("div","tile");t.appendChild(el("div","lbl",lbl));
+  const val=el("div","val disp"+(cls?" "+cls:""));val.innerHTML=valHtml;t.appendChild(val);
+  if(sparkVals&&sparkVals.filter(x=>x!=null).length>1)t.appendChild(spark(sparkVals,sparkColor||css("--s1")));
+  if(baseTxt)t.appendChild(el("div","base",baseTxt));
+  host.appendChild(t);return t;}
+/* The winter plan's path for a field between its checkpoints, on a given date.
+   next = first checkpoint on/after the date that carries the field; previous anchor = the latest
+   checkpoint before the date, else the goal baseline; linear in date. */
+function pathAt(field,iso){
+  const cps=(WINTER.checkpoints||[]).filter(k=>k&&k.date&&k[field]!=null).sort((a,b)=>a.date<b.date?-1:1);
+  const next=cps.find(k=>k.date>=iso);if(!next)return null;
+  let prev=cps.filter(k=>k.date<iso).pop();
+  const gb=WINTER.goal_baseline;
+  if(!prev&&gb&&gb.date&&gb[field]!=null)prev={date:gb.date,[field]:gb[field]};
+  let target=next[field];
+  if(prev&&next.date>prev.date){
+    const t=Math.min(1,Math.max(0,(isoMs(iso)-isoMs(prev.date))/(isoMs(next.date)-isoMs(prev.date))));
+    target=prev[field]+(next[field]-prev[field])*t;}
+  return{target,next,prev};}
+/* the whole path (baseline + every checkpoint) as sorted points, and its value on any date inside it */
+function pathPoints(field){
+  const pts=[],gb=WINTER.goal_baseline;
+  if(gb&&gb.date&&gb[field]!=null)pts.push({date:gb.date,v:gb[field]});
+  (WINTER.checkpoints||[]).forEach(k=>{if(k&&k.date&&k[field]!=null)pts.push({date:k.date,v:k[field]});});
+  return pts.sort((a,b)=>a.date<b.date?-1:1);}
+function pathValue(pts,iso){
+  if(pts.length<2||iso<pts[0].date||iso>pts[pts.length-1].date)return null;
+  for(let i=1;i<pts.length;i++)if(iso<=pts[i].date){const a=pts[i-1],b=pts[i];
+    return b.date===a.date?b.v:a.v+(b.v-a.v)*(isoMs(iso)-isoMs(a.date))/(isoMs(b.date)-isoMs(a.date));}
+  return null;}
+function meanOf(rows,key,loIso,hiIso){
+  const r=rows.filter(d=>d[key]!=null&&d.date>=loIso&&d.date<=hiIso);
+  return r.length?r.reduce((a,d)=>a+d[key],0)/r.length:null;}
+function goalsStrip(v){
+  const hdAll=(M.health&&M.health.daily)||[];
+  const host=el("div","kpis");let n=0;
+  const add=(...a)=>{mkTile(host,...a);n++;};
+  /* weight vs the plan's path */
+  const wt=bodyStat("weight_kg",todayIso);
+  if(wt){
+    const wRows=hdAll.filter(d=>d.weight_kg!=null),lastW=wRows[wRows.length-1];
+    const pt=pathAt("weight_kg",todayIso);
+    const cls=pt?(wt.v-pt.target<=0.3?"good":wt.v-pt.target<=1.0?"warn":"bad"):"";
+    const cap=[];
+    if(pt)cap.push("→ "+fmtN(pt.next.weight_kg,1)+" by "+dfmt(pt.next.date)+" · "+fmtSigned(pt.next.weight_kg-wt.v)+" to go");
+    if(lastW&&(isoMs(todayIso)-isoMs(lastW.date))/864e5>4)cap.push("last weigh-in "+dfmt(lastW.date));
+    add("Weight",wt.v.toFixed(1)+"<small> kg</small>",cls,cap.join(" · "),
+      wRows.filter(d=>d.date>=isoMinus(todayIso,89)).map(d=>d.weight_kg),css("--s1"));}
+  /* body fat — a trend, not a target */
+  const bf=bodyStat("body_fat_pct",todayIso);
+  if(bf){
+    const w=wt?wt.v:A.weight_kg;
+    const m1=meanOf(hdAll,"body_fat_pct",isoMinus(todayIso,27),todayIso),
+          m2=meanOf(hdAll,"body_fat_pct",isoMinus(todayIso,55),isoMinus(todayIso,28));
+    const dl=(m1!=null&&m2!=null)?m1-m2:null;
+    const cls=dl==null?"good":dl<=0.2?"good":dl<=0.6?"warn":"bad";
+    add("Body fat",bf.v.toFixed(1)+"<small>%</small>",cls,
+      joinBits(["trend only",w!=null?"lean "+fmtN(w*(1-bf.v/100),1)+" kg":null]),
+      hdAll.filter(d=>d.body_fat_pct!=null&&d.date>=isoMinus(todayIso,89)).map(d=>d.body_fat_pct),css("--s2"));}
+  /* fitness vs the plan's path */
+  if(cur&&cur.ctl!=null){
+    const pc=pathAt("ctl",todayIso);
+    const cls=pc?(Math.abs(cur.ctl-pc.target)<=2?"good":Math.abs(cur.ctl-pc.target)<=4?"warn":"bad"):"";
+    const cps=(WINTER.checkpoints||[]).filter(k=>k&&k.date&&k.ctl!=null);
+    let exit=null;
+    const b2=cps.find(k=>/B2/.test(k.label||""));
+    if(b2)exit=b2.ctl;
+    else if(cps.length){const yr=cps[cps.length-1].date.slice(0,4),early=cps.filter(k=>k.date<yr+"-07-01");
+      if(early.length)exit=Math.max(...early.map(k=>k.ctl));}
+    add("Fitness · CTL",Number(cur.ctl).toFixed(1),cls,
+      joinBits([pc?"→ "+fmtN(pc.next.ctl,1)+" by "+dfmt(pc.next.date):null,exit!=null?fmtN(exit,1)+" to leave winter":null]),
+      loadDaily.slice(-90).map(d=>d.ctl),css("--s4"));}
+  /* the ladder the winter is built around */
+  const thr=WINTER.ladders&&WINTER.ladders.threshold;
+  if(thr&&thr.current){
+    const st=(thr.steps||[]).find(s=>s.id===thr.current),hist=thr.history||[],lh=hist[hist.length-1];
+    const w=(st&&st.target_w!=null)?Math.round(st.target_w*A.ftp/(thr.anchor_ftp||A.ftp)):null;
+    add("Threshold ladder",esc(thr.current),"good",
+      joinBits([st&&st.session,w!=null?w+" W":null,lh&&lh.result?"last: "+lh.result:null]),null);}
+  if(!n)return;
+  v.appendChild(el("h3","sect disp","Goals"));v.appendChild(host);}
 
 /* ============ OVERVIEW ============ */
 function vOverview(v){
@@ -861,27 +1123,24 @@ function vOverview(v){
   if(N.headline){const h=el("p",null,N.headline);
     h.style.cssText="font-size:16px;color:var(--ink2);max-width:92ch;margin:0 0 4px;line-height:1.6";
     v.appendChild(h);}
+  /* 3 — where the winter plan says we should be */
+  goalsStrip(v);
 
-  /* 3 — the health numbers that set the banner colour */
+  /* 4 — the health numbers that set the banner colour */
   const hd=M.health.daily||[];
   v.appendChild(el("h3","sect disp","Readiness — the health signals behind the banner"));
-  const bl=A.baselines||{},rhrB=bl.rhr||48,hrvL=bl.hrv_low||49,hrvH=bl.hrv_high||62;
+  const bl=A.baselines||{},rhrB=bl.rhr||48,hb=hrvBand(),hrvL=hb.lo,hrvH=hb.hi;
   const latestH=f=>{for(let i=hd.length-1;i>=0;i--)if(hd[i][f]!=null)return{v:hd[i][f],date:hd[i].date};return null;};
   const kh=el("div","kpis");v.appendChild(kh);
-  function htile(lbl,valStr,cls,baseTxt,sparkVals,sparkColor){
-    const t=el("div","tile");t.appendChild(el("div","lbl",lbl));
-    const val=el("div","val disp"+(cls?" "+cls:""));val.innerHTML=valStr;t.appendChild(val);
-    if(sparkVals&&sparkVals.filter(x=>x!=null).length>1)t.appendChild(spark(sparkVals,sparkColor||css("--s1")));
-    if(baseTxt)t.appendChild(el("div","base",baseTxt));
-    kh.appendChild(t);}
+  const htile=(lbl,valStr,cls,baseTxt,sparkVals,sparkColor)=>mkTile(kh,lbl,valStr,cls,baseTxt,sparkVals,sparkColor);
   const cc=l=>l==="green"?"good":l==="amber"?"warn":"bad";
   if(M.health.present&&hd.length){
     const rd=latestH("readiness");
     if(rd)htile("Readiness",rd.v+"<small>/100</small>",cc(rd.v>=65?"green":rd.v>=40?"amber":"red"),
       "Garmin morning score",hd.map(d=>d.readiness),css("--s5"));
-    const hrv=latestH("hrv");
-    if(hrv)htile("HRV",hrv.v+"<small> ms</small>",cc(hrv.v>=hrvL?"green":hrv.v>=hrvL-7?"amber":"red"),
-      "band "+hrvL+"–"+hrvH+" ms",hd.map(d=>d.hrv),css("--s5"));
+    const hl=hrvLevel();
+    if(hl)htile("HRV",hl.v+"<small> ms</small>",cc(hl.lvl),
+      "band "+hl.lo+"–"+hl.hi+" ms"+(hl.status?" · "+hl.status:""),hd.map(d=>d.hrv),css("--s5"));
     const rhr=latestH("rhr");
     if(rhr){const dl=rhr.v-rhrB;htile("Resting HR",rhr.v+"<small> bpm</small>",cc(dl<=4?"green":dl<=8?"amber":"red"),
       "baseline "+rhrB+" · "+(dl>=0?"+":"")+dl,hd.map(d=>d.rhr),css("--s2"));}
@@ -902,15 +1161,15 @@ function vOverview(v){
     e.textContent="Garmin health feed not connected yet — overnight HRV, resting HR, sleep and readiness land here once it's authorised. Meanwhile judge the day off your watch against baseline RHR "+rhrB+" / HRV "+hrvL+"–"+hrvH+" ms.";
     v.appendChild(e);}
 
-  /* 4 — the fitness numbers + trend sparklines */
+  /* 5 — the fitness numbers + trend sparklines */
   v.appendChild(el("h3","sect disp","Fitness & form"));
   const cw=currentWeek(),wp=weekProgress(cw),nx=planNext(),lr=latestRide();
   const bits=[];
   if(cw&&wp)bits.push("<strong>This week:</strong> "+wp.done+" of "+wp.total+" key sessions done"
     +(wp.openAll?" · "+wp.openAll+" left on the menu":" · week complete"));
-  if(nx)bits.push("<strong>Next up:</strong> "+nx.title+(nx.tss?" (~"+nx.tss+" TSS)":"")
-    +(nx.where?" — "+nx.where:""));
-  if(lr)bits.push("<strong>Last ride:</strong> "+dfmt(lr.date)+" · "+fmtN(lr.km)+" km · "+(lr.np?"NP "+lr.np+" W · ":"")+fmtN(lr.tss)+" TSS"+(lr.flags&&lr.flags.length?" · ⚠ "+lr.flags[0]:""));
+  if(nx)bits.push("<strong>Next up:</strong> "+esc(nx.title)+(nx.tss?" (~"+nx.tss+" TSS)":"")
+    +(nx.where?" — "+esc(nx.where):""));
+  if(lr)bits.push("<strong>Last ride:</strong> "+dfmt(lr.date)+" · "+fmtN(lr.km)+" km · "+(lr.np?"NP "+lr.np+" W · ":"")+fmtN(lr.tss)+" TSS"+(lr.flags&&lr.flags.length?" · ⚠ "+esc(lr.flags[0]):""));
   if(bits.length){const s=el("div","ov-sub");s.style.margin="0 0 14px";s.innerHTML=bits.join(" &nbsp;·&nbsp; ");v.appendChild(s);}
   const k=el("div","kpis");v.appendChild(k);
   const last42=loadDaily.slice(-42);
@@ -933,22 +1192,35 @@ function vOverview(v){
   tile("Valley gap",gap!=null?fmtN(gap,1)+"<small>%</small>":"–","flat vs climb watts at VT2 — the block KPI",
     gap!=null&&gap>-10?"good":"warn",vpw.map(w=>w.gap_pct),css("--s2"));
 
-  /* goals row */
-  v.appendChild(Object.assign(el("h3","sect disp","The three goals — live scoreboards")));
-  const g=el("div","grid");v.appendChild(g);
-  {const c=card(g,"c4","Goal 1 · block KPI","Valley power at VT2",
-    [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
-     "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power");
+  /* 6 — do next: always visible */
+  const g2=el("div","grid");g2.style.marginTop="16px";v.appendChild(g2);
+  if(N.actions&&N.actions.length){
+    const c=card(g2,"","From the coach","Do next",null,null);
+    const ul=el("ul","actions");
+    N.actions.forEach(a=>{const li=el("li");li.appendChild(el("span","pn",String(a.priority)));
+      li.appendChild(document.createTextNode(a.text));ul.appendChild(li);});
+    c.appendChild(ul);}
+
+  /* 7 — the three goal scoreboards + the tab digest, folded away until wanted */
+  const g=el("div","grid");g.style.marginTop="16px";v.appendChild(g);
+  {const sm=vpLast?joinBits([vpLast.flat_w!=null?"flat "+vpLast.flat_w+" W":null,
+      vpLast.climb_w!=null?"climb "+vpLast.climb_w+" W":null,
+      vpLast.gap_pct!=null?"gap "+fmtN(vpLast.gap_pct,1)+"%":null]):"needs flat + climb rides with power and HR";
+    const c=ccard(g,"c6","Goal 1 · block KPI","Valley power at VT2",sm,"valley",false,
+      [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
+       "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power");
     if(!vpw.length)emptyState(c,"Needs rides with power + HR on both flat and climbing terrain.");
     else{lineChart(c,{x:vpw.map(w=>w.end_date),padR:74,h:210,
       series:[{name:"Climb W",color:css("--s4"),values:vpw.map(w=>w.climb_w)},
               {name:"Flat W",color:css("--s1"),values:vpw.map(w=>w.flat_w)}],unit:" W"});
       addTableToggle(c,()=>mkTable(["Window end","Flat W","Climb W","Gap","Flat min","Climb min"],
         vpw.map(w=>[dfmtY(w.end_date),w.flat_w,w.climb_w,(w.gap_pct>0?"+":"")+w.gap_pct+"%",w.flat_min,w.climb_min])));}}
-  {const c=card(g,"c4","Goal 2 · accessory","Top-end sprint",
-    ["Best 5 / 15 / 30-second power from each ride's power stream. Historical streams were too coarse for an honest 5 s number — new rides record at full resolution.",
-     "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint");
-    const st2=M.sprint.trend.filter(x=>x.p15||x.p5||x.p30);
+  {const b=(M.sprint&&M.sprint.best)||{},nz=x=>x!=null?x:"–";
+    const sm=(b.p5!=null||b.p15!=null||b.p30!=null)?"best 5/15/30 s "+nz(b.p5)+"/"+nz(b.p15)+"/"+nz(b.p30)+" W":"appears as full-resolution streams accumulate";
+    const c=ccard(g,"c6","Goal 2 · accessory","Top-end sprint",sm,"sprint",false,
+      ["Best 5 / 15 / 30-second power from each ride's power stream. Historical streams were too coarse for an honest 5 s number — new rides record at full resolution.",
+       "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint");
+    const st2=((M.sprint&&M.sprint.trend)||[]).filter(x=>x.p15||x.p5||x.p30);
     if(!st2.length)emptyState(c,"Appears as full-resolution streams accumulate.");
     else{lineChart(c,{x:st2.map(x=>x.date),padR:50,h:210,directLabels:false,
       series:[{name:"5 s",color:css("--s2"),values:st2.map(x=>x.p5),dots:true,width:0},
@@ -956,10 +1228,13 @@ function vOverview(v){
               {name:"30 s",color:css("--s1"),values:st2.map(x=>x.p30),dots:true,width:0}],unit:" W"});
       addTableToggle(c,()=>mkTable(["Date","5s W","15s W","30s W","sample dt"],
         st2.slice(-20).map(x=>[dfmtY(x.date),x.p5,x.p15,x.p30,x.dt?x.dt+"s":"–"])));}}
-  {const c=card(g,"c4","Goal 3 · the weapon","Fade less fast",
-    ["Power drop from first to last climb on every ride with ≥3 climbs of ≥8 min. Bars below zero mean fading; the HR-adjusted number (table) strips out pacing.",
-     "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability");
-    const rr=(M.repeatability.rides||[]).slice().reverse();
+  {const rr=((M.repeatability&&M.repeatability.rides)||[]).slice().reverse();   // chronological
+    const lat=rr.length?rr.slice().sort((a,b)=>a.date<b.date?-1:1)[rr.length-1]:null;
+    const sm=lat?joinBits([lat.n_climbs!=null?plural(lat.n_climbs,"climb"):null,
+      lat.hr_adj_fade_pct!=null?"HR-adj fade "+lat.hr_adj_fade_pct+"%":null,dfmt(lat.date)]):"needs multi-climb rides";
+    const c=ccard(g,"c6","Goal 3 · the weapon","Fade less fast",sm,"fade",false,
+      ["Power drop from first to last climb on every ride with ≥3 climbs of ≥8 min. Bars below zero mean fading; the HR-adjusted number (table) strips out pacing.",
+       "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability");
     if(!rr.length)emptyState(c,"Needs multi-climb rides — appears as streams are analysed.");
     else{colChart(c,{categories:rr.map(r=>r.date),values:rr.map(r=>r.fade_pct),h:210,
       colorFn:x=>x>=-2?css("--s1"):css("--s2"),name:"fade",unit:"%",yFmt:x=>((x>0?"+":"")+fmtN(x,1)),
@@ -967,26 +1242,25 @@ function vOverview(v){
       addTableToggle(c,()=>mkTable(["Date","Ride","Climbs","Fade","HR-adjusted"],
         rr.map(r=>[dfmtY(r.date),r.name,r.n_climbs,(r.fade_pct>0?"+":"")+r.fade_pct+"%",
           r.hr_adj_fade_pct!=null?(r.hr_adj_fade_pct>0?"+":"")+r.hr_adj_fade_pct+"%":"–"])));}}
-
-  /* do next + tab digests */
-  const g2=el("div","grid");g2.style.marginTop="16px";v.appendChild(g2);
-  if(N.actions&&N.actions.length){
-    const c=card(g2,"c6","From the coach","Do next",null,null);
-    const ul=el("ul","actions");
-    N.actions.forEach(a=>{const li=el("li");li.appendChild(el("span","pn",String(a.priority)));
-      li.appendChild(document.createTextNode(a.text));ul.appendChild(li);});
-    c.appendChild(ul);}
-  {const c=card(g2,"c6","Across the app","Tab digest",null,null);
+  {const c=ccard(g,"c6","Across the app","Tab digest","one line per tab","digest",false);
+    const thr=WINTER.ladders&&WINTER.ladders.threshold,np=planNext();
+    const hv=latestH("hrv"),rh=latestH("rhr"),wS=bodyStat("weight_kg",todayIso);
+    const ct=currentWeek();
     const rows=[
-      ["Training Plan",(planNext()?("Next up: "+planNext().title):"—")],
-      ["Load","CTL "+fmtN(cur.ctl)+" · TSB "+(cur.tsb>0?"+":"")+fmtN(cur.tsb)+" · week "+fmtN(wk.tss)+" TSS vs "+(PLAN.weeks[0]?PLAN.weeks[0].tss_target:"–")+" target"],
-      ["Engine","Valley gap "+(gap!=null?gap+"%":"–")+" · best 15 s "+(M.sprint.best.p15||"–")+" W · FTP "+A.ftp+" W"],
-      ["Health",M.health.present?("HRV "+((latestH("hrv")||{}).v||"–")+" ms · RHR "+((latestH("rhr")||{}).v||"–")+(M.health.days_stale>=1?" (last-known "+dfmt(M.health.last_date)+")":"")):"Garmin feed pending network allow-list"],
-      ["Race",fmtN(M.countdown.days_to_go)+" days · est. race NP "+(mara&&mara.np_estimated?mara.np_estimated+" W":"–")+" · stopped time "+(mara?mara.stopped_min+" min":"–")],
-      ["Coach",(COACH.qa&&COACH.qa.length?COACH.qa.length+" Q&A":"")+" · "+((COACH.verdicts&&COACH.verdicts.neglected)?COACH.verdicts.neglected.length+" neglected areas being fixed":"")]];
+      ["Plan",np?("Next up: "+np.title):"—"],
+      thr&&thr.current?["Ladders","Threshold ladder at "+thr.current]:null,
+      ["Body",M.health.present?joinBits([hv?"HRV "+hv.v+" ms":null,rh?"RHR "+rh.v:null,wS?fmtN(wS.v,1)+" kg":null,
+        M.health.days_stale>=1?"last-known "+dfmt(M.health.last_date):null]):"Garmin feed not connected"],
+      ["Load","CTL "+fmtN(cur.ctl)+" · TSB "+(cur.tsb>0?"+":"")+fmtN(cur.tsb)+" · week "+fmtN(wk.tss)+" TSS"+(ct&&ct.tss_target!=null?" vs "+ct.tss_target+" target":"")],
+      ["Engine",joinBits(["Valley gap "+(gap!=null?fmtN(gap,1)+"%":"–"),"best 15 s "+((M.sprint&&M.sprint.best&&M.sprint.best.p15)||"–")+" W","FTP "+A.ftp+" W"])],
+      ["Race",joinBits([fmtN(M.countdown.days_to_go)+" days",mara&&mara.np_estimated?"est. race NP "+mara.np_estimated+" W":null,
+        mara&&mara.stopped_min!=null?"stopped time "+mara.stopped_min+" min":null])],
+      ["Coach",joinBits([COACH.qa&&COACH.qa.length?COACH.qa.length+" Q&A":null,
+        (COACH.verdicts&&COACH.verdicts.neglected)?COACH.verdicts.neglected.length+" neglected areas being fixed":null])||"—"]
+    ].filter(Boolean);
     const t=el("table","data");const tb=el("tbody");
     rows.forEach(r=>{const tr=el("tr");
-      const td1=el("td",null,r[0]);td1.style.width="130px";tr.appendChild(td1);
+      const td1=el("td",null,r[0]);td1.style.width="90px";tr.appendChild(td1);
       const td2=el("td",null,r[1]);td2.style.textAlign="left";td2.style.whiteSpace="normal";tr.appendChild(td2);
       tb.appendChild(tr);});
     t.appendChild(tb);c.appendChild(t);}
@@ -1029,45 +1303,24 @@ function vPlan(v){
     ["The whole campaign to Maratona 2027 drawn as a race profile — height is weekly training stress, the dot is where you are now.",
      "Check the active phase before reading any week below: a session only makes sense inside its phase's job. Gates (like the FTP retest) move on readiness, not the calendar."],null);
     stageProfile(c,PLAN.phases||[]);}
-  if(PLAN.horizon_note){const n=el("div","note");n.textContent=PLAN.horizon_note;n.style.margin="4px 4px 0";v.appendChild(n);}
-  if(PLAN.availability){const av=PLAN.availability;
-    const c=card(g,"","when training happens","Availability & holidays",
-      ["Your real weekly schedule — the plan is built to fit it, not the other way round.",
-       "If a weekday morning falls through, shift the session earlier in the week rather than pushing it to the weekend; the weekend ride is always a bonus."],null);
-    /* key info stays visible: the weekly pattern + upcoming trips at a glance */
-    if(av.weekly_pattern)c.appendChild(el("div","note",av.weekly_pattern));
-    const kindChip={trip:"ice",holiday:"rosa",travel:"warn"};
-    const ups=(av.holidays||[]).filter(h=>!h.end||h.end>=todayIso);
-    if(ups.length){c.appendChild(el("div","eyebrow","Upcoming trips & holidays"));}
-    ups.forEach(h=>{const d=el("details","day");
-      const sm=el("summary");sm.appendChild(el("span","caret","▸"));
-      sm.appendChild(el("span","dd",dfmt(h.start)+" – "+dfmt(h.end)));
-      sm.appendChild(el("span","dt",h.label||"Holiday"));
-      sm.appendChild(chip(kindChip[h.kind]||"rosa",h.tag||"flexible / de-load"));
-      d.appendChild(sm);d.appendChild(el("div","body",h.note));c.appendChild(d);});
-    /* everything else folds away until you want it */
-    const more=el("details","day");more.style.marginTop="10px";
-    const ms=el("summary");ms.appendChild(el("span","caret","▸"));
-    ms.appendChild(el("span","dt","More on the schedule — philosophy, summer & meters"));
-    more.appendChild(ms);
-    const mb=el("div","body");
-    if(av.load_philosophy){const lp=el("p");lp.style.margin="0 0 10px";lp.innerHTML="<strong>Why it's not every day:</strong> "+av.load_philosophy;mb.appendChild(lp);}
-    if(av.summer_window){const s=el("p");s.style.margin="0 0 10px";s.innerHTML="<strong>Summer (to 5 Sep):</strong> "+av.summer_window;mb.appendChild(s);}
-    if(av.meter_note){const mn=el("p");mn.style.margin="0";mn.innerHTML="<strong>Meters:</strong> "+av.meter_note;mb.appendChild(mn);}
-    more.appendChild(mb);c.appendChild(more);}
   const wkAct={};M.weekly.forEach(w=>wkAct[w.week_start]=w.tss);
+  const curWk=currentWeek();
   (PLAN.weeks||[]).forEach((w,wi)=>{
-    const c=card(g,"",w.phase,w.label,null,null);
-    c.style.borderTop="3px solid "+(wi===0?css("--rosa"):css("--line"));
-    const hdr=el("div");hdr.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px";
+    const sessions=(w.sessions||[]).slice()
+      .sort((a,b)=>((a.priority||3)-(b.priority||3))||(a.tss<b.tss?1:-1));
+    const nDone=sessions.filter(s=>s.status==="done").length;
+    const isCur=w===curWk;
+    const c=ccard(g,"",w.phase,w.label,
+      joinBits([w.tss_target!=null?w.tss_target+" TSS target":null,plural(sessions.length,"session"),nDone+" done"]),
+      "wk-"+(w.start||wi),isCur);
+    ccEl(c).style.borderTop="3px solid "+(isCur?css("--rosa"):css("--line"));
+    const hdr=el("div");hdr.style.cssText="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px";
     hdr.appendChild(chip("ice","Target ~"+w.tss_target+" TSS"));
     const act=wkAct[w.start];
     if(act!=null)hdr.appendChild(chip(act>=w.tss_target*.8?"good":"mute","Actual "+fmtN(act)+" TSS"));
     c.appendChild(hdr);
     /* A week that has already ended is history: the TSS chips above are the
        whole story, so its session list collapses by default. */
-    const sessions=(w.sessions||[]).slice()
-      .sort((a,b)=>((a.priority||3)-(b.priority||3))||(a.tss<b.tss?1:-1));
     const weekOver=(w.end||w.start)<todayIso;
     let host=c;
     if(w.anchor_note&&!weekOver){
@@ -1083,8 +1336,7 @@ function vPlan(v){
     }
     sessions.forEach(s=>{
       const det=el("details","day");
-      const open=s.status!=="done"&&s.status!=="skipped";
-      if(open&&!weekOver&&(s.priority||3)<3)det.open=true;
+      /* no session starts open: the summary row already carries title / place / minutes / TSS */
       const sm=el("summary");
       sm.appendChild(el("span","caret","▸"));
       const pr=(s.priority||3);
@@ -1106,6 +1358,37 @@ function vPlan(v){
       if(s.prescription)renderPrescription(body,s.prescription);
       host.appendChild(det);});
     if(w.note){const n=el("div","note");n.textContent="◆ "+w.note;n.style.color="var(--warn)";c.appendChild(n);}});
+  if(PLAN.availability){const av=PLAN.availability;
+    const ups=(av.holidays||[]).filter(h=>!h.end||h.end>=todayIso).sort((a,b)=>a.start<b.start?-1:1);
+    const nxH=ups[0];
+    const sm=nxH?joinBits([nxH.label||"Holiday",nxH.start?dfmt(nxH.start)+(nxH.end?" – "+dfmt(nxH.end):""):null])
+      :clip(av.weekly_pattern,70);
+    const c=ccard(g,"","when training happens","Availability & holidays",sm,"avail",false,
+      ["Your real weekly schedule — the plan is built to fit it, not the other way round.",
+       "If a weekday morning falls through, shift the session earlier in the week rather than pushing it to the weekend; the weekend ride is always a bonus."]);
+    /* key info stays visible once opened: the weekly pattern + upcoming trips at a glance */
+    if(av.weekly_pattern)c.appendChild(el("div","note",av.weekly_pattern));
+    const kindChip={trip:"ice",holiday:"rosa",travel:"warn"};
+    if(ups.length){c.appendChild(el("div","eyebrow","Upcoming trips & holidays"));}
+    ups.forEach(h=>{const d=el("details","day");
+      const sm=el("summary");sm.appendChild(el("span","caret","▸"));
+      sm.appendChild(el("span","dd",h.start?dfmt(h.start)+(h.end?" – "+dfmt(h.end):""):""));
+      sm.appendChild(el("span","dt",h.label||"Holiday"));
+      sm.appendChild(chip(kindChip[h.kind]||"rosa",h.tag||"flexible / de-load"));
+      d.appendChild(sm);d.appendChild(el("div","body",h.note));c.appendChild(d);});
+    /* everything else folds away until you want it */
+    const more=el("details","day");more.style.marginTop="10px";
+    const ms=el("summary");ms.appendChild(el("span","caret","▸"));
+    ms.appendChild(el("span","dt","More on the schedule — philosophy, summer & meters"));
+    more.appendChild(ms);
+    const mb=el("div","body");
+    if(av.load_philosophy){const lp=el("p");lp.style.margin="0 0 10px";lp.innerHTML="<strong>Why it's not every day:</strong> "+av.load_philosophy;mb.appendChild(lp);}
+    if(av.summer_window){const s=el("p");s.style.margin="0 0 10px";s.innerHTML="<strong>Summer (to 5 Sep):</strong> "+av.summer_window;mb.appendChild(s);}
+    if(av.meter_note){const mn=el("p");mn.style.margin="0";mn.innerHTML="<strong>Meters:</strong> "+av.meter_note;mb.appendChild(mn);}
+    more.appendChild(mb);c.appendChild(more);}
+  if(PLAN.horizon_note){
+    const c=ccard(g,"",null,"How the plan works","4-week window · menu, not a timetable","horizon",false);
+    c.appendChild(el("div","note",PLAN.horizon_note));}
 }
 
 function renderPrescription(container,p){
@@ -1243,10 +1526,13 @@ function vEngine(v){
     else{lineChart(c,{x:ef.map(x=>x.date),padR:40,h:240,yFmt:x=>fmtN(x,2),
       series:[{name:"EF",color:css("--s5"),values:ef.map(x=>x.ef),dots:ef.length<30}]});
       addTableToggle(c,()=>mkTable(["Date","Ride","EF"],ef.map(x=>[dfmtY(x.date),x.name,x.ef])));}}
-  {const c=card(g,"c6","ventilatory thresholds & breathing","Tymewear",
+  {const ty=(M.tymewear&&M.tymewear.sessions)||[];
+    const thrN=ty.filter(s=>/threshold/i.test(s.type||"")).length,
+      brN=ty.filter(s=>[s.vt1,s.vt2,s.vo2max].some(b=>b&&(b.vent_l_min||b.br_rpm))).length;
+    const c=ccard(g,"c6","ventilatory thresholds & breathing","Tymewear",
+      ty.length?joinBits([plural(thrN,"threshold session"),brN+" breathing summar"+(brN===1?"y":"ies")]):"breathing data","tymewear",false,
     ["Breath-by-breath data locates VT1/VT2 precisely — the anchors everything else here hangs off. Sessions land automatically once the Tymewear connection is unlocked.",
-     "Re-test after any FTP change >5%, in ERG mode, same protocol. If ventilation at a fixed power drifts down across the block, the engine is genuinely growing."],null);
-    const ty=(M.tymewear&&M.tymewear.sessions)||[];
+     "Re-test after any FTP change >5%, in ERG mode, same protocol. If ventilation at a fixed power drifts down across the block, the engine is genuinely growing."]);
     if(!ty.length)emptyState(c,"No Tymewear sessions ingested yet — credentials staged, network allow-list pending.");
     else{const fmtVT=b=>b&&b.hr_bpm?Math.round(b.hr_bpm)+" bpm · "+(b.watts?Math.round(b.watts)+" W":"–")+
         (b.vent_l_min?" · "+Math.round(b.vent_l_min)+" L/min":"")+(b.br_rpm?" · "+Math.round(b.br_rpm)+" br":""):"–";
@@ -1265,40 +1551,90 @@ function vEngine(v){
     (M.recent_rides||[]).slice(0,5).forEach(r=>renderLaps(c,r));}
 }
 
-/* ============ HEALTH ============ */
-function vHealth(v){
+/* ============ BODY (was Health) ============ */
+/* first-of-month dates between two ISO dates — explicit ticks for sparse, long-span charts */
+function monthTicks(a,b){
+  const out=[];let d=new Date(a+"T00:00:00Z");d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1));
+  const end=new Date(b+"T00:00:00Z");
+  while(d<=end){out.push(d.toISOString().slice(0,10));d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1));}
+  return out;}
+function vBody(v){
   const g=el("div","grid");v.appendChild(g);
   const hd=M.health.daily||[];
+  const bl=A.baselines||{},rhrB=bl.rhr||48,hb=hrvBand(),hrvL=hb.lo,hrvH=hb.hi;
+  const latestH=f=>{for(let i=hd.length-1;i>=0;i--)if(hd[i][f]!=null)return{v:hd[i][f],date:hd[i].date};return null;};
+  const phone=window.innerWidth<640,CW=phone?460:860;
+
+  /* (a) weight & body fat against the plan's path */
+  {const wt=bodyStat("weight_kg",todayIso),bf=bodyStat("body_fat_pct",todayIso),pt=pathAt("weight_kg",todayIso);
+    const sm=joinBits([wt?"7-day "+fmtN(wt.v,1)+" kg":null,bf?fmtN(bf.v,1)+"%":null,
+      pt?"next target "+fmtN(pt.next.weight_kg,1)+" kg by "+dfmt(pt.next.date):null])||"no weigh-ins yet";
+    const c=ccard(g,"","Garmin weigh-ins · last 180 days","Weight & body fat",sm,"weight",true,
+      ["Each weigh-in (dots) against the path the plan draws from its starting baseline through every checkpoint (dashed). Body fat is shown as a trend only — a scale's impedance reading is good for direction, not for the absolute number.",
+       "Weight sitting above the dashed path for a few weeks: tighten the easy-day deficit. Well below it: you're being too strict, so fuel the hard days properly. Body fat rising while weight falls is the cue to check protein and strength work."]);
+    const cutoff=isoMinus(todayIso,179);
+    const wRows=hd.filter(d=>d.weight_kg!=null&&d.date>=cutoff),fRows=hd.filter(d=>d.body_fat_pct!=null&&d.date>=cutoff);
+    if(!wRows.length&&!fRows.length)emptyState(c,"No weigh-ins yet — they land here after the next morning sync from the scale.");
+    if(wRows.length){
+      const pts=pathPoints("weight_kg"),set={};wRows.forEach(d=>set[d.date]=d.weight_kg);
+      const xs=Array.from(new Set(wRows.map(d=>d.date).concat(pts.map(p=>p.date)))).sort();
+      const series=[{name:"Weight",color:css("--s1"),values:xs.map(x=>set[x]!=null?set[x]:null),dots:true,width:1.6}];
+      if(pts.length>1)series.push({name:"Target path",color:css("--rosa"),values:xs.map(x=>pathValue(pts,x)),dash:"6 4",width:1.8});
+      const lh=el("div","eyebrow","Weight · kg");lh.style.marginTop="6px";c.appendChild(lh);
+      lineChart(c,{x:xs,w:CW,h:phone?230:210,padR:24,noGapBreak:true,directLabels:false,yFmt:x=>fmtN(x,1),unit:" kg",
+        xTicks:monthTicks(xs[0],xs[xs.length-1]),markX:todayIso,series});}
+    if(fRows.length){
+      const lh=el("div","eyebrow","Body fat · % (trend only)");lh.style.marginTop="14px";c.appendChild(lh);
+      lineChart(c,{x:fRows.map(d=>d.date),w:CW,h:phone?200:180,padR:24,noGapBreak:true,directLabels:false,yFmt:x=>fmtN(x,1),unit:"%",
+        series:[{name:"Body fat",color:css("--s2"),values:fRows.map(d=>d.body_fat_pct),dots:true,width:1.6}]});
+      addTableToggle(c,()=>mkTable(["Date","Weight kg","Body fat %"],
+        hd.filter(d=>d.weight_kg!=null||d.body_fat_pct!=null).slice(-21).reverse()
+          .map(d=>[dfmtY(d.date),d.weight_kg!=null?fmtN(d.weight_kg,1):null,d.body_fat_pct!=null?fmtN(d.body_fat_pct,1):null])));}}
+
+  /* (b) recovery */
   if(!M.health.present||!hd.length){
-    const c=card(g,"","Garmin overnight data","Recovery & health",
+    const c=ccard(g,"","Garmin overnight data","Recovery & health","feed not connected","recovery",true,
       ["Overnight HRV (heart-rate variability — higher and steadier is better), resting HR, sleep and body battery: the 'can I absorb training today?' signals.",
-       "Green morning (HRV in the 52–63 band, RHR ≤ ~50) = train as planned. Worst metric wins. Symptoms override everything: unusual fatigue = rest, whatever the numbers say."],null);
+       "Green morning (HRV inside Garmin's band, RHR within +4 of baseline) = train as planned. Worst metric wins. Symptoms override everything: unusual fatigue = rest, whatever the numbers say."]);
     emptyState(c,"The Garmin pipeline is built, credentials are staged, and it exercised correctly end-to-end — it is blocked only by this environment's network policy. Allow connect.garmin.com, sso.garmin.com and garmin.com in the Claude Code environment's network settings and every morning sync will fill this page (last 90 days retro-filled on first run).");
-    const b=el("div","note");b.innerHTML="<strong>Baselines on file:</strong> resting HR 45 bpm · HRV band 52–63 ms (Garmin 7-day, confirmed 11 Jul). The readiness framework below runs on these.";
+    const b=el("div","note");b.innerHTML="<strong>Baselines on file:</strong> resting HR "+rhrB+" bpm · HRV band "+hrvL+"–"+hrvH+" ms. The readiness framework below runs on these.";
     c.appendChild(b);}
   else{
-    const c=card(g,"","Garmin overnight data","Recovery & health",
-      ["Overnight HRV, resting HR against your "+((A.baselines||{}).rhr||48)+" bpm baseline, sleep and body battery.",
+    const h=latestH("hrv"),r=latestH("rhr"),rd=latestH("readiness");
+    const sm=joinBits([h?"HRV "+h.v+" ms":null,r?"RHR "+r.v+" bpm":null,rd?"readiness "+rd.v:null]);
+    const c=ccard(g,"","Garmin overnight data","Recovery & health",sm,"recovery",true,
+      ["Overnight HRV, resting HR against your "+rhrB+" bpm baseline, sleep and body battery.",
        "Green morning = train as planned; worst metric wins; symptoms override everything."],"health");
-    lineChart(c,{x:hd.map(d=>d.date),padR:64,h:260,
+    lineChart(c,{x:hd.map(d=>d.date),w:CW,padR:64,h:phone?240:260,
       series:[{name:"HRV ms",color:css("--s5"),values:hd.map(d=>d.hrv)},
               {name:"RHR",color:css("--s2"),values:hd.map(d=>d.rhr),width:1.6}]});
     addTableToggle(c,()=>mkTable(["Date","HRV","RHR","Sleep h","Score","Weight","Readiness"],
       hd.slice(-21).map(d=>[dfmtY(d.date),d.hrv,d.rhr,d.sleep_h,d.sleep_score,d.weight_kg,d.readiness])));}
-  {const bl=A.baselines||{},rhrB=bl.rhr||48,hrvL=bl.hrv_low||49;
-    const c=card(g,"c6","the morning traffic light","Readiness framework",
-    ["Four checks each morning — RHR vs your "+rhrB+" bpm baseline, HRV vs your "+hrvL+"–"+(bl.hrv_high||62)+" ms band, sleep hours, subjective energy. The worst one sets the day's colour.",
-     "GREEN: session as planned. YELLOW: cut intensity 10–15% or volume 20–30%. RED: active recovery or rest — non-negotiable. An elevated RHR *trend* across days = back off before it becomes illness."],null);
+
+  /* (c) fuelling */
+  if(WINTER.nutrition_rules&&WINTER.nutrition_rules.length){
+    const c=ccard(g,"c6",WINTER.weight_kicker||null,"Weight & fuelling",
+      plural(WINTER.nutrition_rules.length,"rule")+" · deficit on easy days only","fuel",false);
+    vItems(c,WINTER.nutrition_rules);
+    if(WINTER.weight_note){const n=el("div","note",WINTER.weight_note);n.style.marginTop="10px";c.appendChild(n);}}
+
+  /* (d) readiness framework */
+  {const c=ccard(g,"c6","the morning traffic light","Readiness framework","green / amber / red rules","framework",false,
+    ["Four checks each morning — RHR vs your "+rhrB+" bpm baseline, HRV vs Garmin's "+hrvL+"–"+hrvH+" ms band and status, sleep hours, subjective energy. The worst one sets the day's colour.",
+     "GREEN: session as planned. YELLOW: cut intensity 10–15% or volume 20–30%. RED: active recovery or rest — non-negotiable. An elevated RHR *trend* across days = back off before it becomes illness."]);
     const t=mkTable(["Check","Green","Yellow","Red"],[
       ["Resting HR vs "+rhrB,"≤ +4","+5 to +8","> +8"],
-      ["HRV (overnight)","≥ "+hrvL+" ms",(hrvL-7)+"–"+(hrvL-1)+" ms","< "+(hrvL-7)+" ms"],
+      ["HRV (overnight)","Balanced or unbalanced · ≥ "+hrvL+" ms","Low · "+(hrvL-7)+"–"+(hrvL-1)+" ms","Poor, or low 2 days running · < "+(hrvL-7)+" ms"],
       ["Sleep","≥ 7.5 h","6.5–7.5 h","< 6.5 h"],
       ["Energy (subjective)","≥ 7/10","5–6","< 5"]]);
     const sc=el("div","scroll");sc.appendChild(t);c.appendChild(sc);}
-  {const c=card(g,"c6","everything that isn't riding","Other training",
-    ["Strength, yoga, hikes, swims and snow days from Strava and Garmin. They don't earn bike TSS but they do cost recovery.",
-     "Count them as fatigue when planning the next quality ride — a big hike day before intervals is still a big day."],null);
-    const ot=(M.other_training||[]).slice(-14).reverse();
+
+  /* (e) everything that isn't riding */
+  {const all=M.other_training||[],ot=all.slice(-14).reverse();
+    const c=ccard(g,"c6","everything that isn't riding","Other training",
+      all.length?plural(all.length,"session")+" logged":"none logged recently","other",false,
+      ["Strength, yoga, hikes, swims and snow days from Strava and Garmin. They don't earn bike TSS but they do cost recovery.",
+       "Count them as fatigue when planning the next quality ride — a big hike day before intervals is still a big day."]);
     if(!ot.length)emptyState(c,"No non-ride sessions logged recently.");
     else{const sc=el("div","scroll");sc.appendChild(mkTable(["Date","Type","Duration"],
       ot.map(o=>[dfmtY(o.date),(o.type||"").replace(/_/g," "),o.duration_min?o.duration_min+" min":"–"])));
@@ -1319,9 +1655,11 @@ function vRace(v){
       if(sub)t.appendChild(el("div","sub",sub));row.appendChild(t);});
     c.appendChild(row);}
   if(mara){
-    {const c=card(g,"","Maratona 2026 · 5 Jul · where nine hours went","The debrief",
+    {const dsm=joinBits([mara.official_time?"official "+mara.official_time:(mara.moving_time_s!=null?"moving "+hms(mara.moving_time_s):null),
+        mara.stopped_min!=null?"stopped "+mara.stopped_min+" min":null])||"race debrief";
+      const c=ccard(g,"","Maratona 2026 · 5 Jul · where nine hours went","The debrief",dsm,"debrief",false,
       ["Moving time beat the target window; official time didn't — 68 minutes stood still (two unplanned GI stops on Campolongo). Entering form: CTL "+fmtN(mara.entering_ctl)+", TSB +"+fmtN(mara.entering_tsb)+" — the taper delivered.",
-       "The cheapest 2027 minutes are the stopped ones: the GI project (gut-training at 85–90 g/hr) starts in P2, plus a written stop protocol. Fitness conclusions and execution conclusions stay separate."],null);
+       "The cheapest 2027 minutes are the stopped ones: the GI project (gut-training at 85–90 g/hr) starts in P2, plus a written stop protocol. Fitness conclusions and execution conclusions stay separate."]);
       const row=el("div","kpis");row.style.marginTop="10px";
       [["Moving",hms(mara.moving_time_s),"target window 8:00–8:30 · met","good"],
        ["Official",mara.official_time||"–","chip time — the results-page number","warn"],
@@ -1361,9 +1699,11 @@ function vRace(v){
           x.rec_w,x.est_w,x.est_w&&x.rec_w?(x.est_w-x.rec_w>0?"+":"")+(x.est_w-x.rec_w):"–"])));}
   }
   if(gavia){
-    const c=card(g,"c6","Gavia Mortirolo · 22 Jun 2025 — the season before","Year-on-year",
+    const ysm=joinBits([gavia.moving_time_s!=null&&mara&&mara.moving_time_s!=null?"moving "+hms(gavia.moving_time_s)+" → "+hms(mara.moving_time_s):null,
+      gavia.np&&mara&&mara.np_estimated?"NP "+gavia.np+" → "+mara.np_estimated+" W":null])||"season on season";
+    const c=ccard(g,"c6","Gavia Mortirolo · 22 Jun 2025 — the season before","Year-on-year",ysm,"yoy",false,
       ["The 2025 granfondo as the baseline: NP "+(gavia.np||"–")+" W, "+hms(gavia.moving_time_s)+" moving, and a "+(gavia.hr_adj_fade_pct!=null?gavia.hr_adj_fade_pct+"%":"–")+" HR-adjusted fade from first climb to last — versus a 2026 Maratona finished at full strength.",
-       "Repeatability is the proven year-on-year gain. The un-moved number is peak fitness (CTL 36→41 entering the races) — that is what the winter base block attacks."],null);
+       "Repeatability is the proven year-on-year gain. The un-moved number is peak fitness (CTL 36→41 entering the races) — that is what the winter base block attacks."]);
     const t=mkTable(["","Gavia 2025","Maratona 2026"],[
       ["Distance / climb",fmtN(gavia.km)+" km / "+fmtN(gavia.elevation_m)+" m",mara?fmtN(mara.km)+" km / "+fmtN(mara.elevation_m)+" m":"–"],
       ["Moving time",hms(gavia.moving_time_s),mara?hms(mara.moving_time_s):"–"],
@@ -1382,9 +1722,7 @@ function vRace(v){
 /* ============ COACH ============ */
 function vCoach(v){
   const g=el("div","grid");v.appendChild(g);
-  {const c=card(g,"c8","written from the latest data on every sync","The story so far",null,null);
-    const st=el("div","story");(N.story||[]).forEach(p=>st.appendChild(el("p",null,p)));c.appendChild(st);}
-  {const c=card(g,"c4","highest-leverage next moves","Do next",null,null);
+  {const c=card(g,"","highest-leverage next moves","Do next",null,null);
     const ul=el("ul","actions");
     (N.actions||[]).forEach(a=>{const li=el("li");li.appendChild(el("span","pn",String(a.priority)));
       li.appendChild(document.createTextNode(a.text));ul.appendChild(li);});
@@ -1393,19 +1731,25 @@ function vCoach(v){
     ask.innerHTML="<strong>Ask the coach.</strong> "+(COACH.ask_how||"");
     ask.style.cssText="border-top:1px solid var(--line);padding-top:12px;margin-top:14px";
     c.appendChild(ask);}
+  /* questions live on their own tab now */
+  {const row=el("div","xlinkrow");const b=el("button","xlink","Questions & answers → Q&A tab");b.type="button";
+    b.addEventListener("click",()=>{location.hash="qa";});row.appendChild(b);g.appendChild(row);}
   /* End-of-week reviews — what was planned, what actually happened, and whether
      the deviations helped or hurt. Newest first. */
   if(COACH.week_reviews&&COACH.week_reviews.length){
-    const c=card(g,"",null,"Week in review",null,null);
-    c.style.borderTop="3px solid "+css("--s3");
+    const lastR=COACH.week_reviews[COACH.week_reviews.length-1];
+    const c=ccard(g,"",null,"Week in review",
+      joinBits([lastR.label||lastR.week_start,lastR.tss_actual!=null&&lastR.tss_target!=null?lastR.tss_actual+"/"+lastR.tss_target+" TSS":null]),
+      "reviews",true);
+    ccEl(c).style.borderTop="3px solid "+css("--s3");
     COACH.week_reviews.slice().reverse().forEach((r,i)=>{
       const det=el("details","day");if(i===0)det.open=true;
       const sm=el("summary");
       sm.appendChild(el("span","caret","▸"));
       sm.appendChild(el("span","dt",r.label||r.week_start||""));
       if(r.tss_actual!=null)sm.appendChild(el("span","dtss",r.tss_actual+" / "+r.tss_target+" TSS"));
-      const v=(r.compliance||"").toLowerCase();
-      sm.appendChild(chip(v.indexOf("full")===0?"good":v.indexOf("part")===0?"warn":"mute",
+      const cv=(r.compliance||"").toLowerCase();
+      sm.appendChild(chip(cv.indexOf("full")===0?"good":cv.indexOf("part")===0?"warn":"mute",
         r.compliance||"reviewed"));
       det.appendChild(sm);
       const b=el("div","body");
@@ -1423,35 +1767,34 @@ function vCoach(v){
       det.appendChild(b);c.appendChild(det);});}
 
   const V=COACH.verdicts||{};
-  [["Working — protect it",V.working,"--good"],["Cost you time — fix it",V.not_working,"--warn"],
-   ["Neglected — the block's job",V.neglected,"--bad"]].forEach(([t,items,col])=>{
+  [["Working — protect it",V.working,"--good","working"],["Cost you time — fix it",V.not_working,"--warn","notworking"],
+   ["Neglected — the block's job",V.neglected,"--bad","neglected"]].forEach(([t,items,col,key])=>{
     if(!items||!items.length)return;
-    const c=card(g,"c4",null,t,null,null);c.style.borderTop="3px solid "+css(col);
-    items.forEach(it=>{const d=el("div","v-item");
-      d.appendChild(el("div","t",it.t));d.appendChild(el("div","why",it.why));
-      const doEl=el("div","do");const b=el("b",null,"DO → ");b.style.color=css(col);
-      doEl.appendChild(b);doEl.appendChild(document.createTextNode(it.action));d.appendChild(doEl);
-      c.appendChild(d);});});
-  {const c=card(g,"","18 months, distilled","The rulebook",null,null);
-    const grid=el("div");grid.style.cssText="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px";
-    (COACH.rules||[]).forEach(r=>{const d=el("div");
-      d.style.cssText="border-left:3px solid var(--ice);padding-left:12px";
-      d.appendChild(el("div","t",r.t)).style.cssText="font-weight:600;font-size:13.5px";
-      d.appendChild(el("div",null,r.why)).style.cssText="font-size:12.3px;color:var(--ink2);margin-top:2px;line-height:1.5";
-      grid.appendChild(d);});
-    c.appendChild(grid);}
-  if(COACH.qa&&COACH.qa.length){
-    const c=card(g,"","questions answered from the data","Coach Q&A",null,null);
-    COACH.qa.slice().reverse().forEach(x=>{const d=el("div","qa");
-      d.appendChild(el("div","q",x.q));d.appendChild(el("div","a",x.a));
-      d.appendChild(el("div","eyebrow",dfmtY(x.date)));c.appendChild(d);});}
+    const c=ccard(g,"c4",null,t,plural(items.length,"item"),key,false);ccEl(c).style.borderTop="3px solid "+css(col);
+    items.forEach(it=>{const d=el("details","day flat");
+      const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt",it.t));
+      d.appendChild(sm);
+      const b=el("div","body");b.appendChild(el("div","why",it.why));
+      if(it.action){const doEl=el("div","do");doEl.style.cssText="margin-top:8px;color:var(--ink)";
+        const bb=el("b",null,"DO → ");bb.style.cssText="color:"+css(col)+";font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;font-weight:500";
+        doEl.appendChild(bb);doEl.appendChild(document.createTextNode(it.action));b.appendChild(doEl);}
+      d.appendChild(b);c.appendChild(d);});});
+  if(COACH.rules&&COACH.rules.length){
+    const c=ccard(g,"","18 months, distilled","The rulebook",plural(COACH.rules.length,"rule"),"rulebook",false);
+    COACH.rules.forEach(r=>{const d=el("details","day flat");
+      const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt",r.t));
+      d.appendChild(sm);d.appendChild(el("div","body",r.why));c.appendChild(d);});}
+  if((N.story&&N.story.length)||N.headline){
+    const c=ccard(g,"","written from the latest data on every sync","The story so far",
+      clip(N.headline||(N.story||[])[0],90),"story",false);
+    const st=el("div","story");(N.story||[]).forEach(p=>st.appendChild(el("p",null,p)));c.appendChild(st);}
 }
 
 /* ============ REFERENCE ============ */
 function vReference(v){
   const g=el("div","grid");v.appendChild(g);
+  const hb=hrvBand(),rhrB=(A.baselines||{}).rhr||48;
   {const c=card(g,"c6","every acronym on this dashboard","Glossary",null,null);
-    const dl=el("dl","gloss");
     [["CTL — chronic training load ('fitness')","Your 42-day exponentially-weighted average of daily training stress. Rises slowly with consistent work; this is the number the winter base block exists to raise (target: mid-60s at the 2027 taper)."],
      ["ATL — acute training load ('fatigue')","Same calculation over 7 days — what the last week cost you."],
      ["TSB — training stress balance ('form')","CTL − ATL. Negative = building under fatigue (productive at −10 to −25); positive = fresh (race at +5 to +20). Very positive for weeks = detraining."],
@@ -1462,20 +1805,21 @@ function vReference(v){
      ["VT1 / VT2 — ventilatory thresholds",`Breathing landmarks from Tymewear. VT1 (${A.vt1_bpm} bpm/${A.vt1_w_kickr} W): all-day ceiling. VT2 (${A.vt2_bpm} bpm/${A.vt2_w_kickr} W): above it lactate accumulates — minutes, not hours. Race pacing anchors to the VT2 heart-rate ceiling.`],
      ["VAM — velocity ascended, m/hour","Climbing speed (vertical metres per hour). Meter-independent, which is why it reconstructs the corrupted race power honestly."],
      ["EF — efficiency factor","NP ÷ average HR on steady rides: watts per heartbeat. Rising EF at fixed HR = the aerobic engine growing."],
-     ["HRV — heart-rate variability","Beat-to-beat variation overnight (band: 52–63 ms). Suppressed HRV = unabsorbed stress; the morning traffic light runs on it."],
-     ["RHR — resting heart rate","Overnight minimum (baseline 45 bpm). A rising multi-day trend = back off before it becomes illness."],
+     ["HRV — heart-rate variability","Beat-to-beat variation overnight (Garmin's personal band: "+hb.lo+"–"+hb.hi+" ms). Suppressed HRV = unabsorbed stress; the morning traffic light runs on it."],
+     ["RHR — resting heart rate","Overnight minimum (baseline "+rhrB+" bpm). A rising multi-day trend = back off before it becomes illness."],
      ["Fade index","Average power on the last climb ÷ first climb of a multi-climb ride, HR-adjusted. Goal 3 is keeping it above −10% deep into long days."],
      ["W/kg — watts per kilogram",`Power ÷ body mass (${A.wkg_ftp} at FTP today). The currency of climbing.`]]
-    .forEach(([t,d])=>{dl.appendChild(el("dt",null,t));dl.appendChild(el("dd",null,d));});
-    c.appendChild(dl);}
-  {const c=card(g,"c6","how the numbers get here","Data pipeline",null,null);
-    const dl=el("dl","gloss");
-    [["Strava (live)","Rides, streams (power/HR/altitude at full resolution for <3 h rides), zones, FTP. Synced 06:45, 13:00, 20:30 Italy time; the dashboard republishes on every sync."],
+    .forEach(([t,d])=>{const det=el("details","day flat");
+      const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt",t));
+      det.appendChild(sm);det.appendChild(el("div","body",d));c.appendChild(det);});}
+  {const rows=[["Strava (live)","Rides, streams (power/HR/altitude at full resolution for <3 h rides), zones, FTP. Synced 06:45, 13:00, 20:30 Italy time; the dashboard republishes on every sync."],
      ["Garmin (pending network allow-list)","Overnight HRV, RHR, sleep, stress, body battery, weight, non-cycling training. Credentials staged securely outside the repo; blocked only by the environment's network policy."],
      ["Tymewear (pending network allow-list)","Ventilatory thresholds and breathing data. Same status; VT values entered at test time meanwhile."],
      ["The coach layer","On every sync the analysis, narrative, plan statuses and Q&A are rewritten by the coach model from the fresh metrics — the prose you read is generated from the numbers you see."],
-     ["Honesty rules","Corrupted data is excluded and flagged, never presented as real (the 2026 Maratona file). Metrics that can't be computed honestly show as gaps. Short-power numbers state their sampling limits."]]
-    .forEach(([t,d])=>{dl.appendChild(el("dt",null,t));dl.appendChild(el("dd",null,d));});
+     ["Honesty rules","Corrupted data is excluded and flagged, never presented as real (the 2026 Maratona file). Metrics that can't be computed honestly show as gaps. Short-power numbers state their sampling limits."]];
+    const c=ccard(g,"c6","how the numbers get here","Data pipeline",plural(rows.length,"source")+" feeding the dashboard","pipeline",false);
+    const dl=el("dl","gloss");
+    rows.forEach(([t,d])=>{dl.appendChild(el("dt",null,t));dl.appendChild(el("dd",null,d));});
     c.appendChild(dl);}
 }
 
@@ -1501,10 +1845,11 @@ function vConditions(v){
         rr.slice().reverse().map(r=>[dfmtY(r.date),r.name,r.indoor?"indoor":"outdoor",r.temp_c,r.temp_c_max||"–",
           r.humidity_pct?r.humidity_pct+"%":"–",r.co2_ppm?r.co2_ppm+" ppm":"–",
           r.wind_kph?r.wind_kph+" kph":"–",r.cooling_note||"–"])));}}
-  {const c=card(g,"c6","office readings you log per turbo session","Indoor environment",
+  {const ind=(C.rides||[]).filter(r=>r.indoor);
+    const c=ccard(g,"c6","office readings you log per turbo session","Indoor environment",
+      plural(ind.length,"session")+" logged","indoor",false,
     ["Temperature, humidity and CO₂ in your pain-cave. CO₂ in particular climbs in a closed room in winter and can blunt performance and lift perceived effort.",
-     "If CO₂ creeps over ~1000–1200 ppm or humidity is high, crack a window / add a fan before blaming the legs. Track whether ventilation changes move your HR-at-power."],null);
-    const ind=(C.rides||[]).filter(r=>r.indoor);
+     "If CO₂ creeps over ~1000–1200 ppm or humidity is high, crack a window / add a fan before blaming the legs. Track whether ventilation changes move your HR-at-power."]);
     if(!ind.length)emptyState(c,"No indoor sessions logged yet. Tell the session your office readings after a turbo ride — temp, humidity, CO₂ and fan/window setup — and they'll land here.");
     else{const sc=el("div","scroll");sc.appendChild(mkTable(["Date","Temp","Humidity","CO₂","Cooling"],
       ind.slice().reverse().map(r=>[dfmtY(r.date),r.temp_c!=null?r.temp_c+" °C":"–",
@@ -1521,10 +1866,11 @@ function vConditions(v){
         series:[{name:"W per heartbeat",color:css("--s2"),values:sorted.map(r=>r.w_per_bpm),dots:true,width:0}]});
       if(C.heat&&C.heat.slope_wbpm_per_c!=null)
         c.appendChild(el("div","note","Trend: "+C.heat.note+" ("+(C.heat.slope_wbpm_per_c>0?"+":"")+C.heat.slope_wbpm_per_c+" W/bpm per °C across "+C.heat.n+" rides)."));}}
-  {const c=card(g,"","wind, yaw and watts-lost from myWindsock","Wind & aero",
+  {const wr=(C.rides||[]).filter(r=>!r.indoor&&(r.weather_impact_pct!=null||r.wind_kph!=null||r.headwind_pct!=null));
+    const c=ccard(g,"c6","wind, yaw and watts-lost from myWindsock","Wind & aero",
+      plural(wr.length,"ride"),"wind",false,
     ["myWindsock appends wind speed, yaw angle, headwind % and watts-lost-to-wind to your Strava ride descriptions; the sync reads them from there — no extra login.",
-     "Turn on myWindsock → Strava 'add report to activity' once, and outdoor rides start showing what the wind cost you, separating a hard day into legs vs conditions."],null);
-    const wr=(C.rides||[]).filter(r=>!r.indoor&&(r.weather_impact_pct!=null||r.wind_kph!=null||r.headwind_pct!=null));
+     "Turn on myWindsock → Strava 'add report to activity' once, and outdoor rides start showing what the wind cost you, separating a hard day into legs vs conditions."]);
     if(!wr.length)emptyState(c,"myWindsock is now enabled (nice) — but the only report so far is on today's indoor ramp, where its GPS-based weather is spurious, so it's excluded. Your next OUTDOOR ride's report will populate this: Weather Impact %, headwind, air speed and wind.");
     else{const sc=el("div","scroll");sc.appendChild(mkTable(["Date","Ride","Weather impact","Headwind","Air speed","Wind","Temp"],
       wr.slice().reverse().map(r=>[dfmtY(r.date),r.name,
@@ -1630,46 +1976,80 @@ function ladderCard(g,lad){
     hist.slice(-6).forEach(h=>{const rc=RESULT_CHIP[h.result]||["mute",h.result];
       const ch=chip(rc[0],dfmt(h.date)+" · "+h.step+" · "+rc[1]+(h.room_band?" · "+h.room_band:""));
       if(h.note)ch.title=h.note;row.appendChild(ch);});c.appendChild(row);}
-  steps.forEach((s,i)=>{
+  const mkRow=(s,i)=>{
     const r=el("div","lad-row"+(i===ci?" cur":i<ci?" done":""));
     r.appendChild(el("span","lid",s.id));r.appendChild(el("span","lses",s.session));
     if(s.target_w!=null){const w=Math.round(s.target_w*A.ftp/(lad.anchor_ftp||A.ftp));
       r.appendChild(el("span","lw",(s.reps_s?"":"~")+w+" W"));}
     if(i===ci)r.appendChild(chip("rosa","current"));else if(i<ci)r.appendChild(el("span","lw","✓"));
     if(s.anchor)r.appendChild(el("div","lan",s.anchor));
-    c.appendChild(r);});
+    return r;};
+  /* inline: the step before, the current step, the step after. Everything else folds into "All steps". */
+  const lo=Math.max(0,ci-1),hi=Math.min(steps.length-1,ci+1);
+  for(let i=lo;i<=hi&&i<steps.length;i++)c.appendChild(mkRow(steps[i],i));
+  const rest=[];steps.forEach((s,i)=>{if(i<lo||i>hi)rest.push(i);});
+  if(rest.length){
+    const d=el("details","day flat");d.style.marginTop="8px";
+    const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt","All steps"));
+    sm.appendChild(el("span","dtss",rest.length+" more"));d.appendChild(sm);
+    const b=el("div","body");b.style.padding="0 10px 10px";
+    rest.forEach(i=>b.appendChild(mkRow(steps[i],i)));d.appendChild(b);c.appendChild(d);}
   if(lad.scored_by==="completion"){const n=el("div","note","Scored on completion — tell the session how it went.");n.style.marginTop="8px";c.appendChild(n);}
 }
-function vWinter(v){
+
+/* ============ LADDERS ============ */
+function vLadders(v){
   const W=WINTER,g=el("div","grid");v.appendChild(g);
-  {const c=card(g,"c8",W.span||null,W.title||"Winter plan",null,null);
+  const L=W.ladders||{};let any=false;
+  ["threshold","tempo","vo2","sprint"].forEach(k=>{if(L[k]){ladderCard(g,L[k]);any=true;}});
+  if(!any)emptyState(card(g,"",null,"Ladders",null,null),"No ladders in the plan yet.");
+  if(W.ladder_rules&&W.ladder_rules.length){
+    const c=ccard(g,"","how a session is scored","Earn the step",
+      plural(W.ladder_rules.length,"rule")+" · power first, heart rate judged against the room","rules",false);
+    vItems(c,W.ladder_rules);
+    if(W.evidence&&W.evidence.length){const d=el("details","day");const sm=el("summary");
+      sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt","The summer evidence these rules come from"));
+      d.appendChild(sm);const b=el("div","body");b.style.paddingLeft="14px";
+      const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Date","Session","Outcome","Lesson"],
+        W.evidence.map(e=>[e.date,e.session,e.outcome,e.lesson])),[1,2,3]));b.appendChild(w);d.appendChild(b);c.appendChild(d);}}
+  if(W.room_bands){const rb=W.room_bands;
+    const keys=["cool","typical","hard"].filter(k=>rb[k]);
+    const sm=keys.filter(k=>rb[k].allowance_bpm!=null).map(k=>k+" +"+rb[k].allowance_bpm).join(" · ");
+    const c=ccard(g,"c6",W.room_kicker||null,"The room",sm?sm+" bpm":null,"room",false);
+    if(W.room_note)c.appendChild(el("div","note",W.room_note));
+    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Band","Room","Drift allowed"],
+      keys.map(k=>[rb[k].label,rb[k].desc,"+"+rb[k].allowance_bpm+" bpm"])),[1]));c.appendChild(w);
+    if(rb.unlogged_desc){const n=el("div","note",rb.unlogged_desc);n.style.marginTop="6px";c.appendChild(n);}
+    if(rb.provisional_note){const n=el("div","note",rb.provisional_note);n.style.marginTop="6px";c.appendChild(n);}}
+  if(W.room_levers&&W.room_levers.length){
+    const log=W.room_setup_log||[],lastLog=log.length?log[log.length-1]:null;
+    const c=ccard(g,"c6","free, no open window","Room levers",
+      joinBits([plural(W.room_levers.length,"lever"),lastLog&&lastLog.date?"set-up logged "+dfmt(lastLog.date):null]),"levers",false);
+    vItems(c,W.room_levers);
+    log.forEach(s=>{const d=el("div","v-item");d.appendChild(el("div","t","Set-up · "+dfmt(s.date)));
+      d.appendChild(el("div","why",s.change));c.appendChild(d);});}
+}
+
+/* ============ SEASON ============ */
+function vSeason(v){
+  const W=WINTER,g=el("div","grid");v.appendChild(g);
+  {const c=ccard(g,"",null,W.title||"Winter plan",W.span||null,"title",false);
     if(W.context_note)c.appendChild(el("div","note",W.context_note));
     if(W.philosophy_note){const n=el("div","note");n.textContent="▸ "+W.philosophy_note;
       n.style.cssText="margin-top:8px;color:var(--ink)";c.appendChild(n);}}
-  {const c=card(g,"c4","today vs the next checkpoint","Where you are",null,null);
-    const nx=(W.checkpoints||[]).find(k=>k.date>=todayIso);
-    const wt=bodyStat("weight_kg",todayIso),bf=bodyStat("body_fat_pct",todayIso);
-    const thr=W.ladders&&W.ladders.threshold;
-    const rows=[["CTL",fmtN(cur.ctl,1)+(nx&&nx.ctl!=null?"  →  "+nx.ctl+" by "+dfmt(nx.date):"")],
-      ["Weight (7-day)",wt?fmtN(wt.v,1)+" kg"+(nx&&nx.weight_kg?"  →  "+nx.weight_kg+" kg":""):"no reading"],
-      ["Body fat (7-day)",bf?fmtN(bf.v,1)+"%  · trend only":"no reading yet"],
-      ["Threshold ladder",thr?thr.current+" · "+((thr.steps||[]).find(s=>s.id===thr.current)||{}).session:"–"]];
-    rows.forEach(r=>{const d=el("div","wstat");d.appendChild(el("span","k",r[0]));d.appendChild(el("span","v",r[1]));c.appendChild(d);});}
   if(W.season&&W.season.length){
-    const c=card(g,"","reverse-periodised","The season shape",null,null);
     const act=((PLAN.phases||[]).find(p=>p.status==="active")||{}).key;
+    const as=W.season.find(s=>s.key===act);
+    const c=ccard(g,"","reverse-periodised","The season shape",as?joinBits([as.name,as.dates]):null,"shape",true);
     W.season.forEach(s=>{const d=el("details","day");d.open=s.key===act;
       const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dd",s.key));
       sm.appendChild(el("span","dt",s.name));sm.appendChild(el("span","dtss",s.dates));
       if(s.key===act)sm.appendChild(chip("rosa","now"));
       d.appendChild(sm);d.appendChild(el("div","body",s.job));c.appendChild(d);});}
-  if(W.week_template&&W.week_template.length){
-    const c=card(g,"c8",W.week_kicker||null,"The winter week",null,null);
-    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Slot","What","Time","TSS"],
-      W.week_template.map(r=>[r.slot,r.what,r.dur,r.tss])),[1]));c.appendChild(w);}
-  if(W.week_rules&&W.week_rules.length){const c=card(g,"c4",null,"The rules of the week",null,null);vItems(c,W.week_rules);}
   if(W.checkpoints&&W.checkpoints.length){
-    const c=card(g,"","target vs actual","Checkpoints",null,null);
+    const nxc=W.checkpoints.find(k=>k.date>=todayIso);
+    const sm=nxc?"next: "+joinBits([nxc.label,nxc.ctl!=null?"CTL "+fmtN(nxc.ctl,1):null,nxc.weight_kg!=null?fmtN(nxc.weight_kg,1)+" kg":null]):null;
+    const c=ccard(g,"","target vs actual","Checkpoints",sm,"checkpoints",true);
     const hasBf=(M.health.daily||[]).some(d=>d.body_fat_pct!=null);
     const hdr=["Checkpoint","Date","CTL target","CTL actual","Weight target","Weight (7-day)"].concat(hasBf?["Body fat (7-day)"]:[]);
     const wt0=bodyStat("weight_kg",todayIso),bf0=bodyStat("body_fat_pct",todayIso);
@@ -1682,47 +2062,93 @@ function vWinter(v){
     const first=t.querySelector("tbody tr");if(first)first.style.fontWeight="700";
     w.appendChild(t);c.appendChild(w);
     if(W.checkpoint_note){const n=el("div","note",W.checkpoint_note);n.style.marginTop="8px";c.appendChild(n);}}
-  const L=W.ladders||{};["threshold","tempo","vo2","sprint"].forEach(k=>{if(L[k])ladderCard(g,L[k]);});
-  if(W.ladder_rules&&W.ladder_rules.length){
-    const c=card(g,"c8","how a session is scored","Earn the step",null,null);vItems(c,W.ladder_rules);
-    if(W.evidence&&W.evidence.length){const d=el("details","day");const sm=el("summary");
-      sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt","The summer evidence these rules come from"));
-      d.appendChild(sm);const b=el("div","body");b.style.paddingLeft="14px";
-      const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Date","Session","Outcome","Lesson"],
-        W.evidence.map(e=>[e.date,e.session,e.outcome,e.lesson])),[1,2,3]));b.appendChild(w);d.appendChild(b);c.appendChild(d);}}
-  if(W.room_bands){const rb=W.room_bands;
-    const c=card(g,"c4",W.room_kicker||null,"The room",null,null);
-    if(W.room_note)c.appendChild(el("div","note",W.room_note));
-    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Band","Room","Drift allowed"],
-      ["cool","typical","hard"].filter(k=>rb[k]).map(k=>[rb[k].label,rb[k].desc,"+"+rb[k].allowance_bpm+" bpm"])),[1]));c.appendChild(w);
-    if(rb.unlogged_desc){const n=el("div","note",rb.unlogged_desc);n.style.marginTop="6px";c.appendChild(n);}
-    if(rb.provisional_note){const n=el("div","note",rb.provisional_note);n.style.marginTop="6px";c.appendChild(n);}}
-  if(W.room_levers&&W.room_levers.length){const c=card(g,"c6","free, no open window","Room levers",null,null);vItems(c,W.room_levers);
-    (W.room_setup_log||[]).forEach(s=>{const d=el("div","v-item");d.appendChild(el("div","t","Set-up · "+dfmt(s.date)));
-      d.appendChild(el("div","why",s.change));c.appendChild(d);});}
-  if(W.nutrition_rules&&W.nutrition_rules.length){const c=card(g,"c6",W.weight_kicker||null,"Weight & fuelling",null,null);
-    vItems(c,W.nutrition_rules);if(W.weight_note){const n=el("div","note",W.weight_note);n.style.marginTop="10px";c.appendChild(n);}}
-  if(W.strength_note){const n=el("div","note");n.textContent="◆ "+W.strength_note;n.style.cssText="grid-column:span 12;margin:4px 4px 0";g.appendChild(n);}
-  const S=W.sessions||{};
-  [["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
-    const s=S[key];if(!s)return;
-    const c=card(g,key==="splitboard_extras"?"":"c6",s.frequency,s.title,null,null);
-    c.style.borderTop="3px solid "+css(col);(s.exercises||[]).forEach(x=>exRow(c,x));});
-  if(W.compromises&&W.compromises.length){const c=card(g,"c8","laid bare","The compromises",null,null);
-    c.style.borderTop="3px solid "+css("--warn");vItems(c,W.compromises);}
-  if(W.priority_order&&W.priority_order.length){const c=card(g,"c4",null,"When time is short",null,null);
+  if(W.week_template&&W.week_template.length){
+    const c=ccard(g,"c8",null,"The winter week",W.week_kicker||null,"week",false);
+    const w=el("div","scroll-x");w.appendChild(leftCols(mkTable(["Slot","What","Time","TSS"],
+      W.week_template.map(r=>[r.slot,r.what,r.dur,r.tss])),[1]));c.appendChild(w);}
+  if(W.week_rules&&W.week_rules.length){
+    const c=ccard(g,"c4",null,"The rules of the week",W.week_rules.map(r=>r.t).join(" · "),"rules",false);
+    vItems(c,W.week_rules);}
+  if(W.compromises&&W.compromises.length){
+    const c=ccard(g,"c8","laid bare","The compromises",W.compromises.length+" trade-offs, laid bare","compromises",false);
+    ccEl(c).style.borderTop="3px solid "+css("--warn");vItems(c,W.compromises);}
+  if(W.priority_order&&W.priority_order.length){
+    const c=ccard(g,"c4",null,"When time is short",W.priority_order.join(" → "),"priority",false);
     const ol=el("ol");ol.style.cssText="margin:8px 0 0;padding-left:20px;line-height:1.9;font-size:13.5px";
     W.priority_order.forEach(p=>ol.appendChild(el("li",null,p)));c.appendChild(ol);
     if(W.focus_proposal){const n=el("div","note",W.focus_proposal);n.style.marginTop="12px";c.appendChild(n);}}
 }
 
-const VIEWS={overview:vOverview,plan:vPlan,winter:vWinter,load:vLoad,engine:vEngine,health:vHealth,conditions:vConditions,race:vRace,coach:vCoach,reference:vReference,travel:vTravel};
+/* ============ STRENGTH ============ */
+function vStrength(v){
+  const W=WINTER,g=el("div","grid");v.appendChild(g);
+  if(W.strength_note){const n=el("div","note");n.textContent="◆ "+W.strength_note;
+    n.style.cssText="grid-column:span 12;margin:0 4px 2px";g.appendChild(n);}
+  const S=W.sessions||{};
+  [["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
+    const s=S[key];if(!s)return;
+    const c=card(g,key==="splitboard_extras"?"":"c6",s.frequency,s.title,null,null);
+    c.style.borderTop="3px solid "+css(col);(s.exercises||[]).forEach(x=>exRow(c,x));});
+  const TS=TRAVEL&&TRAVEL.sessions;
+  if(TS){
+    const c=ccard(g,"",null,"Trip archive",TRAVEL.title||null,"archive",false);
+    [["back_care"],["mobility"],["session_a"],["session_b"],["session_c"]].forEach(([key])=>{
+      const s=TS[key];if(!s)return;
+      const h=el("div","eyebrow",joinBits([s.title,s.frequency||(s.duration_min?s.duration_min+" min":null)]));
+      h.style.cssText="margin:16px 0 2px;color:var(--ink2)";c.appendChild(h);
+      (s.exercises||[]).forEach(x=>exRow(c,x));});}
+  if(!W.strength_note&&!Object.keys(S).length&&!TS)emptyState(card(g,"",null,"Strength",null,null),"No strength sessions in the plan yet.");
+}
+
+/* ============ Q&A ============ */
+function vQA(v){
+  const g=el("div","grid");v.appendChild(g);
+  const items=(COACH.qa||[]).map((x,i)=>({x,i,d:x.date||x.asked||null}));
+  /* newest first; undated entries last; ties keep the later-written entry on top */
+  items.sort((a,b)=>{if(!!a.d!==!!b.d)return a.d?-1:1;
+    if(a.d&&b.d&&a.d!==b.d)return a.d<b.d?1:-1;return b.i-a.i;});
+  const c=card(g,"",items.length?plural(items.length,"question")+" answered from the data":null,"Questions & answers",null,null);
+  if(!items.length){emptyState(c,"No questions asked yet. Ask the coach in the session and the answer lands here.");return;}
+  const inp=el("input","qa-filter");inp.type="search";inp.placeholder="Filter questions and answers";
+  inp.setAttribute("aria-label","Filter questions and answers");c.appendChild(inp);
+  const cnt=el("div","ov-sub");cnt.style.margin="2px 0 6px";c.appendChild(cnt);
+  const list=el("div");c.appendChild(list);
+  const rows=[];
+  items.forEach(({x,d})=>{
+    const det=el("details","day");
+    const sm=el("summary");sm.appendChild(el("span","caret","▸"));
+    sm.appendChild(el("span","dd",d?dfmt(d):"earlier"));
+    sm.appendChild(el("span","dt",clip(x.q,90)));
+    det.appendChild(sm);
+    const b=el("div","body qb");
+    const q=el("p","qq",x.q||"");b.appendChild(q);
+    String(x.a||"").split(/\n\s*\n/).forEach(par=>{if(par.trim())b.appendChild(el("p",null,par.trim()));});
+    det.appendChild(b);list.appendChild(det);
+    rows.push({det,t:((x.q||"")+" "+(x.a||"")).toLowerCase()});});
+  const apply=()=>{const f=inp.value.trim().toLowerCase();let n=0;
+    rows.forEach(r=>{const show=!f||r.t.indexOf(f)>=0;r.det.style.display=show?"":"none";if(show)n++;});
+    cnt.textContent=f?("Showing "+n+" of "+rows.length):"";
+    cnt.style.display=f?"":"none";};
+  inp.addEventListener("input",apply);apply();
+}
+
+const VIEWS={overview:vOverview,plan:vPlan,ladders:vLadders,season:vSeason,body:vBody,strength:vStrength,coach:vCoach,qa:vQA,
+  load:vLoad,engine:vEngine,conditions:vConditions,race:vRace,reference:vReference};
+/* old links keep working: the Winter, Health and Travel tabs were folded into Season, Body and Strength */
+const ALIAS={winter:"season",health:"body",travel:"strength"};
 function render(){
-  const id=(location.hash||"#overview").slice(1);
+  let id=(location.hash||"#overview").slice(1);
+  if(ALIAS[id]){id=ALIAS[id];try{location.replace("#"+id);}catch(e){}}
   const tab=VIEWS[id]?id:"overview";
+  CUR_TAB=tab;
   document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  /* 13 tabs scroll sideways on a phone — keep the active one in view */
+  const onTab=document.querySelector(".tab.on");
+  if(onTab&&onTab.parentNode){const row=onTab.parentNode,rr=row.getBoundingClientRect(),tr=onTab.getBoundingClientRect();
+    row.scrollLeft=Math.max(0,row.scrollLeft+(tr.left-rr.left)-(rr.width-tr.width)/2);}
   const view=document.getElementById("view");view.innerHTML="";
   VIEWS[tab](view);
+  ccBar(view);
   const dq=M.data_quality;
   const ft=el("footer");
   ft.appendChild(el("div",null,"Generated "+M.generated_at.replace("T"," ")+" · "+dq.activities+" activities · "+dq.streams+" streams · Strava ✓ · Garmin "+(M.health.present?"✓":"pending")+" · Tymewear "+((M.tymewear&&M.tymewear.present)?"✓":"pending")));
@@ -1730,13 +2156,13 @@ function render(){
   view.appendChild(ft);
 }
 buildShell();applyTheme();render();
-window.addEventListener("hashchange",render);
+window.addEventListener("hashchange",()=>{if(location.hash.slice(1)===CUR_TAB)return;render();});
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(THEMES[themeIdx]==="auto")render();});
 }
 
 </script>
 
-<script>var BUILD_STAMP="574fbd8d362681e0";
+<script>var BUILD_STAMP="a6c15851d85f66b0";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
