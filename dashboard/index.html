@@ -1460,8 +1460,8 @@ function vOverview(v){
       vpLast.climb_w!=null?"climb "+vpLast.climb_w+" W":null,
       vpLast.gap_pct!=null?"gap "+fmtN(vpLast.gap_pct,1)+"%":null]):"needs flat + climb rides with power and HR";
     const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",srNow(srV,sm,!!vpLast),"valley",false,
-      [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
-       "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power",srAside(srV));
+      [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb. Outdoor rides only — Zwift's virtual gradient isn't valley road, and a warm trainer room lifts heart rate at the same watts.`,
+       "Each point is a 28-day window, so a single ride can swing it: valley stretches inside a long mountain day, ridden with heart rate still up from the climbs, pull the flat line down. The line stops when a window has under 10 min of flat or climbing riding at VT2."],"valley_power",srAside(srV));
     if(!vpw.length)emptyState(c,"Needs rides with power + HR on both flat and climbing terrain.");
     else{lineChart(c,{x:vpw.map(w=>w.end_date),padR:74,h:210,
       series:[{name:"Climb W",color:css("--s4"),values:vpw.map(w=>w.climb_w)},
@@ -2451,7 +2451,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="5e227038c4a05af7";
+<script>var BUILD_STAMP="f4c23458b9adec4c";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
