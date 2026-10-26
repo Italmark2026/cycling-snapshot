@@ -392,17 +392,18 @@ abbr{text-decoration:underline dotted var(--mute);cursor:help}
   color:var(--mute);line-height:1.45}
 .ccbody{position:relative;padding:0 22px 16px}
 /* summer-block verdict: collapsed-summary line + body box (COACH.summer_results) */
-.ccverd{display:flex;gap:8px;align-items:baseline;margin-top:5px;font-size:13px;line-height:1.4;color:var(--ink)}
-.ccverd .chip{flex:none}
-.ccverd .vh{min-width:0;font-weight:600}
-.ccv .ccsum{margin-top:4px}
+.ccaside{flex:0 1 auto;max-width:46%;display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  text-align:right;margin-top:2px}   /* verdict top-right of the header: lives in the summary, so it shows open or closed */
+.ccaside .chip{flex:none}
+.ccaside .vh{font-size:13px;line-height:1.4;font-weight:600;color:var(--ink)}
+@media(max-width:640px){.card.cc>summary{flex-wrap:wrap;row-gap:6px}
+  .ccaside{flex:1 0 100%;max-width:none;flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 8px;
+    text-align:left;padding-left:22px;margin-top:0}}
 .bres{position:relative;margin:2px 0 14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--mute);
   border-radius:12px;background:color-mix(in srgb,var(--panel2) 55%,transparent)}
 .bres.good{border-left-color:var(--good)}.bres.warn{border-left-color:var(--warn)}.bres.bad{border-left-color:var(--bad)}
 .bres .eyebrow{display:block;margin-bottom:7px}
-.bres .bv{display:flex;gap:8px;align-items:baseline;font-size:14.5px;line-height:1.4;font-weight:700;color:var(--ink)}
-.bres .bv .chip{flex:none;font-weight:400}
-.bres .bd{margin:8px 0 0;font-size:13.5px;line-height:1.6;color:var(--ink2);max-width:90ch}
+.bres .bd{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink2);max-width:90ch}
 .bres .bs{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--mute);max-width:90ch}
 .ccbody .bres .tbl-toggle{top:8px;right:10px}
 .ccbody .tbl-toggle{top:2px;right:22px}
@@ -778,11 +779,12 @@ function card(parent,cls,kick,title,explain,noteKey){
   return c;}
 /* ccard — a collapsible card. Returns the BODY element that content is appended to.
    The caller supplies a summary line (computed from data) that shows while collapsed —
-   a string, or a DOM node when the summary needs more than one line (see srSummary).
+   a string or a DOM node. `aside` (optional DOM node) sits top-right of the header — used for the
+   summer-block verdict (srAside) so it is readable without opening the card.
    Open state is remembered per tab+key in localStorage ("hq-open"); defaultOpen applies
    until the viewer has toggled the card. */
 let CUR_TAB="overview";
-function ccard(parent,cls,kick,title,summaryText,key,defaultOpen,explain,noteKey){
+function ccard(parent,cls,kick,title,summaryText,key,defaultOpen,explain,noteKey,aside){
   const d=el("details","card cc"+(cls?" "+cls:""));parent.appendChild(d);
   const k=CUR_TAB+":"+(key||String(title||kick||"card").toLowerCase().replace(/[^a-z0-9]+/g,"-"));
   d.dataset.k=k;
@@ -792,7 +794,7 @@ function ccard(parent,cls,kick,title,summaryText,key,defaultOpen,explain,noteKey
   if(title)row.appendChild(el("h2","disp",title));
   hd.appendChild(row);
   if(summaryText)hd.appendChild(summaryText instanceof Node?summaryText:el("span","ccsum",summaryText));   // string, or a ready-made DOM node
-  sm.appendChild(hd);d.appendChild(sm);
+  sm.appendChild(hd);if(aside)sm.appendChild(aside);d.appendChild(sm);
   const body=el("div","ccbody");d.appendChild(body);
   const stored=openMap()[k];
   d._last=(typeof stored==="boolean")?stored:!!defaultOpen;
@@ -828,24 +830,22 @@ function srItem(k){
   const o={verdict:t(x.verdict),headline:t(x.headline),detail:t(x.detail),since:t(x.since),
     tone:["good","mute","warn","bad"].indexOf(x.tone)>=0?x.tone:"mute"};
   return (o.verdict||o.headline||o.detail||o.since)?o:null;}
-/* collapsed-card summary: verdict chip + headline, then the live metric as a small muted "now:" line */
-function srSummary(it,now,live){
-  const w=el("div","ccv");
-  if(it.verdict||it.headline){const r=el("div","ccverd");
-    if(it.verdict)r.appendChild(chip(it.tone,it.verdict));
-    if(it.headline)r.appendChild(el("span","vh",it.headline));
-    w.appendChild(r);}
-  if(now)w.appendChild(el("span","ccsum",(live?"now: ":"")+now));
-  return w;}
-/* "Block result" box at the top of a card body (call after the body is built, so the data toggle can move in) */
+/* header aside: verdict chip + headline, top-right of the card (null when there is nothing to show) */
+function srAside(it){
+  if(!it||!(it.verdict||it.headline))return null;
+  const r=el("div","ccaside");
+  if(it.verdict)r.appendChild(chip(it.tone,it.verdict));
+  if(it.headline)r.appendChild(el("span","vh",it.headline));
+  return r;}
+/* the card's own summary line — prefixed "now:" when a verdict sits beside it, so the two read apart */
+const srNow=(it,now,live)=>(it&&live?"now: ":"")+now;
+/* "Block result" box at the top of a card body: the explanation only — the verdict itself is in the header.
+   Call after the body is built, so the data toggle can move in. */
 function srBox(body,it){
   if(!it)return;
   const b=el("div","bres "+it.tone);
   b.appendChild(el("span","eyebrow","Summer block result"));
-  if(it.verdict||it.headline){const r=el("div","bv");
-    if(it.verdict)r.appendChild(chip(it.tone,it.verdict));
-    if(it.headline)r.appendChild(el("span",null,it.headline));
-    b.appendChild(r);}
+  if(!it.detail&&!it.since)return;
   if(it.detail)b.appendChild(el("p","bd",it.detail));
   if(it.since)b.appendChild(el("p","bs",it.since));
   const tg=body.querySelector(":scope>.tbl-toggle");if(tg)b.appendChild(tg);   // keep the data/chart toggle clear of the box
@@ -1459,9 +1459,9 @@ function vOverview(v){
   {const sm=vpLast?joinBits([vpLast.flat_w!=null?"flat "+vpLast.flat_w+" W":null,
       vpLast.climb_w!=null?"climb "+vpLast.climb_w+" W":null,
       vpLast.gap_pct!=null?"gap "+fmtN(vpLast.gap_pct,1)+"%":null]):"needs flat + climb rides with power and HR";
-    const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",srV?srSummary(srV,sm,!!vpLast):sm,"valley",false,
+    const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",srNow(srV,sm,!!vpLast),"valley",false,
       [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
-       "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power");
+       "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power",srAside(srV));
     if(!vpw.length)emptyState(c,"Needs rides with power + HR on both flat and climbing terrain.");
     else{lineChart(c,{x:vpw.map(w=>w.end_date),padR:74,h:210,
       series:[{name:"Climb W",color:css("--s4"),values:vpw.map(w=>w.climb_w)},
@@ -1471,9 +1471,9 @@ function vOverview(v){
     srBox(c,srV);}
   {const b=(M.sprint&&M.sprint.best)||{},nz=x=>x!=null?x:"–";
     const sm=(b.p5!=null||b.p15!=null||b.p30!=null)?"best 5/15/30 s "+nz(b.p5)+"/"+nz(b.p15)+"/"+nz(b.p30)+" W":"appears as full-resolution streams accumulate";
-    const c=ccard(g,"c6","Accessory · sprint","Top-end sprint",srS?srSummary(srS,sm,b.p5!=null||b.p15!=null||b.p30!=null):sm,"sprint",false,
+    const c=ccard(g,"c6","Accessory · sprint","Top-end sprint",srNow(srS,sm,b.p5!=null||b.p15!=null||b.p30!=null),"sprint",false,
       ["Best 5 / 15 / 30-second power from each ride's power stream. Historical streams were too coarse for an honest 5 s number — new rides record at full resolution.",
-       "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint");
+       "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint",srAside(srS));
     const st2=((M.sprint&&M.sprint.trend)||[]).filter(x=>x.p15||x.p5||x.p30);
     if(!st2.length)emptyState(c,"Appears as full-resolution streams accumulate.");
     else{lineChart(c,{x:st2.map(x=>x.date),padR:50,h:210,directLabels:false,
@@ -1487,9 +1487,9 @@ function vOverview(v){
     const lat=rr.length?rr.slice().sort((a,b)=>a.date<b.date?-1:1)[rr.length-1]:null;
     const sm=lat?joinBits([lat.n_climbs!=null?plural(lat.n_climbs,"climb"):null,
       lat.hr_adj_fade_pct!=null?"HR-adj fade "+lat.hr_adj_fade_pct+"%":null,dfmt(lat.date)]):"needs multi-climb rides";
-    const c=ccard(g,"c6","Race weapon · fade","Fade less fast",srF?srSummary(srF,sm,!!lat):sm,"fade",false,
+    const c=ccard(g,"c6","Race weapon · fade","Fade less fast",srNow(srF,sm,!!lat),"fade",false,
       ["Power drop from first to last climb on every ride with ≥3 climbs of ≥8 min. Bars below zero mean fading; the HR-adjusted number (table) strips out pacing.",
-       "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability");
+       "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability",srAside(srF));
     if(!rr.length)emptyState(c,"Needs multi-climb rides — appears as streams are analysed.");
     else{colChart(c,{categories:rr.map(r=>r.date),values:rr.map(r=>r.fade_pct),h:210,
       colorFn:x=>x>=-2?css("--s1"):css("--s2"),name:"fade",unit:"%",yFmt:x=>((x>0?"+":"")+fmtN(x,1)),
