@@ -266,11 +266,45 @@ table.data tr:hover td{background:var(--panel2)}
 .tile .val.good{color:var(--good)}.tile .val.warn{color:var(--warn)}.tile .val.bad{color:var(--bad)}
 .tile .base{grid-column:1/2;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.05em;
   color:var(--mute);margin-top:3px}
-/* Today's goals strip: captions run the full tile width, sparkline beside the value */
-.tile.goal{align-content:start}
-.tile.goal .base{grid-column:1/3;line-height:1.5}
-.tile.goal .base+.base{margin-top:1px;color:var(--ink2)}
-.tile.goal .spk{grid-row:2/3}
+/* Today's winter-goals hero: two prominent panels (side by side on desktop, stacked on a phone),
+   a coloured top rule, the goal as eyebrow + title, one big headline number, then compact sub-metrics */
+.wgoals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:4px 0 20px}
+.wgoal{background:var(--panel);background-image:var(--hero-grad);border:1px solid var(--line);
+  border-top:4px solid var(--wg,var(--s1));border-radius:18px;box-shadow:var(--shadow);
+  padding:15px 20px 18px;min-width:0;display:flex;flex-direction:column}
+.wgoal.use{--wg:var(--s4)}.wgoal.eng{--wg:var(--s1)}
+.wg-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:26px}
+.wg-top .eyebrow{color:var(--wg,var(--mute))}
+.wg-title{font-family:"Barlow Condensed";font-size:clamp(28px,3.6vw,36px);font-weight:700;line-height:1.02;margin:4px 0 0}
+.wg-subt{font-size:13.5px;color:var(--mute);line-height:1.45;margin:5px 0 0;max-width:62ch}
+.wg-head{margin-top:14px;padding-top:12px;border-top:1px solid var(--line2)}
+.wg-lbl,.wg-ml{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute)}
+.wg-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:5px 0 3px}
+.wg-big{font-family:"Barlow Condensed";font-size:clamp(54px,7vw,70px);font-weight:600;line-height:.95}
+.wg-big small,.wg-mv small{font-family:Barlow;font-weight:500;color:var(--ink2);letter-spacing:0;text-transform:none}
+.wg-big small{font-size:.32em}
+.wg-big.good,.wg-mv.good{color:var(--good)}.wg-big.warn,.wg-mv.warn{color:var(--warn)}.wg-big.bad,.wg-mv.bad{color:var(--bad)}
+.wg-cap{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.04em;color:var(--mute);line-height:1.5;margin-top:2px}
+.wg-head .wg-cap+.wg-cap{color:var(--ink2)}
+.wg-chart{margin-top:6px}
+.wg-chart .chart{margin-top:2px}
+.wg-chart .legend{font-size:11.5px;gap:2px 14px;margin-top:2px}
+.wg-subs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:auto;padding-top:14px}
+.wg-m{background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:9px 12px 9px;min-width:0}
+.wg-mv{font-family:"Barlow Condensed";font-size:27px;font-weight:600;line-height:1;margin:5px 0 3px;overflow-wrap:anywhere}
+.wg-mv small{font-size:12px}
+@media(max-width:820px){.wgoals{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){
+  .wgoals{gap:12px;margin:2px 0 14px}
+  .wgoal{padding:12px 14px 14px;border-radius:16px}
+  .wg-subt{font-size:13px}
+  .wg-head{margin-top:11px;padding-top:10px}
+  .wg-subs{gap:8px;padding-top:11px}
+  .wg-m{padding:8px 10px 8px;border-radius:11px}
+  .wg-ml{font-size:9.5px;letter-spacing:.1em}
+  .wg-mv{font-size:25px}
+  .wg-cap{font-size:9.5px}
+}
 .ov-sub{font-size:12.5px;color:var(--mute);margin:-6px 0 14px;line-height:1.5}
 
 /* ---------- plan ---------- */
@@ -1112,64 +1146,178 @@ function dexaOffset(){
   const d=(WINTER.dexa||[]).filter(x=>x&&x.date&&hasNum(x.body_fat_pct)&&hasNum(x.scale_body_fat_pct))
     .sort((a,b)=>a.date<b.date?-1:1).pop();
   return d?d.scale_body_fat_pct-d.body_fat_pct:null;}
-function goalsStrip(v){
+/* ---- Today's "Winter goals" hero: two panels, driven entirely by WINTER.winter_goals + the data.
+   Panel 1 (useful_strength): body fat is the headline; lean mass, strength per kg, W/kg and weight beneath.
+   Panel 2 (engine): CTL now vs the path, a season chart against last winter, and the quality ladder. ---- */
+const CLS_RANK={good:1,warn:2,bad:3},CHIP_TXT={good:"on track",warn:"watch",bad:"behind"};
+const worstCls=a=>a.filter(c=>CLS_RANK[c]).sort((x,y)=>CLS_RANK[y]-CLS_RANK[x])[0]||"";
+function yearBack(iso){const d=new Date(iso+"T00:00:00Z");d.setUTCFullYear(d.getUTCFullYear()-1);return d.toISOString().slice(0,10);}
+/* the panel shell: coloured rule, goal label as eyebrow, status chip, title, subtitle */
+function wgShell(host,mod,g){
+  const p=el("section","wgoal "+mod);p.setAttribute("aria-label",g.title||g.label||"Winter goal");
+  const top=el("div","wg-top");top.appendChild(el("div","eyebrow",g.label||"Winter goal"));p.appendChild(top);
+  if(g.title)p.appendChild(el("h2","disp wg-title",g.title));
+  if(g.subtitle)p.appendChild(el("p","wg-subt",g.subtitle));
+  host.appendChild(p);
+  p.setStatus=cls=>{if(CHIP_TXT[cls])top.appendChild(chip(cls,CHIP_TXT[cls]));};
+  return p;}
+/* the one big headline number (+ optional sparkline) and its captions */
+function wgHead(p,lbl,valHtml,cls,caps,sparkVals,sparkColor){
+  const h=el("div","wg-head");h.appendChild(el("div","wg-lbl",lbl));
+  const row=el("div","wg-row"),v=el("div","wg-big disp"+(cls?" "+cls:""));v.innerHTML=valHtml;row.appendChild(v);
+  if(sparkVals&&sparkVals.filter(x=>x!=null).length>1)row.appendChild(spark(sparkVals,sparkColor||css("--s1"),118,42));
+  h.appendChild(row);caps.filter(Boolean).forEach(c=>h.appendChild(el("div","wg-cap",c)));
+  p.appendChild(h);return h;}
+function wgMetric(host,lbl,valHtml,cls,caps,tip){
+  const m=el("div","wg-m");if(tip)m.title=tip;m.appendChild(el("div","wg-ml",lbl));
+  const v=el("div","wg-mv disp"+(cls?" "+cls:""));v.innerHTML=valHtml;m.appendChild(v);
+  caps.filter(Boolean).forEach(c=>m.appendChild(el("div","wg-cap",c)));
+  host.appendChild(m);return m;}
+/* strength per kg from M.strength (may be absent): value, class, captions, and whether it is real change data */
+function strengthStat(g){
+  const S=(M.strength&&typeof M.strength==="object")?M.strength:null;
+  const lifts=(S&&S.lifts&&typeof S.lifts==="object")?S.lifts:{},idx=(S&&S.index)||{};
+  const relOf=x=>hasNum(x)?x:(x&&hasNum(x.rel)?x.rel:null);
+  const ks=Object.keys(lifts).filter(k=>lifts[k]&&relOf(lifts[k].latest)!=null);
+  const liftLine=joinBits(ks.map(k=>String(lifts[k].label||k).replace(/_/g," ").replace(/\s*\(.*?\)/g,"").trim().toLowerCase()
+    +" "+relOf(lifts[k].latest).toFixed(2)+"×BW"));
+  const logged=((S&&S.sessions)||[]).filter(s=>s&&s.logged).sort((a,b)=>String(a.date)<String(b.date)?-1:1);
+  const unl=S&&hasNum(S.unlogged_28d)&&S.unlogged_28d>0?" · "+plural(S.unlogged_28d,"unlogged session")+" in 28 d":"";
+  const tip=g&&g.strength_note?g.strength_note:null;
+  if(hasNum(idx.change_pct)){
+    const c=idx.change_pct;
+    return{val:fmtSigned(c,1)+"<small>%</small>",cls:c>=0?"good":c>-3?"warn":"bad",real:true,tip,
+      caps:[(idx.baseline_date?"key lifts per kg since "+dfmt(idx.baseline_date):"key lifts per kg since baseline")+unl,liftLine]};}
+  if(logged.length||ks.length){
+    /* no change yet: show the latest per-kg reads. The baseline is only "set" once the data names its date;
+       before the season's first logged session the index says when it starts instead. */
+    const bd=idx.baseline_date||null,from=idx.baseline_from||(S&&S.season_start)||null;
+    return{val:ks.length?ks.map(k=>relOf(lifts[k].latest).toFixed(2)).join(" · ")+"<small> ×BW</small>":"–",cls:"",real:false,tip,
+      caps:[(bd?"baseline set "+dfmt(bd)+" — change shows from the next logged session"
+        :from?"baseline builds from "+dfmt(from)+" — change shows after that"
+        :"change shows from the next logged session")+unl,liftLine]};}
+  return{val:"–",cls:"warn",real:false,tip,caps:[((g&&g.unlogged_prompt)||"No strength sets logged yet")+unl]};}
+function wgUseful(host,g,span){
   const bg=WINTER.body_goals||{},rows=bodyRows(),since=isoMinus(todayIso,89);
-  const host=el("div","kpis");let n=0;
-  const add=(...a)=>{mkTile(host,...a).classList.add("goal");n++;};
-  const sparkOf=f=>rows.filter(d=>d[f]!=null&&d.date>=since).map(d=>d[f]);
+  const p=wgShell(host,"use",g),sparkOf=f=>rows.filter(d=>d[f]!=null&&d.date>=since).map(d=>d[f]);
   /* "→ next target by date" for a field, or null when the plan has no next checkpoint for it */
   const toGo=(pt,f,unit)=>pt&&hasNum(pt.next[f])?"→ "+fmtN(pt.next[f],1)+(unit||"")+" by "+dfmt(pt.next.date):null;
-  /* body fat — the primary goal, judged against the plan's path */
-  const bf=bodyStat("body_fat_pct",todayIso);
+  /* body fat — the headline, judged against the plan's path. In the two-column layout the panel is as tall as
+     the engine panel, so a compact readings-vs-path chart fills it; on a phone the sparkline stays instead. */
+  const wide=(window.innerWidth||0)>820;
+  const bf=bodyStat("body_fat_pct",todayIso);let bfCls="";
   if(bf){
     const pt=pathAt("body_fat_pct",todayIso),dv=pt?bf.v-pt.target:null;
-    const cls=dv==null?"":dv<=0.5?"good":dv<=1.2?"warn":"bad";
+    bfCls=dv==null?"":dv<=0.5?"good":dv<=1.2?"warn":"bad";
     const off=dexaOffset(),ideal=rangeTxt(bg.body_fat_ideal);
-    add("Body fat",f1(bf.v)+"<small>%</small>",cls,
+    wgHead(p,"Body fat",f1(bf.v)+"<small>%</small>",bfCls,
       [joinBits([toGo(pt,"body_fat_pct","%"),hasNum(bg.body_fat_good)?"good <"+fmtN(bg.body_fat_good,1):null,
-          ideal?"ideal "+ideal:null,off!=null?"DEXA-calibrated ≈ "+f1(bf.v-off)+"%":null]),
-       phaseLabel(todayIso)],sparkOf("body_fat_pct"),css("--s2"));}
+          ideal?"ideal "+ideal:null,off!=null?"DEXA-calibrated ≈ "+f1(bf.v-off)+"%":null]),phaseLabel(todayIso)],
+      wide?null:sparkOf("body_fat_pct"),css("--s2"));
+    if(wide)wgBodyChart(p,bg,rows,span);}
+  else wgHead(p,"Body fat","–","",["No recent weigh-ins — the scale reading lands after the next morning sync."]);
+  const subs=el("div","wg-subs");p.appendChild(subs);
   /* lean mass — the guard: must not fall, should rise in winter */
-  const ln=bodyStat("lean_kg",todayIso);
+  const ln=bodyStat("lean_kg",todayIso);let lnCls="";
   if(ln){
     const pt=pathAt("lean_kg",todayIso),fl=bg.lean_floor;
-    const cls=pt?(ln.v>=pt.target-0.4?"good":hasNum(fl)?(ln.v>=fl-0.3?"warn":"bad"):"warn"):"";
-    add("Lean mass",f1(ln.v)+"<small> kg</small>",cls,
-      joinBits([toGo(pt,"lean_kg"),hasNum(fl)?"floor "+fmtN(fl,1):null,
-        hasNum(bg.lean_stretch)?"stretch "+fmtN(bg.lean_stretch,1):null]),sparkOf("lean_kg"),css("--s4"));}
+    lnCls=pt?(ln.v>=pt.target-0.4?"good":hasNum(fl)?(ln.v>=fl-0.3?"warn":"bad"):"warn"):"";
+    wgMetric(subs,"Lean mass",f1(ln.v)+"<small> kg</small>",lnCls,
+      [joinBits([toGo(pt,"lean_kg"),hasNum(bg.lean_floor)?"floor "+fmtN(bg.lean_floor,1):null,
+        hasNum(bg.lean_stretch)?"stretch "+fmtN(bg.lean_stretch,1):null])]);}
+  /* strength per kg — counts towards the status only once there is a real change to judge */
+  const st=strengthStat(g);
+  wgMetric(subs,"Strength / kg",st.val,st.cls,st.caps,st.tip);
+  /* W/kg — what the strength is for: FTP over the 7-day mean weight */
+  const w7=bodyStat("weight_kg",todayIso,[7]);
+  if(hasNum(A.ftp)&&w7&&w7.v>0)
+    wgMetric(subs,"W / kg",(A.ftp/w7.v).toFixed(2),"good",["FTP "+A.ftp+" W ÷ "+f1(w7.v)+" kg"]);
   /* weight — the outcome, judged more softly */
   const wt=bodyStat("weight_kg",todayIso);
   if(wt){
     const wRows=rows.filter(d=>d.weight_kg!=null&&d.date<=todayIso),lastW=wRows[wRows.length-1];
     const pt=pathAt("weight_kg",todayIso),dv=pt?wt.v-pt.target:null;
-    const cls=dv==null?"":dv<=0.8?"good":dv<=1.8?"warn":"bad";
-    add("Weight",f1(wt.v)+"<small> kg</small>",cls,
-      joinBits(["outcome",toGo(pt,"weight_kg"),hasNum(bg.weight_good)?"good <"+fmtN(bg.weight_good,1):null,
+    wgMetric(subs,"Weight (outcome)",f1(wt.v)+"<small> kg</small>",dv==null?"":dv<=0.8?"good":dv<=1.8?"warn":"bad",
+      [joinBits([toGo(pt,"weight_kg"),hasNum(bg.weight_good)?"good <"+fmtN(bg.weight_good,1):null,
         rangeTxt(bg.weight_ideal)?"ideal "+rangeTxt(bg.weight_ideal):null,
-        lastW&&(isoMs(todayIso)-isoMs(lastW.date))/864e5>4?"last weigh-in "+dfmt(lastW.date):null]),
-      sparkOf("weight_kg"),css("--s1"));}
-  /* fitness vs the plan's path */
-  if(cur&&cur.ctl!=null){
-    const pc=pathAt("ctl",todayIso);
-    const cls=pc?(Math.abs(cur.ctl-pc.target)<=2?"good":Math.abs(cur.ctl-pc.target)<=4?"warn":"bad"):"";
-    const cps=(WINTER.checkpoints||[]).filter(k=>k&&k.date&&k.ctl!=null);
-    let exit=null;
-    const b2=cps.find(k=>/B2/.test(k.label||""));
-    if(b2)exit=b2.ctl;
-    else if(cps.length){const yr=cps[cps.length-1].date.slice(0,4),early=cps.filter(k=>k.date<yr+"-07-01");
-      if(early.length)exit=Math.max(...early.map(k=>k.ctl));}
-    add("Fitness · CTL",Number(cur.ctl).toFixed(1),cls,
-      joinBits([pc?"→ "+fmtN(pc.next.ctl,1)+" by "+dfmt(pc.next.date):null,exit!=null?fmtN(exit,1)+" to leave winter":null]),
-      loadDaily.slice(-90).map(d=>d.ctl),css("--s4"));}
-  /* the ladder the winter is built around */
+        lastW&&(isoMs(todayIso)-isoMs(lastW.date))/864e5>4?"last weigh-in "+dfmt(lastW.date):null])]);}
+  p.setStatus(worstCls([bfCls,lnCls,st.real?st.cls:""]));
+  if(!subs.children.length)subs.remove();}
+/* body fat readings (dots) against the plan's dashed path, over the same window as the engine chart */
+function wgBodyChart(p,bg,rows,span){
+  const rs=rows.filter(d=>d.body_fat_pct!=null&&d.date>=span.from&&d.date<=todayIso),pts=pathPoints("body_fat_pct");
+  if(!rs.length||pts.length<2)return;
+  const set={};rs.forEach(d=>set[d.date]=d.body_fat_pct);
+  const xs=Array.from(new Set([span.from,span.to].concat(rs.map(d=>d.date)).concat(pts.map(q=>q.date).filter(d=>d>span.from&&d<span.to)))).sort();
+  const box=el("div","wg-chart");p.appendChild(box);
+  lineChart(box,{x:xs,w:wgChartW(),h:165,padR:14,noGapBreak:true,directLabels:false,unit:"%",yFmt:x=>fmtN(x,1),
+    xTicks:monthTicks(xs[0],xs[xs.length-1]),markX:todayIso,yInclude:[bg.body_fat_good],
+    bands:[hasNum(bg.body_fat_good)?{lo:null,hi:bg.body_fat_good,color:css("--good"),opacity:.10,label:"good <"+fmtN(bg.body_fat_good,1)+"%"}:null],
+    series:[{name:"Target path",color:css("--rosa"),dash:"6 4",width:1.8,values:xs.map(x=>pathValue(pts,x))},
+      {name:"Body fat",color:css("--s1"),dots:true,dotR:2.6,width:1.4,values:xs.map(x=>set[x]!=null?set[x]:null)}]});}
+/* approximate drawn width of a half-width panel's content, so the chart's SVG is ~1:1 and its text stays legible */
+function wgChartW(){const iw=window.innerWidth||1280,pad=Math.max(14,Math.min(40,iw*.025)),inner=Math.min(iw,1720)-2*pad;
+  const panel=iw<=820?inner:(inner-16)/2,padIn=iw<=640?14:20;
+  return Math.round(Math.max(300,Math.min(860,panel-2*padIn-2)));}
+function wgEngine(host,g){
+  const p=wgShell(host,"eng",g);
+  const byDate={};loadDaily.forEach(d=>{if(d&&d.date&&hasNum(d.ctl))byDate[d.date]=d.ctl;});
+  const tgt=hasNum(g.target_ctl)?g.target_ctl:null,tDate=g.target_date||null;
+  /* CTL now vs the path the plan draws through the checkpoints */
+  const pc=pathAt("ctl",todayIso);let cls="";
+  if(cur&&hasNum(cur.ctl)){
+    if(pc)cls=Math.abs(cur.ctl-pc.target)<=2?"good":Math.abs(cur.ctl-pc.target)<=4?"warn":"bad";
+    const nxCtl=tgt!=null?tgt:(pc?pc.next.ctl:null),nxDate=tDate||(pc?pc.next.date:null);
+    wgHead(p,"CTL now",f1(cur.ctl),cls,[joinBits([nxCtl!=null&&nxDate?"→ ~"+fmtN(nxCtl,1)+" by "+dfmt(nxDate):null,
+      pc?"path today "+fmtN(pc.target,1):null])]);}
+  /* the season: this winter's CTL, the target path, and last winter laid over it */
+  if(g.season_start&&tDate&&tDate>g.season_start){
+    const xs=[],t1=isoMs(tDate);for(let t=isoMs(g.season_start);t<=t1&&xs.length<800;t+=864e5)xs.push(new Date(t).toISOString().slice(0,10));
+    const pts=pathPoints("ctl"),ser=[];
+    const lastW=xs.map(x=>{const v=byDate[yearBack(x)];return v!=null?v:null;});
+    if(lastW.some(v=>v!=null))ser.push({name:"Last winter",color:css("--mute"),dash:"3 3",width:1.8,values:lastW});
+    if(pts.length>1)ser.push({name:"Target path",color:css("--rosa"),dash:"6 4",width:1.8,values:xs.map(x=>pathValue(pts,x))});
+    ser.push({name:"This winter",color:css("--s1"),width:2.6,values:xs.map(x=>x<=todayIso&&byDate[x]!=null?byDate[x]:null)});
+    const phone=window.innerWidth<640,box=el("div","wg-chart");p.appendChild(box);
+    lineChart(box,{x:xs,w:wgChartW(),h:phone?150:165,padR:14,noGapBreak:true,directLabels:false,
+      yFmt:x=>fmtN(x,1),xTicks:monthTicks(xs[0],xs[xs.length-1]),markX:todayIso,yInclude:tgt!=null?[tgt]:[],
+      bands:tgt!=null?[{lo:tgt,hi:tgt,color:css("--good"),label:"target ~"+fmtN(tgt,1),below:true}]:[],series:ser});}
+  const subs=el("div","wg-subs");p.appendChild(subs);
+  /* last winter, same date — and the same ctl at the target date a year earlier: the gap being closed */
+  const prevT=yearBack(todayIso),vT=byDate[prevT];
+  if(vT!=null)wgMetric(subs,"Last winter, same date",fmtN(vT,1),"",
+    ["CTL on "+dfmtY(prevT),cur&&hasNum(cur.ctl)?"now "+fmtSigned(cur.ctl-vT,1)+" vs then":null]);
+  if(tDate){const prevD=yearBack(tDate),vD=byDate[prevD];
+    if(vD!=null)wgMetric(subs,"Last winter at "+dfmt(tDate),fmtN(vD,1),"",
+      ["CTL on "+dfmtY(prevD),tgt!=null?"target ~"+fmtN(tgt,1)+" is "+fmtSigned(tgt-vD,0)+" on that":null]);
+    const days=Math.round((isoMs(tDate)-isoMs(todayIso))/864e5);
+    if(days>=0){
+      const cp=(WINTER.checkpoints||[]).find(k=>k&&k.date===tDate&&k.label),
+        nm=cp?String(cp.label).split(/\s[—–-]\s/)[0].trim():"",wks=Math.floor(days/7);
+      const need=tgt!=null&&cur&&hasNum(cur.ctl)&&days>=7?(tgt-cur.ctl)/(days/7):null;
+      wgMetric(subs,"Weeks to "+(nm||"target"),String(wks),"",
+        [dfmt(tDate)+" · "+plural(days,"day"),need!=null&&isFinite(need)?"needs "+fmtSigned(need,1)+" CTL / wk":null]);}}
+  /* quality — the threshold ladder the winter is built around */
   const thr=WINTER.ladders&&WINTER.ladders.threshold;
   if(thr&&thr.current){
-    const st=(thr.steps||[]).find(s=>s.id===thr.current),hist=thr.history||[],lh=hist[hist.length-1];
-    const w=(st&&st.target_w!=null)?Math.round(st.target_w*A.ftp/(thr.anchor_ftp||A.ftp)):null;
-    add("Threshold ladder",esc(thr.current),"good",
-      joinBits([st&&st.session,w!=null?w+" W":null,lh&&lh.result?"last: "+lh.result:null]),null);}
-  if(!n)return;
-  v.appendChild(el("h3","sect disp","Goals"));v.appendChild(host);}
+    const stp=(thr.steps||[]).find(s=>s.id===thr.current),hist=thr.history||[],lh=hist[hist.length-1];
+    const w=(stp&&stp.target_w!=null)?Math.round(stp.target_w*A.ftp/(thr.anchor_ftp||A.ftp)):null;
+    wgMetric(subs,"Quality",esc(thr.current),"good",
+      [joinBits([stp&&stp.session,w!=null&&isFinite(w)?w+" W":null,lh&&lh.result?"last: "+lh.result:null])]);}
+  p.setStatus(cls);
+  if(!subs.children.length)subs.remove();}
+function winterGoals(v){
+  const G=Array.isArray(WINTER.winter_goals)?WINTER.winter_goals.filter(Boolean):[];
+  const gu=G.find(g=>g.id==="useful_strength"),ge=G.find(g=>g.id==="engine");
+  if(!gu&&!ge)return;
+  const host=el("div","wgoals");
+  /* the chart window both panels share: the engine's season, else the last ~4 months to the plan's last checkpoint */
+  const cps=(WINTER.checkpoints||[]).filter(k=>k&&k.date).map(k=>k.date).sort();
+  const span=ge&&ge.season_start&&ge.target_date&&ge.target_date>ge.season_start?{from:ge.season_start,to:ge.target_date}
+    :{from:isoMinus(todayIso,119),to:cps.filter(d=>d>todayIso)[0]||todayIso};
+  if(gu)wgUseful(host,gu,span);
+  if(ge)wgEngine(host,ge);
+  v.appendChild(host);}
 
 /* ============ OVERVIEW ============ */
 function vOverview(v){
@@ -1179,8 +1327,8 @@ function vOverview(v){
   if(N.headline){const h=el("p",null,N.headline);
     h.style.cssText="font-size:16px;color:var(--ink2);max-width:92ch;margin:0 0 4px;line-height:1.6";
     v.appendChild(h);}
-  /* 3 — where the winter plan says we should be */
-  goalsStrip(v);
+  /* 3 — the two winter goals, up in lights: useful strength + the engine */
+  winterGoals(v);
 
   /* 4 — the health numbers that set the banner colour */
   const hd=M.health.daily||[];
@@ -1262,7 +1410,7 @@ function vOverview(v){
   {const sm=vpLast?joinBits([vpLast.flat_w!=null?"flat "+vpLast.flat_w+" W":null,
       vpLast.climb_w!=null?"climb "+vpLast.climb_w+" W":null,
       vpLast.gap_pct!=null?"gap "+fmtN(vpLast.gap_pct,1)+"%":null]):"needs flat + climb rides with power and HR";
-    const c=ccard(g,"c6","Goal 1 · block KPI","Valley power at VT2",sm,"valley",false,
+    const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",sm,"valley",false,
       [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
        "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power");
     if(!vpw.length)emptyState(c,"Needs rides with power + HR on both flat and climbing terrain.");
@@ -1273,7 +1421,7 @@ function vOverview(v){
         vpw.map(w=>[dfmtY(w.end_date),w.flat_w,w.climb_w,(w.gap_pct>0?"+":"")+w.gap_pct+"%",w.flat_min,w.climb_min])));}}
   {const b=(M.sprint&&M.sprint.best)||{},nz=x=>x!=null?x:"–";
     const sm=(b.p5!=null||b.p15!=null||b.p30!=null)?"best 5/15/30 s "+nz(b.p5)+"/"+nz(b.p15)+"/"+nz(b.p30)+" W":"appears as full-resolution streams accumulate";
-    const c=ccard(g,"c6","Goal 2 · accessory","Top-end sprint",sm,"sprint",false,
+    const c=ccard(g,"c6","Accessory · sprint","Top-end sprint",sm,"sprint",false,
       ["Best 5 / 15 / 30-second power from each ride's power stream. Historical streams were too coarse for an honest 5 s number — new rides record at full resolution.",
        "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint");
     const st2=((M.sprint&&M.sprint.trend)||[]).filter(x=>x.p15||x.p5||x.p30);
@@ -1288,7 +1436,7 @@ function vOverview(v){
     const lat=rr.length?rr.slice().sort((a,b)=>a.date<b.date?-1:1)[rr.length-1]:null;
     const sm=lat?joinBits([lat.n_climbs!=null?plural(lat.n_climbs,"climb"):null,
       lat.hr_adj_fade_pct!=null?"HR-adj fade "+lat.hr_adj_fade_pct+"%":null,dfmt(lat.date)]):"needs multi-climb rides";
-    const c=ccard(g,"c6","Goal 3 · the weapon","Fade less fast",sm,"fade",false,
+    const c=ccard(g,"c6","Race weapon · fade","Fade less fast",sm,"fade",false,
       ["Power drop from first to last climb on every ride with ≥3 climbs of ≥8 min. Bars below zero mean fading; the HR-adjusted number (table) strips out pacing.",
        "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability");
     if(!rr.length)emptyState(c,"Needs multi-climb rides — appears as streams are analysed.");
@@ -1883,7 +2031,7 @@ function vReference(v){
      ["EF — efficiency factor","NP ÷ average HR on steady rides: watts per heartbeat. Rising EF at fixed HR = the aerobic engine growing."],
      ["HRV — heart-rate variability","Beat-to-beat variation overnight (Garmin's personal band: "+hb.lo+"–"+hb.hi+" ms). Suppressed HRV = unabsorbed stress; the morning traffic light runs on it."],
      ["RHR — resting heart rate","Overnight minimum (baseline "+rhrB+" bpm). A rising multi-day trend = back off before it becomes illness."],
-     ["Fade index","Average power on the last climb ÷ first climb of a multi-climb ride, HR-adjusted. Goal 3 is keeping it above −10% deep into long days."],
+     ["Fade index","Average power on the last climb ÷ first climb of a multi-climb ride, HR-adjusted. The race weapon is keeping it above −10% deep into long days."],
      ["W/kg — watts per kilogram",`Power ÷ body mass (${A.wkg_ftp} at FTP today). The currency of climbing.`]]
     .forEach(([t,d])=>{const det=el("details","day flat");
       const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt",t));
@@ -2251,7 +2399,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="e5b2fcde89a3f017";
+<script>var BUILD_STAMP="4943652e453304dd";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
