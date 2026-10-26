@@ -391,6 +391,20 @@ abbr{text-decoration:underline dotted var(--mute);cursor:help}
 .ccsum{display:block;margin-top:3px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.02em;
   color:var(--mute);line-height:1.45}
 .ccbody{position:relative;padding:0 22px 16px}
+/* summer-block verdict: collapsed-summary line + body box (COACH.summer_results) */
+.ccverd{display:flex;gap:8px;align-items:baseline;margin-top:5px;font-size:13px;line-height:1.4;color:var(--ink)}
+.ccverd .chip{flex:none}
+.ccverd .vh{min-width:0;font-weight:600}
+.ccv .ccsum{margin-top:4px}
+.bres{position:relative;margin:2px 0 14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--mute);
+  border-radius:12px;background:color-mix(in srgb,var(--panel2) 55%,transparent)}
+.bres.good{border-left-color:var(--good)}.bres.warn{border-left-color:var(--warn)}.bres.bad{border-left-color:var(--bad)}
+.bres .eyebrow{display:block;margin-bottom:7px}
+.bres .bv{display:flex;gap:8px;align-items:baseline;font-size:14.5px;line-height:1.4;font-weight:700;color:var(--ink)}
+.bres .bv .chip{flex:none;font-weight:400}
+.bres .bd{margin:8px 0 0;font-size:13.5px;line-height:1.6;color:var(--ink2);max-width:90ch}
+.bres .bs{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--mute);max-width:90ch}
+.ccbody .bres .tbl-toggle{top:8px;right:10px}
 .ccbody .tbl-toggle{top:2px;right:22px}
 .ccbar{display:flex;justify-content:flex-end;gap:6px;margin:-8px 0 10px}
 .ccbar button,.qa-filter{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
@@ -763,7 +777,8 @@ function card(parent,cls,kick,title,explain,noteKey){
   if(note)c.appendChild(el("div","note",note));
   return c;}
 /* ccard — a collapsible card. Returns the BODY element that content is appended to.
-   The caller supplies a summary line (computed from data) that shows while collapsed.
+   The caller supplies a summary line (computed from data) that shows while collapsed —
+   a string, or a DOM node when the summary needs more than one line (see srSummary).
    Open state is remembered per tab+key in localStorage ("hq-open"); defaultOpen applies
    until the viewer has toggled the card. */
 let CUR_TAB="overview";
@@ -776,7 +791,7 @@ function ccard(parent,cls,kick,title,summaryText,key,defaultOpen,explain,noteKey
   if(kick)row.appendChild(el("span","eyebrow",kick));
   if(title)row.appendChild(el("h2","disp",title));
   hd.appendChild(row);
-  if(summaryText)hd.appendChild(el("span","ccsum",summaryText));
+  if(summaryText)hd.appendChild(summaryText instanceof Node?summaryText:el("span","ccsum",summaryText));   // string, or a ready-made DOM node
   sm.appendChild(hd);d.appendChild(sm);
   const body=el("div","ccbody");d.appendChild(body);
   const stored=openMap()[k];
@@ -805,6 +820,36 @@ const clip=(t,n)=>{t=String(t==null?"":t).replace(/\s+/g," ").trim();return t.le
 const joinBits=a=>a.filter(x=>x!=null&&x!=="").join(" · ");
 function emptyState(c,msg){c.appendChild(el("div","empty",msg));}
 function chip(cls,txt){return el("span","chip "+cls,txt);}
+/* Summer-block verdicts (COACH.summer_results.items[key]) — null unless the data holds something to show,
+   so with no data every card renders exactly as before. */
+function srItem(k){
+  const R=COACH.summer_results,x=R&&R.items&&R.items[k];if(!x||typeof x!=="object")return null;
+  const t=s=>(typeof s==="string"&&s.trim())?s.trim():"";
+  const o={verdict:t(x.verdict),headline:t(x.headline),detail:t(x.detail),since:t(x.since),
+    tone:["good","mute","warn","bad"].indexOf(x.tone)>=0?x.tone:"mute"};
+  return (o.verdict||o.headline||o.detail||o.since)?o:null;}
+/* collapsed-card summary: verdict chip + headline, then the live metric as a small muted "now:" line */
+function srSummary(it,now,live){
+  const w=el("div","ccv");
+  if(it.verdict||it.headline){const r=el("div","ccverd");
+    if(it.verdict)r.appendChild(chip(it.tone,it.verdict));
+    if(it.headline)r.appendChild(el("span","vh",it.headline));
+    w.appendChild(r);}
+  if(now)w.appendChild(el("span","ccsum",(live?"now: ":"")+now));
+  return w;}
+/* "Block result" box at the top of a card body (call after the body is built, so the data toggle can move in) */
+function srBox(body,it){
+  if(!it)return;
+  const b=el("div","bres "+it.tone);
+  b.appendChild(el("span","eyebrow","Summer block result"));
+  if(it.verdict||it.headline){const r=el("div","bv");
+    if(it.verdict)r.appendChild(chip(it.tone,it.verdict));
+    if(it.headline)r.appendChild(el("span",null,it.headline));
+    b.appendChild(r);}
+  if(it.detail)b.appendChild(el("p","bd",it.detail));
+  if(it.since)b.appendChild(el("p","bs",it.since));
+  const tg=body.querySelector(":scope>.tbl-toggle");if(tg)b.appendChild(tg);   // keep the data/chart toggle clear of the box
+  body.insertBefore(b,body.firstChild);}
 
 /* ============ derived helpers ============ */
 const cur=M.load.current,loadDaily=M.load.daily,A=M.athlete;
@@ -1406,11 +1451,15 @@ function vOverview(v){
     c.appendChild(ul);}
 
   /* 7 — the three goal scoreboards + the tab digest, folded away until wanted */
-  const g=el("div","grid");g.style.marginTop="16px";v.appendChild(g);
+  const srT=COACH.summer_results&&typeof COACH.summer_results.title==="string"?COACH.summer_results.title.trim():"";
+  const srV=srItem("valley_power"),srS=srItem("sprint"),srF=srItem("fade");
+  const hasSR=!!(srT&&(srV||srS||srF));
+  if(hasSR)v.appendChild(el("h3","sect disp",srT));
+  const g=el("div","grid");g.style.marginTop=hasSR?"0":"16px";v.appendChild(g);
   {const sm=vpLast?joinBits([vpLast.flat_w!=null?"flat "+vpLast.flat_w+" W":null,
       vpLast.climb_w!=null?"climb "+vpLast.climb_w+" W":null,
       vpLast.gap_pct!=null?"gap "+fmtN(vpLast.gap_pct,1)+"%":null]):"needs flat + climb rides with power and HR";
-    const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",sm,"valley",false,
+    const c=ccard(g,"c6","Summer KPI · valley power","Valley power at VT2",srV?srSummary(srV,sm,!!vpLast):sm,"valley",false,
       [`Average watts while heart rate sits at ${A.vt2_bpm-5}–${A.vt2_bpm+5} bpm (around VT2 = ventilatory threshold 2, ${A.vt2_bpm} bpm — the highest intensity you can clear lactate at), split flat vs climb.`,
        "The gap should shrink toward 0% as the Tresenda→Sondalo flat sessions bite. If it's stuck after 4 weeks of flat-lane work, we change the session, not the goal."],"valley_power");
     if(!vpw.length)emptyState(c,"Needs rides with power + HR on both flat and climbing terrain.");
@@ -1418,10 +1467,11 @@ function vOverview(v){
       series:[{name:"Climb W",color:css("--s4"),values:vpw.map(w=>w.climb_w)},
               {name:"Flat W",color:css("--s1"),values:vpw.map(w=>w.flat_w)}],unit:" W"});
       addTableToggle(c,()=>mkTable(["Window end","Flat W","Climb W","Gap","Flat min","Climb min"],
-        vpw.map(w=>[dfmtY(w.end_date),w.flat_w,w.climb_w,(w.gap_pct>0?"+":"")+w.gap_pct+"%",w.flat_min,w.climb_min])));}}
+        vpw.map(w=>[dfmtY(w.end_date),w.flat_w,w.climb_w,(w.gap_pct>0?"+":"")+w.gap_pct+"%",w.flat_min,w.climb_min])));}
+    srBox(c,srV);}
   {const b=(M.sprint&&M.sprint.best)||{},nz=x=>x!=null?x:"–";
     const sm=(b.p5!=null||b.p15!=null||b.p30!=null)?"best 5/15/30 s "+nz(b.p5)+"/"+nz(b.p15)+"/"+nz(b.p30)+" W":"appears as full-resolution streams accumulate";
-    const c=ccard(g,"c6","Accessory · sprint","Top-end sprint",sm,"sprint",false,
+    const c=ccard(g,"c6","Accessory · sprint","Top-end sprint",srS?srSummary(srS,sm,b.p5!=null||b.p15!=null||b.p30!=null):sm,"sprint",false,
       ["Best 5 / 15 / 30-second power from each ride's power stream. Historical streams were too coarse for an honest 5 s number — new rides record at full resolution.",
        "Watch for new season-bests once weekly sprint sessions start (W3 of the plan). If 15 s power stays under ~450 W by September, add a second weekly dose."],"sprint");
     const st2=((M.sprint&&M.sprint.trend)||[]).filter(x=>x.p15||x.p5||x.p30);
@@ -1431,12 +1481,13 @@ function vOverview(v){
               {name:"15 s",color:css("--s3"),values:st2.map(x=>x.p15),dots:true,width:0},
               {name:"30 s",color:css("--s1"),values:st2.map(x=>x.p30),dots:true,width:0}],unit:" W"});
       addTableToggle(c,()=>mkTable(["Date","5s W","15s W","30s W","sample dt"],
-        st2.slice(-20).map(x=>[dfmtY(x.date),x.p5,x.p15,x.p30,x.dt?x.dt+"s":"–"])));}}
+        st2.slice(-20).map(x=>[dfmtY(x.date),x.p5,x.p15,x.p30,x.dt?x.dt+"s":"–"])));}
+    srBox(c,srS);}
   {const rr=((M.repeatability&&M.repeatability.rides)||[]).slice().reverse();   // chronological
     const lat=rr.length?rr.slice().sort((a,b)=>a.date<b.date?-1:1)[rr.length-1]:null;
     const sm=lat?joinBits([lat.n_climbs!=null?plural(lat.n_climbs,"climb"):null,
       lat.hr_adj_fade_pct!=null?"HR-adj fade "+lat.hr_adj_fade_pct+"%":null,dfmt(lat.date)]):"needs multi-climb rides";
-    const c=ccard(g,"c6","Race weapon · fade","Fade less fast",sm,"fade",false,
+    const c=ccard(g,"c6","Race weapon · fade","Fade less fast",srF?srSummary(srF,sm,!!lat):sm,"fade",false,
       ["Power drop from first to last climb on every ride with ≥3 climbs of ≥8 min. Bars below zero mean fading; the HR-adjusted number (table) strips out pacing.",
        "One multi-climb ride most weeks should keep this above −10%. A worsening trend under rising load = back off before it becomes overreach."],"repeatability");
     if(!rr.length)emptyState(c,"Needs multi-climb rides — appears as streams are analysed.");
@@ -1445,7 +1496,8 @@ function vOverview(v){
       xFmt:dfmt,xFmtLong:(d)=>{const r=rr.find(y=>y.date===d);return dfmtY(d)+" — "+(r?r.name:"");}});
       addTableToggle(c,()=>mkTable(["Date","Ride","Climbs","Fade","HR-adjusted"],
         rr.map(r=>[dfmtY(r.date),r.name,r.n_climbs,(r.fade_pct>0?"+":"")+r.fade_pct+"%",
-          r.hr_adj_fade_pct!=null?(r.hr_adj_fade_pct>0?"+":"")+r.hr_adj_fade_pct+"%":"–"])));}}
+          r.hr_adj_fade_pct!=null?(r.hr_adj_fade_pct>0?"+":"")+r.hr_adj_fade_pct+"%":"–"])));}
+    srBox(c,srF);}
   {const c=ccard(g,"c6","Across the app","Tab digest","one line per tab","digest",false);
     const thr=WINTER.ladders&&WINTER.ladders.threshold,np=planNext();
     const hv=latestH("hrv"),rh=latestH("rhr"),wS=bodyStat("weight_kg",todayIso);
@@ -2399,7 +2451,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="4943652e453304dd";
+<script>var BUILD_STAMP="5e227038c4a05af7";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
