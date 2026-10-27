@@ -988,6 +988,15 @@ function readinessBanner(v){
 }
 const SESSION_TYPE_COLOR={test:"rosa",intervals:"ice",sprint:"rosa",endurance:"mute",recovery:"good",rest:"mute"};
 
+/* Sync schedule in Italy time. The morning run is fixed in UTC (06:45) so it never fires before 07:30
+   local in either season — 07:45 in winter, 08:45 in summer; the two Strava checks are pinned to
+   Italian time (13:00, 20:30). Computed, so the header stays right across the clock changes. */
+function syncTimes(){
+  let m="07:45";
+  try{const d=new Date();d.setUTCHours(6,45,0,0);
+    m=d.toLocaleTimeString("en-GB",{timeZone:"Europe/Rome",hour:"2-digit",minute:"2-digit"});}catch(e){}
+  return [m,"13:00","20:30"];}
+
 /* ============ header + nav ============ */
 const app=document.getElementById("app");
 function buildShell(){
@@ -1023,7 +1032,7 @@ function buildShell(){
   btnrow.appendChild(tb);
   ctrls.appendChild(btnrow);
   const info=el("div","hq-info");
-  info.textContent="Synced "+M.generated_at.slice(0,16).replace("T"," ")+" · "+buildAgeLabel()+". Auto 07:45 / 13:00 / 20:30. Update now opens the session — say “sync now”.";
+  info.textContent="Synced "+M.generated_at.slice(0,16).replace("T"," ")+" · "+buildAgeLabel()+". Auto "+syncTimes().join(" / ")+" Italy time. Update now opens the session — say “sync now”.";
   ctrls.appendChild(info);
   right.appendChild(ctrls);
   flex.appendChild(right);
@@ -2102,8 +2111,8 @@ function vReference(v){
     .forEach(([t,d])=>{const det=el("details","day flat");
       const sm=el("summary");sm.appendChild(el("span","caret","▸"));sm.appendChild(el("span","dt",t));
       det.appendChild(sm);det.appendChild(el("div","body",d));c.appendChild(det);});}
-  {const rows=[["Strava (live)","Rides, streams (power/HR/altitude at full resolution for <3 h rides), zones, FTP. Synced 06:45, 13:00, 20:30 Italy time; the dashboard republishes on every sync."],
-     ["Garmin (pending network allow-list)","Overnight HRV, RHR, sleep, stress, body battery, weight, non-cycling training. Credentials staged securely outside the repo; blocked only by the environment's network policy."],
+  {const rows=[["Strava (live)","Rides, streams (power/HR/altitude at full resolution for <3 h rides), zones, FTP. Synced "+syncTimes().join(", ")+" Italy time; the dashboard republishes on every sync."],
+     ["Garmin (live)","Overnight HRV, RHR, sleep, weight and body fat, plus non-cycling training — pulled on the morning sync. Credentials stay outside the repo."],
      ["Tymewear (pending network allow-list)","Ventilatory thresholds and breathing data. Same status; VT values entered at test time meanwhile."],
      ["The coach layer","On every sync the analysis, narrative, plan statuses and Q&A are rewritten by the coach model from the fresh metrics — the prose you read is generated from the numbers you see."],
      ["Honesty rules","Corrupted data is excluded and flagged, never presented as real (the 2026 Maratona file). Metrics that can't be computed honestly show as gaps. Short-power numbers state their sampling limits."]];
