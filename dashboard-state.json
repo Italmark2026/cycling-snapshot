@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-10-27T17:56:42+01:00",
+  "generated_at": "2026-10-27T20:41:32+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20749288018",
+      "date": "2026-10-27",
+      "name": "Zwift - Steady Zone 2 Block",
+      "km": 29.6,
+      "elev_m": 190,
+      "hours": 1.02,
+      "np": 146,
+      "intensity": 0.62,
+      "tss": 39,
+      "avg_hr": 116,
+      "w_per_kg_np": 1.77,
+      "temp_c": 23.6,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 155
+        },
+        {
+          "label": "5m",
+          "w": 155
+        },
+        {
+          "label": "10m",
+          "w": 155
+        },
+        {
+          "label": "20m",
+          "w": 154
+        },
+        {
+          "label": "30m",
+          "w": 154
+        },
+        {
+          "label": "1h",
+          "w": 144
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
     {
       "id": "20625251683",
       "date": "2026-10-17",
@@ -732,50 +775,6 @@
       "indoor": true,
       "meter": "Kickr",
       "work_kind": "efforts"
-    },
-    {
-      "id": "19876800941",
-      "date": "2026-08-24",
-      "name": "2x 20min tempo",
-      "km": 47.9,
-      "elev_m": 306,
-      "hours": 1.74,
-      "np": 185,
-      "intensity": 0.79,
-      "tss": 108,
-      "avg_hr": 126,
-      "w_per_kg_np": 2.25,
-      "temp_c": 29.9,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 261
-        },
-        {
-          "label": "5m",
-          "w": 234
-        },
-        {
-          "label": "10m",
-          "w": 219
-        },
-        {
-          "label": "20m",
-          "w": 214
-        },
-        {
-          "label": "30m",
-          "w": 202
-        },
-        {
-          "label": "1h",
-          "w": 171
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "intervals"
     }
   ],
   "flags": [
