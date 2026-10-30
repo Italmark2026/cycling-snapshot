@@ -943,7 +943,8 @@ function readinessAssess(){
   if(hl)checks.push({lvl:hl.lvl,label:"HRV "+hl.v,detail:hl.lo+"–"+hl.hi+" band"+(hl.status?" · "+hl.status:""),date:hl.date});
   const slp=latest("sleep_h");
   if(slp){const lvl=slp.v>=7.5?"green":slp.v>=6.5?"amber":"red";
-    checks.push({lvl,label:"Sleep "+fmtN(slp.v,1)+"h",detail:"≥7.5h green",date:slp.date});}
+    const hm=v=>{let h=Math.floor(v),m=Math.round((v-h)*60);if(m===60){h++;m=0;}return h+"h"+String(m).padStart(2,"0");};
+    checks.push({lvl,label:"Sleep "+hm(slp.v),detail:"≥7h30 green",date:slp.date});}   // h:mm — 7.47 h must not read as "7.5h" and fail a 7.5 h line
   const rd=latest("readiness");
   if(rd){const lvl=rd.v>=65?"green":rd.v>=40?"amber":"red";
     checks.push({lvl,label:"Readiness "+rd.v,detail:"/100",date:rd.date});}
@@ -2477,7 +2478,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="adf5b9127cd924bc";
+<script>var BUILD_STAMP="d3cddd77228e44d5";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
