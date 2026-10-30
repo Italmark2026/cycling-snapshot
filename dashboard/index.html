@@ -976,6 +976,9 @@ function readinessBanner(v){
   b.appendChild(el("div","rb-level disp",title));
   /* the pills are the numbers; the flagged one (! / ✕) shows which signal set the colour */
   const rz=el("div","rb-reasons");
+  /* a signal Garmin hasn't synced yet today falls back to its last value — say which day it is from */
+  const hd0=(M.health&&M.health.last_date)||null;
+  r.checks.forEach(c=>{if(hd0&&c.date&&c.date<hd0)c.detail=joinBits([c.detail,"from "+dfmt(c.date)]);});
   r.checks.forEach(c=>{const ch=el("div","rb-chk "+c.lvl);
     ch.title=c.label+(c.detail?" ("+c.detail+")":"");
     ch.appendChild(el("span","g",READ_GLYPH[c.lvl]));
@@ -2474,7 +2477,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="afbfc0f0ac3696a8";
+<script>var BUILD_STAMP="adf5b9127cd924bc";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
