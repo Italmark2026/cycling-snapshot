@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-01T07:47:55+01:00",
+  "generated_at": "2026-11-01T13:08:03+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20813538131",
+      "date": "2026-11-01",
+      "name": "Zwift - Aerobic Foundation Forge",
+      "km": 48.2,
+      "elev_m": 164,
+      "hours": 1.57,
+      "np": 145,
+      "intensity": 0.62,
+      "tss": 60,
+      "avg_hr": 120,
+      "w_per_kg_np": 1.76,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 150
+        },
+        {
+          "label": "5m",
+          "w": 150
+        },
+        {
+          "label": "10m",
+          "w": 150
+        },
+        {
+          "label": "20m",
+          "w": 150
+        },
+        {
+          "label": "30m",
+          "w": 150
+        },
+        {
+          "label": "1h",
+          "w": 149
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20790634064",
       "date": "2026-10-30",
@@ -733,50 +776,6 @@
       "flags": [],
       "indoor": true,
       "meter": "Kickr",
-      "work_kind": "intervals"
-    },
-    {
-      "id": "19974824368",
-      "date": "2026-08-31",
-      "name": "Trivigno di solito",
-      "km": 26.8,
-      "elev_m": 696,
-      "hours": 1.53,
-      "np": 174,
-      "intensity": 0.74,
-      "tss": 84,
-      "avg_hr": 116,
-      "w_per_kg_np": 2.11,
-      "temp_c": 27.1,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 232
-        },
-        {
-          "label": "5m",
-          "w": 217
-        },
-        {
-          "label": "10m",
-          "w": 212
-        },
-        {
-          "label": "20m",
-          "w": 198
-        },
-        {
-          "label": "30m",
-          "w": 194
-        },
-        {
-          "label": "1h",
-          "w": 181
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
       "work_kind": "intervals"
     }
   ],
