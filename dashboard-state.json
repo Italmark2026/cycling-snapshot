@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-01T13:08:03+01:00",
+  "generated_at": "2026-11-01T13:15:40+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -69,7 +69,7 @@
     "phase": {
       "key": "R1",
       "name": "Re-entry",
-      "detail": "26 Oct – 15 Nov · Z2 and tempo; the threshold ladder opens at T1",
+      "detail": "26 Oct – 22 Nov · Z2 and tempo; London 2–8 Nov; the threshold ladder opens at T1 the week of 9 Nov",
       "status": "active",
       "h": 40
     },
@@ -787,7 +787,7 @@
     },
     {
       "kind": "ftp_retest_pending",
-      "detail": "Phase G2 “Ramp test” is next: Week of 9 Nov · Kickr, green morning — sets the winter zones",
+      "detail": "Phase G2 “Ramp test” is next: Week of 16 Nov · Kickr, green morning — sets the winter zones",
       "source": "data/coach/plan.json → phases"
     },
     {
