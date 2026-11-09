@@ -2418,8 +2418,10 @@ function vStrength(v){
       plural(W.strength_principles.length,"principle")+" · strength per kilo, not size","principles",false);
     vItems(c,W.strength_principles);}
   const S=W.sessions||{};
-  [["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
+  /* s1_gym / s2_gym: a travel gym's versions, shown first while they carry an `until` that hasn't passed */
+  [["s1_gym","--rosa"],["s2_gym","--rosa"],["s1_legs","--good"],["s2_power","--s1"],["splitboard_extras","--line"]].forEach(([key,col])=>{
     const s=S[key];if(!s)return;
+    if(s.until&&s.until<todayIso)return;
     const c=card(g,key==="splitboard_extras"?"":"c6",s.frequency,s.title,null,null);
     c.style.borderTop="3px solid "+css(col);(s.exercises||[]).forEach(x=>exRow(c,x));});
   const TS=TRAVEL&&TRAVEL.sessions;
@@ -2495,7 +2497,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="d80b598261313644";
+<script>var BUILD_STAMP="7e0dbb984161bdbe";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
