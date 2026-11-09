@@ -331,6 +331,8 @@ details.day summary{display:flex;gap:12px;align-items:center;padding:11px 14px;c
 details.day summary::-webkit-details-marker{display:none}
 details.day summary:hover{background:color-mix(in srgb,var(--panel2) 60%,var(--panel))}
 .day .dd{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--mute);width:64px;flex:none}
+.visit-h{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);margin:16px 0 4px;padding-top:9px;border-top:1px dashed var(--line2);line-height:1.5}
 .day .dt{font-weight:600;font-size:14px;flex:1 1 200px}
 .day .lane{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ice)}
 .day .lane.star{color:var(--rosa)}
@@ -888,8 +890,9 @@ function planNext(){
   const cur=currentWeek();
   const order=cur?[cur].concat(wks.filter(w=>w!==cur&&w.start>cur.start).sort((a,b)=>a.start<b.start?-1:1)):wks;
   for(const w of order){
+    const ordOf=s=>s.order!=null?s.order:99;
     const open=openSessions(w).filter(s=>(s.priority||3)<3)
-      .sort((a,b)=>(a.priority||3)-(b.priority||3));
+      .sort((a,b)=>(ordOf(a)-ordOf(b))||((a.priority||3)-(b.priority||3)));
     if(open.length)return Object.assign({},open[0],{_week:w});
   }
   return null;}
@@ -1592,8 +1595,13 @@ function vPlan(v){
   const wkAct={};M.weekly.forEach(w=>wkAct[w.week_start]=w.tss);
   const curWk=currentWeek();
   (PLAN.weeks||[]).forEach((w,wi)=>{
+    /* a week whose sessions carry `order` (gym visits while travelling) lists them in
+       that order, grouped under their `visit` heading; otherwise priority, then TSS */
+    const ordered=(w.sessions||[]).some(s=>s.order!=null);
+    const ordOf=s=>s.order!=null?s.order:99;
     const sessions=(w.sessions||[]).slice()
-      .sort((a,b)=>((a.priority||3)-(b.priority||3))||(a.tss<b.tss?1:-1));
+      .sort(ordered?((a,b)=>(ordOf(a)-ordOf(b))||((a.priority||3)-(b.priority||3)))
+                   :((a,b)=>((a.priority||3)-(b.priority||3))||(a.tss<b.tss?1:-1)));
     const nDone=sessions.filter(s=>s.status==="done").length;
     const isCur=w===curWk;
     const c=ccard(g,"",w.phase,w.label,
@@ -1620,13 +1628,16 @@ function vPlan(v){
       host=el("div","body");coll.appendChild(host);
       c.appendChild(coll);
     }
+    let prevVisit=null;
     sessions.forEach(s=>{
+      if(ordered&&s.visit&&s.visit!==prevVisit){host.appendChild(el("div","visit-h",s.visit));}
+      prevVisit=s.visit||null;
       const det=el("details","day");
       /* no session starts open: the summary row already carries title / place / minutes / TSS */
       const sm=el("summary");
       sm.appendChild(el("span","caret","▸"));
       const pr=(s.priority||3);
-      sm.appendChild(el("span","dd",pr===1?"KEY":pr===2?"LONG":"OPT"));
+      sm.appendChild(el("span","dd",pr===1?"KEY":pr===2?(s.type==="strength"?"STRENGTH":(s.duration_min&&s.duration_min<90?"Z2":"LONG")):"OPT"));
       sm.appendChild(el("span","dt",s.title));
       sm.appendChild(el("span","lane"+(/★/.test(s.lane||"")?" star":""),s.where||s.lane||""));
       if(s.tss)sm.appendChild(el("span","dtss","~"+s.tss+" TSS"+(s.duration_min?" · "+s.duration_min+" min":"")));
@@ -2484,7 +2495,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="406139bc36149847";
+<script>var BUILD_STAMP="d80b598261313644";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
