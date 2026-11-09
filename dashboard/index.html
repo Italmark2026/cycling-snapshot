@@ -219,6 +219,9 @@ table.data th:first-child,table.data td:first-child{text-align:left}
 table.data td{padding:8px 9px;border-bottom:1px solid var(--line2);text-align:right;
   font-variant-numeric:tabular-nums;color:var(--ink2);white-space:nowrap}
 table.data td:first-child{color:var(--ink);white-space:normal;font-weight:500}
+/* gym tables (prescription.columns): five short text columns, so let them wrap to fit a phone */
+table.data.gym td{white-space:normal}
+table.data.gym td,table.data.gym th{padding-left:6px;padding-right:6px}
 table.data tr:hover td{background:var(--panel2)}
 .scroll{overflow-x:auto}
 .empty{border:1.5px dashed var(--line);border-radius:12px;padding:24px 20px;text-align:center;
@@ -1678,8 +1681,11 @@ function renderPrescription(container,p){
   const wrap=el("div");wrap.style.cssText="margin-top:11px;border-top:1px solid var(--line2);padding-top:10px";
   if(p.summary){const s=el("div");s.style.cssText="font-family:'Barlow Condensed';font-weight:600;font-size:16px;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)";s.textContent="▸ "+p.summary;wrap.appendChild(s);}
   if(p.meter){const m=el("div","eyebrow");m.textContent=p.meter;m.style.margin="3px 0 7px";wrap.appendChild(m);}
-  const sc=el("div","scroll");const t=el("table","data");
-  const tr=el("tr");["Step","Time","Power","HR","Cadence"].forEach(h=>tr.appendChild(el("th",null,h)));
+  const custom=Array.isArray(p.columns)&&p.columns.length===5;
+  const sc=el("div","scroll");const t=el("table","data"+(custom?" gym":""));
+  /* columns: optional header override for non-bike sessions (a gym session reads
+     Exercise · Sets × reps · Load · Rest · Tempo); the step fields stay label/dur/power/hr/cadence */
+  const tr=el("tr");(custom?p.columns:["Step","Time","Power","HR","Cadence"]).forEach(h=>tr.appendChild(el("th",null,h)));
   const th=el("thead");th.appendChild(tr);t.appendChild(th);
   const tb=el("tbody");
   (p.steps||[]).forEach(st=>{
@@ -2478,7 +2484,7 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>
 
 </script>
 
-<script>var BUILD_STAMP="fbcb1c54316dcfe1";
+<script>var BUILD_STAMP="406139bc36149847";
 (function(){
   var KEY_STORE="mtd.key.v1", $=function(s){return document.querySelector(s)};
   var lock=$("#lock"), input=$("#pw"), btn=$("#go"), err=$("#err"), remember=$("#rm");
