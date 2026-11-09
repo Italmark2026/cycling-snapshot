@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-09T13:08:10+01:00",
+  "generated_at": "2026-11-09T20:42:19+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,45 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20921187825",
+      "date": "2026-11-09",
+      "name": "Wattbike ride",
+      "km": 20.9,
+      "elev_m": 0,
+      "hours": 0.75,
+      "np": 148,
+      "intensity": 0.63,
+      "tss": 30,
+      "avg_hr": 124,
+      "w_per_kg_np": 1.8,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 169
+        },
+        {
+          "label": "5m",
+          "w": 160
+        },
+        {
+          "label": "10m",
+          "w": 158
+        },
+        {
+          "label": "20m",
+          "w": 155
+        },
+        {
+          "label": "30m",
+          "w": 155
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20813538131",
       "date": "2026-11-01",
@@ -737,46 +776,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "20002700987",
-      "date": "2026-09-02",
-      "name": "Zwift - SST (Short)",
-      "km": 28.9,
-      "elev_m": 57,
-      "hours": 0.84,
-      "np": 190,
-      "intensity": 0.81,
-      "tss": 55,
-      "avg_hr": 129,
-      "w_per_kg_np": 2.31,
-      "temp_c": 23.8,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 223
-        },
-        {
-          "label": "5m",
-          "w": 209
-        },
-        {
-          "label": "10m",
-          "w": 208
-        },
-        {
-          "label": "20m",
-          "w": 195
-        },
-        {
-          "label": "30m",
-          "w": 186
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
-      "work_kind": "intervals"
     }
   ],
   "flags": [
