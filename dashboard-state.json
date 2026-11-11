@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-11T13:08:05+01:00",
+  "generated_at": "2026-11-11T20:42:55+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,26 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20946453397",
+      "date": "2026-11-11",
+      "name": "Lunch Ride",
+      "km": 0.0,
+      "elev_m": 0,
+      "hours": 0.81,
+      "np": null,
+      "intensity": null,
+      "tss": 118,
+      "avg_hr": 145,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20921187825",
       "date": "2026-11-09",
@@ -731,50 +751,6 @@
       "flags": [],
       "indoor": true,
       "meter": "Kickr",
-      "work_kind": "efforts"
-    },
-    {
-      "id": "20047354976",
-      "date": "2026-09-05",
-      "name": "Aprica -> Bormio -> Aprica 🚵",
-      "km": 107.2,
-      "elev_m": 1605,
-      "hours": 4.88,
-      "np": 170,
-      "intensity": 0.72,
-      "tss": 255,
-      "avg_hr": 126,
-      "w_per_kg_np": 2.07,
-      "temp_c": 26.6,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 263
-        },
-        {
-          "label": "5m",
-          "w": 239
-        },
-        {
-          "label": "10m",
-          "w": 234
-        },
-        {
-          "label": "20m",
-          "w": 223
-        },
-        {
-          "label": "30m",
-          "w": 209
-        },
-        {
-          "label": "1h",
-          "w": 191
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
       "work_kind": "efforts"
     }
   ],
