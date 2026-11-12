@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-12T07:46:57+01:00",
+  "generated_at": "2026-11-12T11:01:55+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -139,22 +139,41 @@
   },
   "recent_sessions": [
     {
-      "id": "20946453397",
+      "id": "20957240633",
       "date": "2026-11-11",
-      "name": "Lunch Ride",
-      "km": 0.0,
+      "name": "Watt bike - threshold ladder T1",
+      "km": 22.6,
       "elev_m": 0,
-      "hours": 0.81,
-      "np": null,
-      "intensity": null,
-      "tss": 118,
-      "avg_hr": 145,
-      "w_per_kg_np": null,
+      "hours": 0.82,
+      "np": 164,
+      "intensity": 0.7,
+      "tss": 40,
+      "avg_hr": 139,
+      "w_per_kg_np": 1.99,
       "temp_c": null,
-      "best_efforts": null,
-      "flags": [
-        "load est. from HR effort"
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 194
+        },
+        {
+          "label": "5m",
+          "w": 188
+        },
+        {
+          "label": "10m",
+          "w": 179
+        },
+        {
+          "label": "20m",
+          "w": 169
+        },
+        {
+          "label": "30m",
+          "w": 163
+        }
       ],
+      "flags": [],
       "indoor": null,
       "meter": null
     },
