@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-12T11:01:55+01:00",
+  "generated_at": "2026-11-12T11:04:15+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -150,7 +150,7 @@
       "tss": 40,
       "avg_hr": 139,
       "w_per_kg_np": 1.99,
-      "temp_c": null,
+      "temp_c": 19.0,
       "best_efforts": [
         {
           "label": "1m",
@@ -174,8 +174,8 @@
         }
       ],
       "flags": [],
-      "indoor": null,
-      "meter": null
+      "indoor": true,
+      "meter": "Kickr"
     },
     {
       "id": "20921187825",
