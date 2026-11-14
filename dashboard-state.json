@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-14T13:04:54+01:00",
+  "generated_at": "2026-11-14T16:04:40+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,45 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "20983976506",
+      "date": "2026-11-14",
+      "name": "Tempo 1",
+      "km": 24.2,
+      "elev_m": 0,
+      "hours": 0.84,
+      "np": 165,
+      "intensity": 0.7,
+      "tss": 41,
+      "avg_hr": 134,
+      "w_per_kg_np": 2.0,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 185
+        },
+        {
+          "label": "5m",
+          "w": 179
+        },
+        {
+          "label": "10m",
+          "w": 178
+        },
+        {
+          "label": "20m",
+          "w": 171
+        },
+        {
+          "label": "30m",
+          "w": 169
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "20957240633",
       "date": "2026-11-11",
@@ -727,50 +766,6 @@
       "indoor": true,
       "meter": "Kickr",
       "work_kind": "intervals"
-    },
-    {
-      "id": "20100745019",
-      "date": "2026-09-09",
-      "name": "Zwift - On the Border",
-      "km": 33.1,
-      "elev_m": 172,
-      "hours": 1.04,
-      "np": 179,
-      "intensity": 0.76,
-      "tss": 61,
-      "avg_hr": 129,
-      "w_per_kg_np": 2.17,
-      "temp_c": 23.6,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 210
-        },
-        {
-          "label": "5m",
-          "w": 209
-        },
-        {
-          "label": "10m",
-          "w": 209
-        },
-        {
-          "label": "20m",
-          "w": 191
-        },
-        {
-          "label": "30m",
-          "w": 196
-        },
-        {
-          "label": "1h",
-          "w": 165
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
-      "work_kind": "efforts"
     }
   ],
   "flags": [
