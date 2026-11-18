@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-18T19:18:57+01:00",
+  "generated_at": "2026-11-18T19:22:30+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,45 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "21034919362",
+      "date": "2026-11-18",
+      "name": "T1 re show on Watt Bike",
+      "km": 23.7,
+      "elev_m": 0,
+      "hours": 0.82,
+      "np": 171,
+      "intensity": 0.73,
+      "tss": 43,
+      "avg_hr": 148,
+      "w_per_kg_np": 2.08,
+      "temp_c": 19.0,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 203
+        },
+        {
+          "label": "5m",
+          "w": 195
+        },
+        {
+          "label": "10m",
+          "w": 188
+        },
+        {
+          "label": "20m",
+          "w": 179
+        },
+        {
+          "label": "30m",
+          "w": 174
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
     {
       "id": "20983976506",
       "date": "2026-11-14",
@@ -726,46 +765,6 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "20130099115",
-      "date": "2026-09-11",
-      "name": "Zwift - 2x15 FTP Intervals",
-      "km": 23.5,
-      "elev_m": 337,
-      "hours": 0.92,
-      "np": 181,
-      "intensity": 0.77,
-      "tss": 55,
-      "avg_hr": 126,
-      "w_per_kg_np": 2.2,
-      "temp_c": 21.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 204
-        },
-        {
-          "label": "5m",
-          "w": 204
-        },
-        {
-          "label": "10m",
-          "w": 204
-        },
-        {
-          "label": "20m",
-          "w": 186
-        },
-        {
-          "label": "30m",
-          "w": 177
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr",
-      "work_kind": "intervals"
     }
   ],
   "flags": [
