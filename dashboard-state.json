@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-20T13:05:11+01:00",
+  "generated_at": "2026-11-20T16:19:30+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -69,7 +69,7 @@
     "phase": {
       "key": "R1",
       "name": "Re-entry",
-      "detail": "26 Oct – 22 Nov · Z2 and tempo; London 2–20 Nov (a light week, then gym, Wattbike and pool) — the ladders open on the Wattbike the week of 9 Nov",
+      "detail": "26 Oct – 29 Nov · Z2 and tempo; London 2–28 Nov (a light week, then three of gym, Wattbike and pool) — the ladders open on the Wattbike the week of 9 Nov",
       "status": "active",
       "h": 40
     },
@@ -138,6 +138,49 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "21058827094",
+      "date": "2026-11-20",
+      "name": "TP2 on Watt bike",
+      "km": 29.2,
+      "elev_m": 0,
+      "hours": 1.0,
+      "np": 169,
+      "intensity": 0.72,
+      "tss": 52,
+      "avg_hr": 138,
+      "w_per_kg_np": 2.05,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 220
+        },
+        {
+          "label": "5m",
+          "w": 194
+        },
+        {
+          "label": "10m",
+          "w": 189
+        },
+        {
+          "label": "20m",
+          "w": 184
+        },
+        {
+          "label": "30m",
+          "w": 175
+        },
+        {
+          "label": "1h",
+          "w": 163
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "21034919362",
       "date": "2026-11-18",
@@ -721,50 +764,6 @@
       "flags": [],
       "indoor": true,
       "meter": "Kickr"
-    },
-    {
-      "id": "20158280736",
-      "date": "2026-09-13",
-      "name": "Long zone 2 + Carona salita 🚵",
-      "km": 100.0,
-      "elev_m": 1253,
-      "hours": 4.39,
-      "np": 175,
-      "intensity": 0.74,
-      "tss": 244,
-      "avg_hr": 121,
-      "w_per_kg_np": 2.13,
-      "temp_c": 18.2,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 239
-        },
-        {
-          "label": "5m",
-          "w": 211
-        },
-        {
-          "label": "10m",
-          "w": 204
-        },
-        {
-          "label": "20m",
-          "w": 194
-        },
-        {
-          "label": "30m",
-          "w": 193
-        },
-        {
-          "label": "1h",
-          "w": 185
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
     }
   ],
   "flags": [
@@ -775,7 +774,7 @@
     },
     {
       "kind": "ftp_retest_pending",
-      "detail": "Phase G2 “Ramp test” is next: Week of 23 Nov · Kickr, green morning, first full week home — sets the winter zones",
+      "detail": "Phase G2 “Ramp test” is next: Week of 30 Nov · Kickr, green morning, first week home (not the first morning back) — sets the winter zones and opens W1",
       "source": "data/coach/plan.json → phases"
     },
     {
