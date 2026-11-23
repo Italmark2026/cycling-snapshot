@@ -1283,8 +1283,17 @@ function wgUseful(host,g,span){
   /* body fat — the headline, judged against the plan's path. In the two-column layout the panel is as tall as
      the engine panel, so a compact readings-vs-path chart fills it; on a phone the sparkline stays instead. */
   const wide=(window.innerWidth||0)>820;
-  const bf=bodyStat("body_fat_pct",todayIso);let bfCls="";
-  if(bf){
+  /* a reading older than bodyStat's 21-day reach is still the last one there is: show it, dated and neutral
+     (it doesn't count towards the panel's status), rather than blanking the panel and its chart while away
+     from the scale */
+  const lastOf=f=>{const r=rows.filter(d=>d[f]!=null&&d.date<=todayIso).pop();return r?{v:r[f],n:1,last:r.date,stale:true}:null;};
+  const staleCap=s=>"last weigh-in "+dfmt(s.last)+" · "+plural(Math.round((isoMs(todayIso)-isoMs(s.last))/864e5),"day")+" ago";
+  const bfLive=bodyStat("body_fat_pct",todayIso),bf=bfLive||lastOf("body_fat_pct");let bfCls="";
+  if(bf&&bf.stale){
+    wgHead(p,"Body fat",f1(bf.v)+"<small>%</small>","",[staleCap(bf)+" — the trend resumes with the next weigh-in",phaseLabel(todayIso)],
+      wide?null:sparkOf("body_fat_pct"),css("--s2"));
+    if(wide)wgBodyChart(p,bg,rows,span);}
+  else if(bf){
     const pt=pathAt("body_fat_pct",todayIso),dv=pt?bf.v-pt.target:null;
     bfCls=dv==null?"":dv<=0.5?"good":dv<=1.2?"warn":"bad";
     const off=dexaOffset(),ideal=rangeTxt(bg.body_fat_ideal);
@@ -1296,8 +1305,9 @@ function wgUseful(host,g,span){
   else wgHead(p,"Body fat","–","",["No recent weigh-ins — the scale reading lands after the next morning sync."]);
   const subs=el("div","wg-subs");p.appendChild(subs);
   /* lean mass — the guard: must not fall, should rise in winter */
-  const ln=bodyStat("lean_kg",todayIso);let lnCls="";
-  if(ln){
+  const ln=bodyStat("lean_kg",todayIso)||lastOf("lean_kg");let lnCls="";
+  if(ln&&ln.stale)wgMetric(subs,"Lean mass",f1(ln.v)+"<small> kg</small>","",[staleCap(ln)]);
+  else if(ln){
     const pt=pathAt("lean_kg",todayIso),fl=bg.lean_floor;
     lnCls=pt?(ln.v>=pt.target-0.4?"good":hasNum(fl)?(ln.v>=fl-0.3?"warn":"bad"):"warn"):"";
     wgMetric(subs,"Lean mass",f1(ln.v)+"<small> kg</small>",lnCls,
@@ -1311,8 +1321,9 @@ function wgUseful(host,g,span){
   if(hasNum(A.ftp)&&w7&&w7.v>0)
     wgMetric(subs,"W / kg",(A.ftp/w7.v).toFixed(2),"good",["FTP "+A.ftp+" W ÷ "+f1(w7.v)+" kg"]);
   /* weight — the outcome, judged more softly */
-  const wt=bodyStat("weight_kg",todayIso);
-  if(wt){
+  const wt=bodyStat("weight_kg",todayIso)||lastOf("weight_kg");
+  if(wt&&wt.stale)wgMetric(subs,"Weight (outcome)",f1(wt.v)+"<small> kg</small>","",[staleCap(wt)]);
+  else if(wt){
     const wRows=rows.filter(d=>d.weight_kg!=null&&d.date<=todayIso),lastW=wRows[wRows.length-1];
     const pt=pathAt("weight_kg",todayIso),dv=pt?wt.v-pt.target:null;
     wgMetric(subs,"Weight (outcome)",f1(wt.v)+"<small> kg</small>",dv==null?"":dv<=0.8?"good":dv<=1.8?"warn":"bad",
