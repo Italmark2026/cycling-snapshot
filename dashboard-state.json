@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-23T20:17:28+01:00",
+  "generated_at": "2026-11-23T20:41:59+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -138,6 +138,45 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "21094248317",
+      "date": "2026-11-23",
+      "name": "T1 re-reshow watt bike",
+      "km": 24.5,
+      "elev_m": 0,
+      "hours": 0.83,
+      "np": 171,
+      "intensity": 0.73,
+      "tss": 44,
+      "avg_hr": 132,
+      "w_per_kg_np": 2.08,
+      "temp_c": null,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 205
+        },
+        {
+          "label": "5m",
+          "w": 197
+        },
+        {
+          "label": "10m",
+          "w": 184
+        },
+        {
+          "label": "20m",
+          "w": 179
+        },
+        {
+          "label": "30m",
+          "w": 175
+        }
+      ],
+      "flags": [],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "21058827094",
       "date": "2026-11-20",
@@ -716,49 +755,6 @@
         {
           "label": "1h",
           "w": 165
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr"
-    },
-    {
-      "id": "20212555013",
-      "date": "2026-09-17",
-      "name": "Zwift - 60min Riders Choice",
-      "km": 31.0,
-      "elev_m": 252,
-      "hours": 1.0,
-      "np": 184,
-      "intensity": 0.78,
-      "tss": 61,
-      "avg_hr": 127,
-      "w_per_kg_np": 2.24,
-      "temp_c": 23.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 212
-        },
-        {
-          "label": "5m",
-          "w": 209
-        },
-        {
-          "label": "10m",
-          "w": 208
-        },
-        {
-          "label": "20m",
-          "w": 206
-        },
-        {
-          "label": "30m",
-          "w": 185
-        },
-        {
-          "label": "1h",
-          "w": 172
         }
       ],
       "flags": [],
