@@ -1,6 +1,6 @@
 {
   "schema": "dashboard-state/v1",
-  "generated_at": "2026-11-28T13:05:11+01:00",
+  "generated_at": "2026-11-28T16:29:03+01:00",
   "athlete": "Mark Taylor",
   "goal_event": {
     "event": "Maratona dles Dolomites 2027",
@@ -10,11 +10,11 @@
   },
   "thresholds": {
     "ftp": {
-      "watts": 235,
+      "watts": 215,
       "reference": "Kickr",
-      "tested": "2026-07-14",
-      "note": "Zwift ramp test — recovery-block dip; the P1 build starts here",
-      "w_per_kg": 2.86,
+      "tested": "2026-11-28",
+      "note": "Zwift ramp test, Kickr — first test since July, after the US trip and the London gym weeks",
+      "w_per_kg": 2.61,
       "history": [
         {
           "date": "2025-01-15",
@@ -47,6 +47,11 @@
           "date": "2026-07-14",
           "ftp": 235,
           "note": "Zwift ramp test — recovery-block dip; the P1 build starts here"
+        },
+        {
+          "date": "2026-11-28",
+          "ftp": 215,
+          "note": "Zwift ramp test, Kickr — first test since July, after the US trip and the London gym weeks"
         }
       ]
     },
@@ -69,7 +74,7 @@
     "phase": {
       "key": "R1",
       "name": "Re-entry",
-      "detail": "26 Oct – 29 Nov · Z2 and tempo; London 2–28 Nov (a light week, then three of gym, Wattbike and pool) — the ladders open on the Wattbike the week of 9 Nov",
+      "detail": "26 Oct – 29 Nov · Z2 and tempo; London 2–26 Nov (a light week, then three of gym, Wattbike and pool) — the ladders opened on the Wattbike",
       "status": "active",
       "h": 40
     },
@@ -93,12 +98,12 @@
       {
         "key": "G2",
         "name": "Ramp test",
-        "status": "next"
+        "status": "done"
       },
       {
         "key": "W1",
         "name": "Thr + tempo",
-        "status": "planned"
+        "status": "next"
       },
       {
         "key": "XMS",
@@ -138,6 +143,61 @@
     ]
   },
   "recent_sessions": [
+    {
+      "id": "21155197701",
+      "date": "2026-11-28",
+      "name": "Zwift - FTP Ramp Test",
+      "km": 11.2,
+      "elev_m": 73,
+      "hours": 0.43,
+      "np": 174,
+      "intensity": 0.81,
+      "tss": 28,
+      "avg_hr": 106,
+      "w_per_kg_np": 2.11,
+      "temp_c": 18.5,
+      "best_efforts": [
+        {
+          "label": "1m",
+          "w": 286
+        },
+        {
+          "label": "5m",
+          "w": 249
+        },
+        {
+          "label": "10m",
+          "w": 200
+        },
+        {
+          "label": "20m",
+          "w": 136
+        }
+      ],
+      "flags": [],
+      "indoor": true,
+      "meter": "Kickr"
+    },
+    {
+      "id": "21154840300",
+      "date": "2026-11-28",
+      "name": "Zwift - INEOS Grenadiers Virtual Training Camp | The Pre-Race Warm-up",
+      "km": 5.0,
+      "elev_m": 20,
+      "hours": 0.17,
+      "np": null,
+      "intensity": null,
+      "tss": 2,
+      "avg_hr": null,
+      "w_per_kg_np": null,
+      "temp_c": null,
+      "best_efforts": null,
+      "flags": [
+        "load est. from HR effort"
+      ],
+      "indoor": null,
+      "meter": null
+    },
     {
       "id": "21094248317",
       "date": "2026-11-23",
@@ -673,105 +733,13 @@
       "indoor": false,
       "meter": "Favero (Assioma)",
       "work_kind": "efforts"
-    },
-    {
-      "id": "20253613929",
-      "date": "2026-09-20",
-      "name": "Passo San Marco con Sergio! 🚵 ☀️ ⛰️",
-      "km": 60.5,
-      "elev_m": 1790,
-      "hours": 3.52,
-      "np": 177,
-      "intensity": 0.75,
-      "tss": 200,
-      "avg_hr": 120,
-      "w_per_kg_np": 2.15,
-      "temp_c": 19.3,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 266
-        },
-        {
-          "label": "5m",
-          "w": 228
-        },
-        {
-          "label": "10m",
-          "w": 224
-        },
-        {
-          "label": "20m",
-          "w": 222
-        },
-        {
-          "label": "30m",
-          "w": 222
-        },
-        {
-          "label": "1h",
-          "w": 210
-        }
-      ],
-      "flags": [],
-      "indoor": false,
-      "meter": "Favero (Assioma)",
-      "work_kind": "efforts"
-    },
-    {
-      "id": "20225674442",
-      "date": "2026-09-18",
-      "name": "Zwift - 60min Riders Choice",
-      "km": 29.5,
-      "elev_m": 242,
-      "hours": 1.06,
-      "np": 183,
-      "intensity": 0.78,
-      "tss": 64,
-      "avg_hr": 121,
-      "w_per_kg_np": 2.22,
-      "temp_c": 22.0,
-      "best_efforts": [
-        {
-          "label": "1m",
-          "w": 218
-        },
-        {
-          "label": "5m",
-          "w": 212
-        },
-        {
-          "label": "10m",
-          "w": 211
-        },
-        {
-          "label": "20m",
-          "w": 171
-        },
-        {
-          "label": "30m",
-          "w": 182
-        },
-        {
-          "label": "1h",
-          "w": 165
-        }
-      ],
-      "flags": [],
-      "indoor": true,
-      "meter": "Kickr"
     }
   ],
   "flags": [
     {
       "kind": "ftp_provisional",
-      "detail": "FTP 235 W (Kickr) was set by a ramp test on 2026-07-14: “Zwift ramp test — recovery-block dip; the P1 build starts here”. A ramp test over-reads sustained threshold — treat as provisional for threshold pacing.",
+      "detail": "FTP 215 W (Kickr) was set by a ramp test on 2026-11-28: “Zwift ramp test, Kickr — first test since July, after the US trip and the London gym weeks”. A ramp test over-reads sustained threshold — treat as provisional for threshold pacing.",
       "source": "config/athlete.yaml → ftp_history[-1]"
-    },
-    {
-      "kind": "ftp_retest_pending",
-      "detail": "Phase G2 “Ramp test” is next: Week of 30 Nov · Kickr, green morning, first week home (not the first morning back) — sets the winter zones and opens W1",
-      "source": "data/coach/plan.json → phases"
     },
     {
       "kind": "ftp_retest_pending",
